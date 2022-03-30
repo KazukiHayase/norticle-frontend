@@ -1,0 +1,9 @@
+node_modules
+.next
+yarn.lock
+public
+cashes/*
+*.config.js
+.*lintrc.js
+graphql.schema.json
+storybook-static
