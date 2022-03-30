@@ -1,7 +1,7 @@
-import Link from 'next/link'
+import { withAuthn } from "../services/authn"
 
 const IndexPage = () => (
-  <>sample</>
+  <>welcome</>
 )
 
-export default IndexPage
+export default withAuthn(IndexPage)
