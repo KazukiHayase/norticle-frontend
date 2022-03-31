@@ -7,7 +7,7 @@ import { Router } from 'next/router';
 import { ReactElement, ReactNode } from 'react';
 
 import { AuthorizedApolloProvider } from '@/providers/authorizedApolloProvider';
-import { AuthnProvider } from '@/services/authn';
+import { AuthProvider } from '@/providers/authProvider';
 import { progress } from '@/services/progress';
 import { theme } from '@/styles/theme';
 
@@ -33,14 +33,14 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout): JSX.Element => {
         <title>tmp</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
-      <AuthnProvider>
+      <AuthProvider>
         <AuthorizedApolloProvider>
           <ThemeProvider theme={theme}>
             <CssBaseline />
             {getLayout(<Component {...pageProps} />)}
           </ThemeProvider>
         </AuthorizedApolloProvider>
-      </AuthnProvider>
+      </AuthProvider>
     </>
   );
 };
