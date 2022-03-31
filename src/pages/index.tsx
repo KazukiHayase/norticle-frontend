@@ -1,4 +1,7 @@
-import { withAuthn } from '../services/authn';
+import { ReactElement } from 'react';
+
+import { DefaultLayout } from '@/layouts/DefaultLayout';
+
 import { useSampleQuery } from './generated';
 
 const IndexPage = () => {
@@ -17,4 +20,8 @@ const IndexPage = () => {
   );
 };
 
-export default withAuthn(IndexPage);
+IndexPage.getLayout = (page: ReactElement) => (
+  <DefaultLayout>{page}</DefaultLayout>
+);
+
+export default IndexPage;

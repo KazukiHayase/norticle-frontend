@@ -1,10 +1,26 @@
+import { CssBaseline } from '@mui/material';
+import { ThemeProvider } from '@mui/system';
+import { NextPage } from 'next';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
+import { ReactElement, ReactNode } from 'react';
 
 import { AuthorizedApolloProvider } from '@/providers/authorizedApolloProvider';
 import { AuthnProvider } from '@/services/authn';
+import { theme } from '@/styles/theme';
 
-const MyApp = ({ Component, pageProps }: AppProps): JSX.Element => {
+// https://nextjs.org/docs/basic-features/layouts#with-typescript
+type NextPageWithLayout = NextPage & {
+  getLayout?: (page: ReactElement) => ReactNode;
+};
+
+type AppPropsWithLayout = AppProps & {
+  Component: NextPageWithLayout;
+};
+
+const MyApp = ({ Component, pageProps }: AppPropsWithLayout): JSX.Element => {
+  const getLayout = Component.getLayout ?? ((page) => page);
+
   return (
     <>
       <Head>
@@ -13,7 +29,10 @@ const MyApp = ({ Component, pageProps }: AppProps): JSX.Element => {
       </Head>
       <AuthnProvider>
         <AuthorizedApolloProvider>
-          <Component {...pageProps} />
+          <ThemeProvider theme={theme}>
+            <CssBaseline />
+            {getLayout(<Component {...pageProps} />)}
+          </ThemeProvider>
         </AuthorizedApolloProvider>
       </AuthnProvider>
     </>

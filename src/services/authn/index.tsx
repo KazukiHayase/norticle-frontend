@@ -7,7 +7,7 @@ import {
   withAuthenticationRequired,
 } from '@auth0/auth0-react';
 import Router from 'next/router';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback } from 'react';
 
 export const auth0Config: Pick<
   Auth0ProviderOptions,
@@ -19,6 +19,7 @@ export const auth0Config: Pick<
   redirectUri: process.env.NEXT_PUBLIC_AUTH0_REDIRECT_URI,
 };
 
+// TODO: リファクタ・移動
 const auth0ProviderOptions: Auth0ProviderOptions = {
   ...auth0Config,
   cacheLocation: 'localstorage',
@@ -45,33 +46,6 @@ export const withAuthn: typeof withAuthenticationRequired = (component) =>
   withAuthenticationRequired(component, {
     onRedirecting: () => <div>loading</div>,
   });
-
-export const useAccessToken = (): {
-  isLoading: boolean;
-  accessToken?: string;
-} => {
-  const { isAuthenticated, getAccessTokenSilently } = useAuth0();
-  const [isLoading, setIsLoading] = useState(true);
-  const [accessToken, setAccessToken] = useState('');
-
-  useEffect(() => {
-    if (!isAuthenticated) return;
-    const getToken = async () => {
-      const token = await getAccessTokenSilently({
-        audience: auth0Config.audience,
-      });
-      setAccessToken(token);
-      setIsLoading(false);
-    };
-    getToken();
-  }, [isAuthenticated, getAccessTokenSilently]);
-
-  if (!isAuthenticated) {
-    return { isLoading: false };
-  }
-
-  return { isLoading, accessToken };
-};
 
 export const useAuthn = (): { user?: User; logout: () => void } => {
   const { user, logout: auth0Logout } = useAuth0();
