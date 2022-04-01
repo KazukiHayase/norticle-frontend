@@ -12,7 +12,7 @@ import { progress } from '@/services/progress';
 import { theme } from '@/styles/theme';
 
 Router.events.on('routeChangeStart', progress.start);
-Router.events.on('routeChangeComplete', progress.start);
+Router.events.on('routeChangeComplete', progress.done);
 Router.events.on('routeChangeError', progress.done);
 
 // https://nextjs.org/docs/basic-features/layouts#with-typescript

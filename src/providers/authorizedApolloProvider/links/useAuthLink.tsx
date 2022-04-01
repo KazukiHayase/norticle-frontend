@@ -4,9 +4,9 @@ import { useAuth0 } from '@auth0/auth0-react';
 // auth0からアクセストークンを取得してヘッダーに設定するApolloLink
 // See: https://github.com/apollographql/apollo-client/issues/4990#issuecomment-504447592
 export const useAuthLink = () => {
-  const { getAccessTokenSilently } = useAuth0();
+  const { isAuthenticated, getAccessTokenSilently } = useAuth0();
   return setContext(async (_, { headers, ...context }) => {
-    const token = await getAccessTokenSilently();
+    const token = isAuthenticated ? await getAccessTokenSilently() : '';
     return {
       headers: {
         ...headers,

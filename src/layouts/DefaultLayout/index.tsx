@@ -1,6 +1,6 @@
-import { AppBar, Box, Toolbar } from '@mui/material';
-import Image from 'next/image';
 import { ReactNode } from 'react';
+
+import { Header } from '@/components/Header';
 
 type DefaultLayoutProps = {
   readonly children: ReactNode;
@@ -9,13 +9,7 @@ type DefaultLayoutProps = {
 export const DefaultLayout: React.VFC<DefaultLayoutProps> = ({ children }) => {
   return (
     <>
-      <Box>
-        <AppBar position="static">
-          <Toolbar>
-            <Image src="/images/logo.png" width={100} height={50} />
-          </Toolbar>
-        </AppBar>
-      </Box>
+      <Header />
       {children}
     </>
   );
