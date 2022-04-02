@@ -19,7 +19,6 @@ export const AuthorizedApolloProvider: React.VFC<AuthorizedApolloProviderProps> 
     const httpLink = createHttpLink({
       uri: process.env.NEXT_PUBLIC_GRAPHQL_URL,
     });
-    console.log(process.env.NEXT_PUBLIC_GRAPHQL_URL);
     const authLink = useAuthLink();
 
     const cache = new InMemoryCache({

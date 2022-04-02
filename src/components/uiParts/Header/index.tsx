@@ -5,7 +5,6 @@ import { VFC } from 'react';
 
 export const Header: VFC = () => {
   const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
-  console.log(isAuthenticated);
 
   return (
     <AppBar position="static" color="transparent" sx={{ boxShadow: 'none' }}>
