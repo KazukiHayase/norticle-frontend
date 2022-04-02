@@ -9,7 +9,9 @@
     "lint": "eslint . --ext .js,.ts,.tsx",
     "format": "prettier . --write",
     "fix": "yarn lint --fix && yarn format --loglevel error",
-    "generate": "graphql-codegen --config codegen.yml"
+    "generate": "graphql-codegen --config codegen.yml",
+    "hygen:component": "hygen new component",
+    "hygen:page": "hygen new page"
   },
   "lint-staged": {
     "*.{js,ts,tsx}": "eslint --fix",
@@ -59,6 +61,7 @@
     "eslint-plugin-react": "7.27.1",
     "eslint-plugin-react-hooks": "^4.3.0",
     "eslint-plugin-simple-import-sort": "^7.0.0",
+    "hygen": "^6.2.0",
     "lint-staged": "^12.3.7",
     "npm-run-all": "^4.1.5",
     "pathpida": "^0.18.0",
