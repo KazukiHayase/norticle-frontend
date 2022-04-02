@@ -1,6 +1,6 @@
 import { ReactElement } from 'react';
 
-import { DefaultLayout } from '@/layouts/DefaultLayout';
+import { DefaultLayout } from '@/components/layouts/DefaultLayout';
 
 import { useSampleQuery } from './generated';
 

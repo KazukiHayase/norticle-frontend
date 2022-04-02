@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 
-import { Header } from '@/components/Header';
+import { Header } from '@/components/uiParts/Header';
 
 type DefaultLayoutProps = {
   readonly children: ReactNode;

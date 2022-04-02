@@ -1,4 +1,10 @@
 export const pagesPath = {
+  generated: {
+    $url: (url?: { hash?: string }) => ({
+      pathname: '/generated' as const,
+      hash: url?.hash,
+    }),
+  },
   index_stories: {
     $url: (url?: { hash?: string }) => ({
       pathname: '/index.stories' as const,
