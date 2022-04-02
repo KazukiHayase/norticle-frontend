@@ -1,4 +1,7 @@
+import { Container, Typography } from '@mui/material';
 import { VFC } from 'react';
+
+import { Section } from '@/styles';
 
 import { useFetchPostsQuery } from './generated';
 
@@ -8,7 +11,11 @@ export const PostIndex: VFC = () => {
 
   return (
     <>
-      <h1>PostIndex</h1>
+      <Section>
+        <Container maxWidth="md">
+          <Typography variant="h1">テンプレート一覧</Typography>
+        </Container>
+      </Section>
     </>
   );
 };
