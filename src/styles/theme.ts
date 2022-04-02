@@ -9,6 +9,7 @@ export const theme = responsiveFontSizes(
             margin: 0,
             padding: 0,
             boxSizing: 'border-box',
+            whiteSpace: 'pre-wrap',
           },
           '.itemImageManageModalDragItem': {
             zIndex: 1300,
@@ -22,6 +23,9 @@ export const theme = responsiveFontSizes(
       h1: {
         fontSize: '2.2rem',
         fontWeight: 'bold',
+      },
+      h3: {
+        fontSize: '1.4rem',
       },
     },
   }),

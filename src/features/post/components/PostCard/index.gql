@@ -1,0 +1,9 @@
+fragment PostCard on post {
+  id
+  title
+  content
+  createdAt
+  user {
+    name
+  }
+}

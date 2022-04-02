@@ -1,4 +1,5 @@
-import { format, parseISO } from 'date-fns';
+import { format, formatDistanceToNow,parseISO } from 'date-fns';
+import { ja } from 'date-fns/locale';
 import { utcToZonedTime } from 'date-fns-tz';
 
 const timezone = 'Asia/Tokyo';
@@ -25,6 +26,10 @@ export const formatDateString = (
   return isValidDate(date)
     ? format(parseISO(dateString), dateFormats[formatKey])
     : '';
+};
+
+export const fromNow = (date: Date) => {
+  return formatDistanceToNow(date, { locale: ja });
 };
 
 export const isValidDate = (date: Date) => {
