@@ -1,6 +1,0 @@
-query Sample {
-  users {
-    id
-    name
-  }
-}

@@ -1,23 +1,10 @@
 import { ReactElement } from 'react';
 
 import { DefaultLayout } from '@/components/layouts/DefaultLayout';
-
-import { useSampleQuery } from './generated';
+import { PostIndex } from '@/features/post/pages/PostIndex';
 
 const IndexPage = () => {
-  const { data, loading } = useSampleQuery();
-
-  return (
-    <>
-      {`${loading}`}
-      {data?.users.map((user) => (
-        <>
-          <p>{user.id}</p>
-          <p>{user.name}</p>
-        </>
-      ))}
-    </>
-  );
+  return <PostIndex />;
 };
 
 IndexPage.getLayout = (page: ReactElement) => (

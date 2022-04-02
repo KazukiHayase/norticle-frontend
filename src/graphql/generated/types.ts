@@ -66,53 +66,53 @@ export type StringComparisonExp = {
 export type MutationRoot = {
   __typename?: 'mutation_root';
   /** insert a single row into the table: "posts" */
-  addPost: Maybe<Posts>;
+  addPost: Maybe<Post>;
   /** insert data into the table: "posts" */
-  addPosts: Maybe<PostsMutationResponse>;
+  addPosts: Maybe<PostMutationResponse>;
   /** insert a single row into the table: "users" */
-  addUser: Maybe<Users>;
+  addUser: Maybe<User>;
   /** insert data into the table: "users" */
-  addUsers: Maybe<UsersMutationResponse>;
+  addUsers: Maybe<UserMutationResponse>;
   /** delete single row from the table: "posts" */
-  deletePost: Maybe<Posts>;
+  deletePost: Maybe<Post>;
   /** delete data from the table: "posts" */
-  deletePosts: Maybe<PostsMutationResponse>;
+  deletePosts: Maybe<PostMutationResponse>;
   /** delete single row from the table: "users" */
-  deleteUser: Maybe<Users>;
+  deleteUser: Maybe<User>;
   /** delete data from the table: "users" */
-  deleteUsers: Maybe<UsersMutationResponse>;
+  deleteUsers: Maybe<UserMutationResponse>;
   /** update single row of the table: "posts" */
-  updatePost: Maybe<Posts>;
+  updatePost: Maybe<Post>;
   /** update data of the table: "posts" */
-  updatePosts: Maybe<PostsMutationResponse>;
+  updatePosts: Maybe<PostMutationResponse>;
   /** update single row of the table: "users" */
-  updateUser: Maybe<Users>;
+  updateUser: Maybe<User>;
   /** update data of the table: "users" */
-  updateUsers: Maybe<UsersMutationResponse>;
+  updateUsers: Maybe<UserMutationResponse>;
 };
 
 /** mutation root */
 export type MutationRootAddPostArgs = {
-  object: PostsInsertInput;
-  on_conflict: Maybe<PostsOnConflict>;
+  object: PostInsertInput;
+  on_conflict: Maybe<PostOnConflict>;
 };
 
 /** mutation root */
 export type MutationRootAddPostsArgs = {
-  objects: Array<PostsInsertInput>;
-  on_conflict: Maybe<PostsOnConflict>;
+  objects: Array<PostInsertInput>;
+  on_conflict: Maybe<PostOnConflict>;
 };
 
 /** mutation root */
 export type MutationRootAddUserArgs = {
-  object: UsersInsertInput;
-  on_conflict: Maybe<UsersOnConflict>;
+  object: UserInsertInput;
+  on_conflict: Maybe<UserOnConflict>;
 };
 
 /** mutation root */
 export type MutationRootAddUsersArgs = {
-  objects: Array<UsersInsertInput>;
-  on_conflict: Maybe<UsersOnConflict>;
+  objects: Array<UserInsertInput>;
+  on_conflict: Maybe<UserOnConflict>;
 };
 
 /** mutation root */
@@ -122,7 +122,7 @@ export type MutationRootDeletePostArgs = {
 
 /** mutation root */
 export type MutationRootDeletePostsArgs = {
-  where: PostsBoolExp;
+  where: PostBoolExp;
 };
 
 /** mutation root */
@@ -132,33 +132,33 @@ export type MutationRootDeleteUserArgs = {
 
 /** mutation root */
 export type MutationRootDeleteUsersArgs = {
-  where: UsersBoolExp;
+  where: UserBoolExp;
 };
 
 /** mutation root */
 export type MutationRootUpdatePostArgs = {
-  _inc: Maybe<PostsIncInput>;
-  _set: Maybe<PostsSetInput>;
-  pk_columns: PostsPkColumnsInput;
+  _inc: Maybe<PostIncInput>;
+  _set: Maybe<PostSetInput>;
+  pk_columns: PostPkColumnsInput;
 };
 
 /** mutation root */
 export type MutationRootUpdatePostsArgs = {
-  _inc: Maybe<PostsIncInput>;
-  _set: Maybe<PostsSetInput>;
-  where: PostsBoolExp;
+  _inc: Maybe<PostIncInput>;
+  _set: Maybe<PostSetInput>;
+  where: PostBoolExp;
 };
 
 /** mutation root */
 export type MutationRootUpdateUserArgs = {
-  _set: Maybe<UsersSetInput>;
-  pk_columns: UsersPkColumnsInput;
+  _set: Maybe<UserSetInput>;
+  pk_columns: UserPkColumnsInput;
 };
 
 /** mutation root */
 export type MutationRootUpdateUsersArgs = {
-  _set: Maybe<UsersSetInput>;
-  where: UsersBoolExp;
+  _set: Maybe<UserSetInput>;
+  where: UserBoolExp;
 };
 
 /** column ordering options */
@@ -179,8 +179,8 @@ export const OrderBy = {
 
 export type OrderBy = typeof OrderBy[keyof typeof OrderBy];
 /** テンプレートの投稿 */
-export type Posts = {
-  __typename?: 'posts';
+export type Post = {
+  __typename?: 'post';
   content: Scalars['String'];
   createdAt: Scalars['timestamptz'];
   description: Scalars['String'];
@@ -188,115 +188,114 @@ export type Posts = {
   title: Scalars['String'];
   updatedAt: Scalars['timestamptz'];
   /** An object relationship */
-  user: Users;
+  user: User;
   userId: Scalars['String'];
 };
 
 /** aggregated selection of "posts" */
-export type PostsAggregate = {
-  __typename?: 'posts_aggregate';
-  aggregate: Maybe<PostsAggregateFields>;
-  nodes: Array<Posts>;
+export type PostAggregate = {
+  __typename?: 'post_aggregate';
+  aggregate: Maybe<PostAggregateFields>;
+  nodes: Array<Post>;
 };
 
 /** aggregate fields of "posts" */
-export type PostsAggregateFields = {
-  __typename?: 'posts_aggregate_fields';
-  avg: Maybe<PostsAvgFields>;
+export type PostAggregateFields = {
+  __typename?: 'post_aggregate_fields';
+  avg: Maybe<PostAvgFields>;
   count: Scalars['Int'];
-  max: Maybe<PostsMaxFields>;
-  min: Maybe<PostsMinFields>;
-  stddev: Maybe<PostsStddevFields>;
-  stddev_pop: Maybe<PostsStddevPopFields>;
-  stddev_samp: Maybe<PostsStddevSampFields>;
-  sum: Maybe<PostsSumFields>;
-  var_pop: Maybe<PostsVarPopFields>;
-  var_samp: Maybe<PostsVarSampFields>;
-  variance: Maybe<PostsVarianceFields>;
+  max: Maybe<PostMaxFields>;
+  min: Maybe<PostMinFields>;
+  stddev: Maybe<PostStddevFields>;
+  stddev_pop: Maybe<PostStddevPopFields>;
+  stddev_samp: Maybe<PostStddevSampFields>;
+  sum: Maybe<PostSumFields>;
+  var_pop: Maybe<PostVarPopFields>;
+  var_samp: Maybe<PostVarSampFields>;
+  variance: Maybe<PostVarianceFields>;
 };
 
 /** aggregate fields of "posts" */
-export type PostsAggregateFieldsCountArgs = {
-  columns: Maybe<Array<PostsSelectColumn>>;
+export type PostAggregateFieldsCountArgs = {
+  columns: Maybe<Array<PostSelectColumn>>;
   distinct: Maybe<Scalars['Boolean']>;
 };
 
 /** order by aggregate values of table "posts" */
-export type PostsAggregateOrderBy = {
-  avg?: Maybe<PostsAvgOrderBy>;
+export type PostAggregateOrderBy = {
+  avg?: Maybe<PostAvgOrderBy>;
   count?: Maybe<OrderBy>;
-  max?: Maybe<PostsMaxOrderBy>;
-  min?: Maybe<PostsMinOrderBy>;
-  stddev?: Maybe<PostsStddevOrderBy>;
-  stddev_pop?: Maybe<PostsStddevPopOrderBy>;
-  stddev_samp?: Maybe<PostsStddevSampOrderBy>;
-  sum?: Maybe<PostsSumOrderBy>;
-  var_pop?: Maybe<PostsVarPopOrderBy>;
-  var_samp?: Maybe<PostsVarSampOrderBy>;
-  variance?: Maybe<PostsVarianceOrderBy>;
+  max?: Maybe<PostMaxOrderBy>;
+  min?: Maybe<PostMinOrderBy>;
+  stddev?: Maybe<PostStddevOrderBy>;
+  stddev_pop?: Maybe<PostStddevPopOrderBy>;
+  stddev_samp?: Maybe<PostStddevSampOrderBy>;
+  sum?: Maybe<PostSumOrderBy>;
+  var_pop?: Maybe<PostVarPopOrderBy>;
+  var_samp?: Maybe<PostVarSampOrderBy>;
+  variance?: Maybe<PostVarianceOrderBy>;
 };
 
 /** input type for inserting array relation for remote table "posts" */
-export type PostsArrRelInsertInput = {
-  data: Array<PostsInsertInput>;
+export type PostArrRelInsertInput = {
+  data: Array<PostInsertInput>;
   /** upsert condition */
-  on_conflict?: Maybe<PostsOnConflict>;
+  on_conflict?: Maybe<PostOnConflict>;
 };
 
 /** aggregate avg on columns */
-export type PostsAvgFields = {
-  __typename?: 'posts_avg_fields';
+export type PostAvgFields = {
+  __typename?: 'post_avg_fields';
   id: Maybe<Scalars['Float']>;
 };
 
 /** order by avg() on columns of table "posts" */
-export type PostsAvgOrderBy = {
+export type PostAvgOrderBy = {
   id?: Maybe<OrderBy>;
 };
 
 /** Boolean expression to filter rows from the table "posts". All fields are combined with a logical 'AND'. */
-export type PostsBoolExp = {
-  _and?: Maybe<Array<PostsBoolExp>>;
-  _not?: Maybe<PostsBoolExp>;
-  _or?: Maybe<Array<PostsBoolExp>>;
+export type PostBoolExp = {
+  _and?: Maybe<Array<PostBoolExp>>;
+  _not?: Maybe<PostBoolExp>;
+  _or?: Maybe<Array<PostBoolExp>>;
   content?: Maybe<StringComparisonExp>;
   createdAt?: Maybe<TimestamptzComparisonExp>;
   description?: Maybe<StringComparisonExp>;
   id?: Maybe<IntComparisonExp>;
   title?: Maybe<StringComparisonExp>;
   updatedAt?: Maybe<TimestamptzComparisonExp>;
-  user?: Maybe<UsersBoolExp>;
+  user?: Maybe<UserBoolExp>;
   userId?: Maybe<StringComparisonExp>;
 };
 
 /** unique or primary key constraints on table "posts" */
-export const PostsConstraint = {
+export const PostConstraint = {
   /** unique or primary key constraint */
   PostsPkey: 'posts_pkey',
 } as const;
 
-export type PostsConstraint =
-  typeof PostsConstraint[keyof typeof PostsConstraint];
+export type PostConstraint = typeof PostConstraint[keyof typeof PostConstraint];
 /** input type for incrementing numeric columns in table "posts" */
-export type PostsIncInput = {
+export type PostIncInput = {
   id?: Maybe<Scalars['Int']>;
 };
 
 /** input type for inserting data into table "posts" */
-export type PostsInsertInput = {
+export type PostInsertInput = {
   content?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['timestamptz']>;
   description?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['Int']>;
   title?: Maybe<Scalars['String']>;
   updatedAt?: Maybe<Scalars['timestamptz']>;
-  user?: Maybe<UsersObjRelInsertInput>;
+  user?: Maybe<UserObjRelInsertInput>;
   userId?: Maybe<Scalars['String']>;
 };
 
 /** aggregate max on columns */
-export type PostsMaxFields = {
-  __typename?: 'posts_max_fields';
+export type PostMaxFields = {
+  __typename?: 'post_max_fields';
   content: Maybe<Scalars['String']>;
   createdAt: Maybe<Scalars['timestamptz']>;
   description: Maybe<Scalars['String']>;
@@ -307,7 +306,7 @@ export type PostsMaxFields = {
 };
 
 /** order by max() on columns of table "posts" */
-export type PostsMaxOrderBy = {
+export type PostMaxOrderBy = {
   content?: Maybe<OrderBy>;
   createdAt?: Maybe<OrderBy>;
   description?: Maybe<OrderBy>;
@@ -318,8 +317,8 @@ export type PostsMaxOrderBy = {
 };
 
 /** aggregate min on columns */
-export type PostsMinFields = {
-  __typename?: 'posts_min_fields';
+export type PostMinFields = {
+  __typename?: 'post_min_fields';
   content: Maybe<Scalars['String']>;
   createdAt: Maybe<Scalars['timestamptz']>;
   description: Maybe<Scalars['String']>;
@@ -330,7 +329,7 @@ export type PostsMinFields = {
 };
 
 /** order by min() on columns of table "posts" */
-export type PostsMinOrderBy = {
+export type PostMinOrderBy = {
   content?: Maybe<OrderBy>;
   createdAt?: Maybe<OrderBy>;
   description?: Maybe<OrderBy>;
@@ -341,40 +340,40 @@ export type PostsMinOrderBy = {
 };
 
 /** response of any mutation on the table "posts" */
-export type PostsMutationResponse = {
-  __typename?: 'posts_mutation_response';
+export type PostMutationResponse = {
+  __typename?: 'post_mutation_response';
   /** number of rows affected by the mutation */
   affected_rows: Scalars['Int'];
   /** data from the rows affected by the mutation */
-  returning: Array<Posts>;
+  returning: Array<Post>;
 };
 
 /** on_conflict condition type for table "posts" */
-export type PostsOnConflict = {
-  constraint: PostsConstraint;
-  update_columns: Array<PostsUpdateColumn>;
-  where?: Maybe<PostsBoolExp>;
+export type PostOnConflict = {
+  constraint: PostConstraint;
+  update_columns: Array<PostUpdateColumn>;
+  where?: Maybe<PostBoolExp>;
 };
 
 /** Ordering options when selecting data from "posts". */
-export type PostsOrderBy = {
+export type PostOrderBy = {
   content?: Maybe<OrderBy>;
   createdAt?: Maybe<OrderBy>;
   description?: Maybe<OrderBy>;
   id?: Maybe<OrderBy>;
   title?: Maybe<OrderBy>;
   updatedAt?: Maybe<OrderBy>;
-  user?: Maybe<UsersOrderBy>;
+  user?: Maybe<UserOrderBy>;
   userId?: Maybe<OrderBy>;
 };
 
-/** primary key columns input for table: posts */
-export type PostsPkColumnsInput = {
+/** primary key columns input for table: post */
+export type PostPkColumnsInput = {
   id: Scalars['Int'];
 };
 
 /** select columns of table "posts" */
-export const PostsSelectColumn = {
+export const PostSelectColumn = {
   /** column name */
   Content: 'content',
   /** column name */
@@ -391,10 +390,10 @@ export const PostsSelectColumn = {
   UserId: 'userId',
 } as const;
 
-export type PostsSelectColumn =
-  typeof PostsSelectColumn[keyof typeof PostsSelectColumn];
+export type PostSelectColumn =
+  typeof PostSelectColumn[keyof typeof PostSelectColumn];
 /** input type for updating data in table "posts" */
-export type PostsSetInput = {
+export type PostSetInput = {
   content?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['timestamptz']>;
   description?: Maybe<Scalars['String']>;
@@ -405,51 +404,51 @@ export type PostsSetInput = {
 };
 
 /** aggregate stddev on columns */
-export type PostsStddevFields = {
-  __typename?: 'posts_stddev_fields';
+export type PostStddevFields = {
+  __typename?: 'post_stddev_fields';
   id: Maybe<Scalars['Float']>;
 };
 
 /** order by stddev() on columns of table "posts" */
-export type PostsStddevOrderBy = {
+export type PostStddevOrderBy = {
   id?: Maybe<OrderBy>;
 };
 
 /** aggregate stddev_pop on columns */
-export type PostsStddevPopFields = {
-  __typename?: 'posts_stddev_pop_fields';
+export type PostStddevPopFields = {
+  __typename?: 'post_stddev_pop_fields';
   id: Maybe<Scalars['Float']>;
 };
 
 /** order by stddev_pop() on columns of table "posts" */
-export type PostsStddevPopOrderBy = {
+export type PostStddevPopOrderBy = {
   id?: Maybe<OrderBy>;
 };
 
 /** aggregate stddev_samp on columns */
-export type PostsStddevSampFields = {
-  __typename?: 'posts_stddev_samp_fields';
+export type PostStddevSampFields = {
+  __typename?: 'post_stddev_samp_fields';
   id: Maybe<Scalars['Float']>;
 };
 
 /** order by stddev_samp() on columns of table "posts" */
-export type PostsStddevSampOrderBy = {
+export type PostStddevSampOrderBy = {
   id?: Maybe<OrderBy>;
 };
 
 /** aggregate sum on columns */
-export type PostsSumFields = {
-  __typename?: 'posts_sum_fields';
+export type PostSumFields = {
+  __typename?: 'post_sum_fields';
   id: Maybe<Scalars['Int']>;
 };
 
 /** order by sum() on columns of table "posts" */
-export type PostsSumOrderBy = {
+export type PostSumOrderBy = {
   id?: Maybe<OrderBy>;
 };
 
 /** update columns of table "posts" */
-export const PostsUpdateColumn = {
+export const PostUpdateColumn = {
   /** column name */
   Content: 'content',
   /** column name */
@@ -466,55 +465,55 @@ export const PostsUpdateColumn = {
   UserId: 'userId',
 } as const;
 
-export type PostsUpdateColumn =
-  typeof PostsUpdateColumn[keyof typeof PostsUpdateColumn];
+export type PostUpdateColumn =
+  typeof PostUpdateColumn[keyof typeof PostUpdateColumn];
 /** aggregate var_pop on columns */
-export type PostsVarPopFields = {
-  __typename?: 'posts_var_pop_fields';
+export type PostVarPopFields = {
+  __typename?: 'post_var_pop_fields';
   id: Maybe<Scalars['Float']>;
 };
 
 /** order by var_pop() on columns of table "posts" */
-export type PostsVarPopOrderBy = {
+export type PostVarPopOrderBy = {
   id?: Maybe<OrderBy>;
 };
 
 /** aggregate var_samp on columns */
-export type PostsVarSampFields = {
-  __typename?: 'posts_var_samp_fields';
+export type PostVarSampFields = {
+  __typename?: 'post_var_samp_fields';
   id: Maybe<Scalars['Float']>;
 };
 
 /** order by var_samp() on columns of table "posts" */
-export type PostsVarSampOrderBy = {
+export type PostVarSampOrderBy = {
   id?: Maybe<OrderBy>;
 };
 
 /** aggregate variance on columns */
-export type PostsVarianceFields = {
-  __typename?: 'posts_variance_fields';
+export type PostVarianceFields = {
+  __typename?: 'post_variance_fields';
   id: Maybe<Scalars['Float']>;
 };
 
 /** order by variance() on columns of table "posts" */
-export type PostsVarianceOrderBy = {
+export type PostVarianceOrderBy = {
   id?: Maybe<OrderBy>;
 };
 
 export type QueryRoot = {
   __typename?: 'query_root';
   /** fetch data from the table: "posts" using primary key columns */
-  post: Maybe<Posts>;
+  post: Maybe<Post>;
   /** An array relationship */
-  posts: Array<Posts>;
+  posts: Array<Post>;
   /** fetch aggregated fields from the table: "posts" */
-  postsAggregate: PostsAggregate;
+  postsAggregate: PostAggregate;
   /** fetch data from the table: "users" using primary key columns */
-  user: Maybe<Users>;
+  user: Maybe<User>;
   /** fetch data from the table: "users" */
-  users: Array<Users>;
+  users: Array<User>;
   /** fetch aggregated fields from the table: "users" */
-  usersAggregate: UsersAggregate;
+  usersAggregate: UserAggregate;
 };
 
 export type QueryRootPostArgs = {
@@ -522,19 +521,19 @@ export type QueryRootPostArgs = {
 };
 
 export type QueryRootPostsArgs = {
-  distinct_on: Maybe<Array<PostsSelectColumn>>;
+  distinct_on: Maybe<Array<PostSelectColumn>>;
   limit: Maybe<Scalars['Int']>;
   offset: Maybe<Scalars['Int']>;
-  order_by: Maybe<Array<PostsOrderBy>>;
-  where: Maybe<PostsBoolExp>;
+  order_by: Maybe<Array<PostOrderBy>>;
+  where: Maybe<PostBoolExp>;
 };
 
 export type QueryRootPostsAggregateArgs = {
-  distinct_on: Maybe<Array<PostsSelectColumn>>;
+  distinct_on: Maybe<Array<PostSelectColumn>>;
   limit: Maybe<Scalars['Int']>;
   offset: Maybe<Scalars['Int']>;
-  order_by: Maybe<Array<PostsOrderBy>>;
-  where: Maybe<PostsBoolExp>;
+  order_by: Maybe<Array<PostOrderBy>>;
+  where: Maybe<PostBoolExp>;
 };
 
 export type QueryRootUserArgs = {
@@ -542,35 +541,35 @@ export type QueryRootUserArgs = {
 };
 
 export type QueryRootUsersArgs = {
-  distinct_on: Maybe<Array<UsersSelectColumn>>;
+  distinct_on: Maybe<Array<UserSelectColumn>>;
   limit: Maybe<Scalars['Int']>;
   offset: Maybe<Scalars['Int']>;
-  order_by: Maybe<Array<UsersOrderBy>>;
-  where: Maybe<UsersBoolExp>;
+  order_by: Maybe<Array<UserOrderBy>>;
+  where: Maybe<UserBoolExp>;
 };
 
 export type QueryRootUsersAggregateArgs = {
-  distinct_on: Maybe<Array<UsersSelectColumn>>;
+  distinct_on: Maybe<Array<UserSelectColumn>>;
   limit: Maybe<Scalars['Int']>;
   offset: Maybe<Scalars['Int']>;
-  order_by: Maybe<Array<UsersOrderBy>>;
-  where: Maybe<UsersBoolExp>;
+  order_by: Maybe<Array<UserOrderBy>>;
+  where: Maybe<UserBoolExp>;
 };
 
 export type SubscriptionRoot = {
   __typename?: 'subscription_root';
   /** fetch data from the table: "posts" using primary key columns */
-  post: Maybe<Posts>;
+  post: Maybe<Post>;
   /** An array relationship */
-  posts: Array<Posts>;
+  posts: Array<Post>;
   /** fetch aggregated fields from the table: "posts" */
-  postsAggregate: PostsAggregate;
+  postsAggregate: PostAggregate;
   /** fetch data from the table: "users" using primary key columns */
-  user: Maybe<Users>;
+  user: Maybe<User>;
   /** fetch data from the table: "users" */
-  users: Array<Users>;
+  users: Array<User>;
   /** fetch aggregated fields from the table: "users" */
-  usersAggregate: UsersAggregate;
+  usersAggregate: UserAggregate;
 };
 
 export type SubscriptionRootPostArgs = {
@@ -578,19 +577,19 @@ export type SubscriptionRootPostArgs = {
 };
 
 export type SubscriptionRootPostsArgs = {
-  distinct_on: Maybe<Array<PostsSelectColumn>>;
+  distinct_on: Maybe<Array<PostSelectColumn>>;
   limit: Maybe<Scalars['Int']>;
   offset: Maybe<Scalars['Int']>;
-  order_by: Maybe<Array<PostsOrderBy>>;
-  where: Maybe<PostsBoolExp>;
+  order_by: Maybe<Array<PostOrderBy>>;
+  where: Maybe<PostBoolExp>;
 };
 
 export type SubscriptionRootPostsAggregateArgs = {
-  distinct_on: Maybe<Array<PostsSelectColumn>>;
+  distinct_on: Maybe<Array<PostSelectColumn>>;
   limit: Maybe<Scalars['Int']>;
   offset: Maybe<Scalars['Int']>;
-  order_by: Maybe<Array<PostsOrderBy>>;
-  where: Maybe<PostsBoolExp>;
+  order_by: Maybe<Array<PostOrderBy>>;
+  where: Maybe<PostBoolExp>;
 };
 
 export type SubscriptionRootUserArgs = {
@@ -598,19 +597,19 @@ export type SubscriptionRootUserArgs = {
 };
 
 export type SubscriptionRootUsersArgs = {
-  distinct_on: Maybe<Array<UsersSelectColumn>>;
+  distinct_on: Maybe<Array<UserSelectColumn>>;
   limit: Maybe<Scalars['Int']>;
   offset: Maybe<Scalars['Int']>;
-  order_by: Maybe<Array<UsersOrderBy>>;
-  where: Maybe<UsersBoolExp>;
+  order_by: Maybe<Array<UserOrderBy>>;
+  where: Maybe<UserBoolExp>;
 };
 
 export type SubscriptionRootUsersAggregateArgs = {
-  distinct_on: Maybe<Array<UsersSelectColumn>>;
+  distinct_on: Maybe<Array<UserSelectColumn>>;
   limit: Maybe<Scalars['Int']>;
   offset: Maybe<Scalars['Int']>;
-  order_by: Maybe<Array<UsersOrderBy>>;
-  where: Maybe<UsersBoolExp>;
+  order_by: Maybe<Array<UserOrderBy>>;
+  where: Maybe<UserBoolExp>;
 };
 
 /** Boolean expression to compare columns of type "timestamptz". All fields are combined with logical 'AND'. */
@@ -627,92 +626,91 @@ export type TimestamptzComparisonExp = {
 };
 
 /** ユーザー */
-export type Users = {
-  __typename?: 'users';
+export type User = {
+  __typename?: 'user';
   createdAt: Scalars['timestamptz'];
   email: Scalars['String'];
   id: Scalars['String'];
   name: Scalars['String'];
   /** An array relationship */
-  posts: Array<Posts>;
+  posts: Array<Post>;
   /** An aggregate relationship */
-  posts_aggregate: PostsAggregate;
+  posts_aggregate: PostAggregate;
   updatedAt: Scalars['timestamptz'];
 };
 
 /** ユーザー */
-export type UsersPostsArgs = {
-  distinct_on: Maybe<Array<PostsSelectColumn>>;
+export type UserPostsArgs = {
+  distinct_on: Maybe<Array<PostSelectColumn>>;
   limit: Maybe<Scalars['Int']>;
   offset: Maybe<Scalars['Int']>;
-  order_by: Maybe<Array<PostsOrderBy>>;
-  where: Maybe<PostsBoolExp>;
+  order_by: Maybe<Array<PostOrderBy>>;
+  where: Maybe<PostBoolExp>;
 };
 
 /** ユーザー */
-export type UsersPostsAggregateArgs = {
-  distinct_on: Maybe<Array<PostsSelectColumn>>;
+export type UserPostsAggregateArgs = {
+  distinct_on: Maybe<Array<PostSelectColumn>>;
   limit: Maybe<Scalars['Int']>;
   offset: Maybe<Scalars['Int']>;
-  order_by: Maybe<Array<PostsOrderBy>>;
-  where: Maybe<PostsBoolExp>;
+  order_by: Maybe<Array<PostOrderBy>>;
+  where: Maybe<PostBoolExp>;
 };
 
 /** aggregated selection of "users" */
-export type UsersAggregate = {
-  __typename?: 'users_aggregate';
-  aggregate: Maybe<UsersAggregateFields>;
-  nodes: Array<Users>;
+export type UserAggregate = {
+  __typename?: 'user_aggregate';
+  aggregate: Maybe<UserAggregateFields>;
+  nodes: Array<User>;
 };
 
 /** aggregate fields of "users" */
-export type UsersAggregateFields = {
-  __typename?: 'users_aggregate_fields';
+export type UserAggregateFields = {
+  __typename?: 'user_aggregate_fields';
   count: Scalars['Int'];
-  max: Maybe<UsersMaxFields>;
-  min: Maybe<UsersMinFields>;
+  max: Maybe<UserMaxFields>;
+  min: Maybe<UserMinFields>;
 };
 
 /** aggregate fields of "users" */
-export type UsersAggregateFieldsCountArgs = {
-  columns: Maybe<Array<UsersSelectColumn>>;
+export type UserAggregateFieldsCountArgs = {
+  columns: Maybe<Array<UserSelectColumn>>;
   distinct: Maybe<Scalars['Boolean']>;
 };
 
 /** Boolean expression to filter rows from the table "users". All fields are combined with a logical 'AND'. */
-export type UsersBoolExp = {
-  _and?: Maybe<Array<UsersBoolExp>>;
-  _not?: Maybe<UsersBoolExp>;
-  _or?: Maybe<Array<UsersBoolExp>>;
+export type UserBoolExp = {
+  _and?: Maybe<Array<UserBoolExp>>;
+  _not?: Maybe<UserBoolExp>;
+  _or?: Maybe<Array<UserBoolExp>>;
   createdAt?: Maybe<TimestamptzComparisonExp>;
   email?: Maybe<StringComparisonExp>;
   id?: Maybe<StringComparisonExp>;
   name?: Maybe<StringComparisonExp>;
-  posts?: Maybe<PostsBoolExp>;
+  posts?: Maybe<PostBoolExp>;
   updatedAt?: Maybe<TimestamptzComparisonExp>;
 };
 
 /** unique or primary key constraints on table "users" */
-export const UsersConstraint = {
+export const UserConstraint = {
   /** unique or primary key constraint */
   UsersPkey: 'users_pkey',
 } as const;
 
-export type UsersConstraint =
-  typeof UsersConstraint[keyof typeof UsersConstraint];
+export type UserConstraint = typeof UserConstraint[keyof typeof UserConstraint];
 /** input type for inserting data into table "users" */
-export type UsersInsertInput = {
+export type UserInsertInput = {
   createdAt?: Maybe<Scalars['timestamptz']>;
   email?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
-  posts?: Maybe<PostsArrRelInsertInput>;
+  posts?: Maybe<PostArrRelInsertInput>;
   updatedAt?: Maybe<Scalars['timestamptz']>;
 };
 
 /** aggregate max on columns */
-export type UsersMaxFields = {
-  __typename?: 'users_max_fields';
+export type UserMaxFields = {
+  __typename?: 'user_max_fields';
   createdAt: Maybe<Scalars['timestamptz']>;
   email: Maybe<Scalars['String']>;
   id: Maybe<Scalars['String']>;
@@ -721,8 +719,8 @@ export type UsersMaxFields = {
 };
 
 /** aggregate min on columns */
-export type UsersMinFields = {
-  __typename?: 'users_min_fields';
+export type UserMinFields = {
+  __typename?: 'user_min_fields';
   createdAt: Maybe<Scalars['timestamptz']>;
   email: Maybe<Scalars['String']>;
   id: Maybe<Scalars['String']>;
@@ -731,45 +729,45 @@ export type UsersMinFields = {
 };
 
 /** response of any mutation on the table "users" */
-export type UsersMutationResponse = {
-  __typename?: 'users_mutation_response';
+export type UserMutationResponse = {
+  __typename?: 'user_mutation_response';
   /** number of rows affected by the mutation */
   affected_rows: Scalars['Int'];
   /** data from the rows affected by the mutation */
-  returning: Array<Users>;
+  returning: Array<User>;
 };
 
 /** input type for inserting object relation for remote table "users" */
-export type UsersObjRelInsertInput = {
-  data: UsersInsertInput;
+export type UserObjRelInsertInput = {
+  data: UserInsertInput;
   /** upsert condition */
-  on_conflict?: Maybe<UsersOnConflict>;
+  on_conflict?: Maybe<UserOnConflict>;
 };
 
 /** on_conflict condition type for table "users" */
-export type UsersOnConflict = {
-  constraint: UsersConstraint;
-  update_columns: Array<UsersUpdateColumn>;
-  where?: Maybe<UsersBoolExp>;
+export type UserOnConflict = {
+  constraint: UserConstraint;
+  update_columns: Array<UserUpdateColumn>;
+  where?: Maybe<UserBoolExp>;
 };
 
 /** Ordering options when selecting data from "users". */
-export type UsersOrderBy = {
+export type UserOrderBy = {
   createdAt?: Maybe<OrderBy>;
   email?: Maybe<OrderBy>;
   id?: Maybe<OrderBy>;
   name?: Maybe<OrderBy>;
-  posts_aggregate?: Maybe<PostsAggregateOrderBy>;
+  posts_aggregate?: Maybe<PostAggregateOrderBy>;
   updatedAt?: Maybe<OrderBy>;
 };
 
-/** primary key columns input for table: users */
-export type UsersPkColumnsInput = {
+/** primary key columns input for table: user */
+export type UserPkColumnsInput = {
   id: Scalars['String'];
 };
 
 /** select columns of table "users" */
-export const UsersSelectColumn = {
+export const UserSelectColumn = {
   /** column name */
   CreatedAt: 'createdAt',
   /** column name */
@@ -782,10 +780,10 @@ export const UsersSelectColumn = {
   UpdatedAt: 'updatedAt',
 } as const;
 
-export type UsersSelectColumn =
-  typeof UsersSelectColumn[keyof typeof UsersSelectColumn];
+export type UserSelectColumn =
+  typeof UserSelectColumn[keyof typeof UserSelectColumn];
 /** input type for updating data in table "users" */
-export type UsersSetInput = {
+export type UserSetInput = {
   createdAt?: Maybe<Scalars['timestamptz']>;
   email?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['String']>;
@@ -794,7 +792,7 @@ export type UsersSetInput = {
 };
 
 /** update columns of table "users" */
-export const UsersUpdateColumn = {
+export const UserUpdateColumn = {
   /** column name */
   CreatedAt: 'createdAt',
   /** column name */
@@ -807,5 +805,5 @@ export const UsersUpdateColumn = {
   UpdatedAt: 'updatedAt',
 } as const;
 
-export type UsersUpdateColumn =
-  typeof UsersUpdateColumn[keyof typeof UsersUpdateColumn];
+export type UserUpdateColumn =
+  typeof UserUpdateColumn[keyof typeof UserUpdateColumn];
