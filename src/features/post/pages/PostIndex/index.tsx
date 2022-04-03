@@ -1,12 +1,13 @@
 import { Button, Container, Grid, Typography } from '@mui/material';
 import { filter } from 'graphql-anywhere';
-import { useMemo, useState, VFC } from 'react';
+import { useEffect, useMemo, useState, VFC } from 'react';
 
 import { PostCard } from '@/features/post/components/PostCard';
 import {
   PostCardFragment,
   PostCardFragmentDoc,
 } from '@/features/post/components/PostCard/generated';
+import { progress } from '@/services/progress';
 import { Section } from '@/styles';
 
 import { FetchPostsQuery, useFetchPostsQuery } from './generated';
@@ -16,7 +17,7 @@ export const PostIndex: VFC = () => {
   const limit = 10;
   const [page, setPage] = useState<number>(1);
 
-  const { data } = useFetchPostsQuery({
+  const { data, loading } = useFetchPostsQuery({
     variables: {
       limit,
       offset: limit * (page - 1),
@@ -28,6 +29,10 @@ export const PostIndex: VFC = () => {
       lastPage: Math.ceil((data?.postsAggregate.aggregate?.count ?? 0) / limit),
     };
   }, [data]);
+
+  useEffect(() => {
+    loading ? progress.start() : progress.done();
+  }, [loading]);
 
   return (
     <>
