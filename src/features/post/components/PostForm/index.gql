@@ -1,0 +1,6 @@
+fragment PostForm on post {
+  id
+  title
+  description
+  content
+}
