@@ -26,6 +26,7 @@ export const theme = responsiveFontSizes(
       },
       h3: {
         fontSize: '1.4rem',
+        fontWeight: 'bold',
       },
     },
   }),
