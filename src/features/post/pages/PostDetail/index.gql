@@ -1,0 +1,14 @@
+query FetchPost($postId: Int!) {
+  post(id: $postId) {
+    id
+    title
+    description
+    content
+    createdAt
+    updatedAt
+    user {
+      id
+      name
+    }
+  }
+}

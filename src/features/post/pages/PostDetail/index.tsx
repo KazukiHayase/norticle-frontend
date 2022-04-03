@@ -1,10 +1,15 @@
-import { Avatar, Box, Paper,Typography } from '@mui/material';
+import { Avatar, Box, Paper, Typography } from '@mui/material';
 import { Container } from '@mui/material';
 import { blueGrey, grey } from '@mui/material/colors';
-import { VFC } from 'react';
+import { useRouter } from 'next/router';
+import { useEffect, useMemo, VFC } from 'react';
 
+import { pagesPath } from '@/lib/$path';
+import { formatDate } from '@/services/date';
+import { progress } from '@/services/progress';
 import { Section } from '@/styles';
 
+import { useFetchPostQuery } from './generated';
 import { UserInfo } from './style';
 
 type PostDetailProps = {
@@ -12,6 +17,22 @@ type PostDetailProps = {
 };
 
 export const PostDetail: VFC<PostDetailProps> = ({ postId }) => {
+  const router = useRouter();
+  const { data, loading } = useFetchPostQuery({
+    variables: { postId },
+    onCompleted: (data) => {
+      if (!data.post) router.replace(pagesPath.$404.$url());
+    },
+  });
+
+  const post = useMemo(() => data?.post, [data]);
+
+  useEffect(() => {
+    loading ? progress.start() : progress.done();
+  }, [loading]);
+
+  if (loading || !post) return <></>;
+
   return (
     <Section sx={{ bgcolor: blueGrey[50] }}>
       <Container
@@ -23,28 +44,25 @@ export const PostDetail: VFC<PostDetailProps> = ({ postId }) => {
           <UserInfo>
             <Avatar sx={{ width: 25, height: 25 }} />
             <Typography fontSize={14} fontWeight="bold">
-              ユーザー名
+              {post.user.name}
             </Typography>
           </UserInfo>
           <Box sx={{ display: 'flex', gap: 2 }}>
             <Typography fontSize={14} color={grey[700]}>
-              作成日: 2022/04/03
+              作成日: {formatDate(post.createdAt, 'date')}
             </Typography>
             <Typography fontSize={14} color={grey[700]}>
-              更新日: 2022/04/03
+              更新日: {formatDate(post.updatedAt, 'date')}
             </Typography>
           </Box>
         </Box>
         <Typography variant="h1" sx={{ pb: 1 }}>
-          タイトル {postId}
+          {post.title}
         </Typography>
-        <Typography variant="subtitle1" sx={{ pb: 3 }}>
-          説明説明説明説明説明説明説明説明説明説明説明説明 説明説明説明
-          説明説明説明説明説明説明説明説明説明説明説明説明説明説明説明説明説明説明説明説明説明説明説明説明説明説明説明説明説明説明説明説明説明
+        <Typography variant="subtitle1" sx={{ pb: 8 }}>
+          {post.description}
         </Typography>
-        <Typography variant="body1">
-          コンテンツコンテンツコンテンツコンテンツコンテンツコンテンツ
-        </Typography>
+        <Typography variant="body1">{post.content}</Typography>
       </Container>
     </Section>
   );
