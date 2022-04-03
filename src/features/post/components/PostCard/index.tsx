@@ -11,7 +11,7 @@ import { pagesPath } from '@/lib/$path';
 import { fromNow } from '@/services/date';
 
 import { PostCardFragment } from './generated';
-import { PostContent,PostTitle } from './style';
+import { PostContent, PostTitle } from './style';
 
 type PostCardProps = {
   post: PostCardFragment;

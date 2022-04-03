@@ -3,7 +3,7 @@ import { experimental_sx as sx, styled, Typography } from '@mui/material';
 export const PostTitle = styled(Typography)(
   sx({
     display: '-webkit-box',
-    mb: 1,
+    mb: 2,
     overflow: 'hidden',
     WebkitLineClamp: 2,
     WebkitBoxOrient: 'vertical',

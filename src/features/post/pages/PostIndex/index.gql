@@ -1,5 +1,10 @@
-query FetchPosts($offset: Int!) {
-  posts(offset: $offset, limit: 10) {
+query FetchPosts($limit: Int!, $offset: Int!) {
+  posts(limit: $limit, offset: $offset) {
     ...PostCard
+  }
+  postsAggregate {
+    aggregate {
+      count
+    }
   }
 }
