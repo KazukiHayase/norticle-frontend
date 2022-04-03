@@ -13,7 +13,7 @@ const Page = () => {
 
   const postId = parseInt(router.query.id as string, 10);
   if (isNaN(postId)) {
-    router.push(pagesPath.$404.$url());
+    router.replace(pagesPath.$404.$url());
     return <></>;
   }
 
