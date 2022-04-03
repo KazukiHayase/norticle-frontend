@@ -22,6 +22,7 @@ export const TextareaField: VFC<TextareaFieldProps> = ({
         multiline
         fullWidth
         size="small"
+        error={!!error}
         {...props}
         {...registration}
       />

@@ -18,7 +18,13 @@ export const InputField: VFC<InputFieldProps> = ({
 }) => {
   return (
     <FieldWrapper label={label} error={error} required={required}>
-      <TextField type={type} fullWidth size="small" {...registration} />
+      <TextField
+        type={type}
+        fullWidth
+        size="small"
+        error={!!error}
+        {...registration}
+      />
     </FieldWrapper>
   );
 };
