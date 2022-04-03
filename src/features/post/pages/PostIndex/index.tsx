@@ -35,48 +35,46 @@ export const PostIndex: VFC = () => {
   }, [loading]);
 
   return (
-    <>
-      <Section>
-        <Container maxWidth="md">
-          <Typography variant="h1" sx={{ pb: 2 }}>
-            テンプレート一覧
-          </Typography>
-          <Grid container spacing={2} sx={{ pb: 8 }}>
-            {posts.map((post) => (
-              <Grid key={post.id} item xs={6}>
-                <PostCard
-                  post={filter<
-                    PostCardFragment,
-                    FetchPostsQuery['posts'][number]
-                  >(PostCardFragmentDoc, post)}
-                />
-              </Grid>
-            ))}
-          </Grid>
-          <PaginationWrapper>
-            {page > 1 && (
-              <Button
-                variant="contained"
-                color="inherit"
-                sx={{ fontWeight: 'bold' }}
-                onClick={() => setPage(page - 1)}
-              >
-                前のページ
-              </Button>
-            )}
-            {page < lastPage && (
-              <Button
-                variant="contained"
-                color="info"
-                sx={{ fontWeight: 'bold' }}
-                onClick={() => setPage(page + 1)}
-              >
-                次のページ
-              </Button>
-            )}
-          </PaginationWrapper>
-        </Container>
-      </Section>
-    </>
+    <Section>
+      <Container maxWidth="md">
+        <Typography variant="h1" sx={{ pb: 2 }}>
+          テンプレート一覧
+        </Typography>
+        <Grid container spacing={2} sx={{ pb: 8 }}>
+          {posts.map((post) => (
+            <Grid key={post.id} item xs={6}>
+              <PostCard
+                post={filter<
+                  PostCardFragment,
+                  FetchPostsQuery['posts'][number]
+                >(PostCardFragmentDoc, post)}
+              />
+            </Grid>
+          ))}
+        </Grid>
+        <PaginationWrapper>
+          {page > 1 && (
+            <Button
+              variant="contained"
+              color="inherit"
+              sx={{ fontWeight: 'bold' }}
+              onClick={() => setPage(page - 1)}
+            >
+              前のページ
+            </Button>
+          )}
+          {page < lastPage && (
+            <Button
+              variant="contained"
+              color="info"
+              sx={{ fontWeight: 'bold' }}
+              onClick={() => setPage(page + 1)}
+            >
+              次のページ
+            </Button>
+          )}
+        </PaginationWrapper>
+      </Container>
+    </Section>
   );
 };
