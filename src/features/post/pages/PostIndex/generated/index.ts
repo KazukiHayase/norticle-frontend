@@ -1,28 +1,25 @@
 import * as Types from '../../../../../graphql/generated/types';
 
+import { PostCardFragment } from '../../../components/PostCard/generated/index';
 import { gql } from '@apollo/client';
+import { PostCardFragmentDoc } from '../../../components/PostCard/generated/index';
 import * as Apollo from '@apollo/client';
 const defaultOptions = {};
-export type FetchPostsQueryVariables = Types.Exact<{ [key: string]: never }>;
+export type FetchPostsQueryVariables = Types.Exact<{
+  offset: Types.Scalars['Int'];
+}>;
 
 export type FetchPostsQuery = { __typename?: 'query_root' } & {
-  posts: Array<
-    { __typename?: 'post' } & Pick<
-      Types.Post,
-      'id' | 'title' | 'content' | 'description'
-    >
-  >;
+  posts: Array<{ __typename?: 'post' } & PostCardFragment>;
 };
 
 export const FetchPostsDocument = gql`
-  query FetchPosts {
-    posts {
-      id
-      title
-      content
-      description
+  query FetchPosts($offset: Int!) {
+    posts(offset: $offset, limit: 10) {
+      ...PostCard
     }
   }
+  ${PostCardFragmentDoc}
 `;
 
 /**
@@ -37,11 +34,12 @@ export const FetchPostsDocument = gql`
  * @example
  * const { data, loading, error } = useFetchPostsQuery({
  *   variables: {
+ *      offset: // value for 'offset'
  *   },
  * });
  */
 export function useFetchPostsQuery(
-  baseOptions?: Apollo.QueryHookOptions<
+  baseOptions: Apollo.QueryHookOptions<
     FetchPostsQuery,
     FetchPostsQueryVariables
   >,

@@ -1,8 +1,5 @@
-query FetchPosts {
-  posts {
-    id
-    title
-    content
-    description
+query FetchPosts($offset: Int!) {
+  posts(offset: $offset, limit: 10) {
+    ...PostCard
   }
 }

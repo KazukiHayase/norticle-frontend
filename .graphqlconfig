@@ -1,0 +1,15 @@
+{
+  "name": "Client Schema",
+  "schemaPath": "graphql.schema.json",
+  "extensions": {
+    "endpoints": {
+      "Gatsby GraphQL Endpoint": {
+        "url": "http://localhost:8080/v1/graphql",
+        "headers": {
+          "user-agent": "JS GraphQL"
+        },
+        "introspect": false
+      }
+    }
+  }
+}
