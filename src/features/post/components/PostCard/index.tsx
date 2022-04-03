@@ -4,7 +4,6 @@ import {
   CardActionArea,
   CardContent,
   CardHeader,
-  Typography,
 } from '@mui/material';
 import { useRouter } from 'next/router';
 
@@ -12,7 +11,7 @@ import { pagesPath } from '@/lib/$path';
 import { fromNow } from '@/services/date';
 
 import { PostCardFragment } from './generated';
-import { PostContent } from './style';
+import { PostContent,PostTitle } from './style';
 
 type PostCardProps = {
   post: PostCardFragment;
@@ -30,9 +29,7 @@ export const PostCard: React.VFC<PostCardProps> = ({ post }) => {
           subheader={fromNow(post.createdAt)}
         />
         <CardContent>
-          <Typography variant="h3" sx={{ pb: 1 }}>
-            {post.title}
-          </Typography>
+          <PostTitle variant="h3">{post.title}</PostTitle>
           <PostContent>{post.content}</PostContent>
         </CardContent>
       </CardActionArea>
