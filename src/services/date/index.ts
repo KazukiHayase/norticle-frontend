@@ -1,4 +1,4 @@
-import { format, formatDistanceToNow,parseISO } from 'date-fns';
+import { format, formatDistanceToNow, parseISO } from 'date-fns';
 import { ja } from 'date-fns/locale';
 import { utcToZonedTime } from 'date-fns-tz';
 
@@ -29,7 +29,7 @@ export const formatDateString = (
 };
 
 export const fromNow = (date: Date) => {
-  return formatDistanceToNow(date, { locale: ja });
+  return formatDistanceToNow(date, { locale: ja, addSuffix: true });
 };
 
 export const isValidDate = (date: Date) => {
