@@ -1,5 +1,5 @@
 query FetchPosts($limit: Int!, $offset: Int!) {
-  posts(limit: $limit, offset: $offset) {
+  posts(limit: $limit, offset: $offset, order_by: { createdAt: desc }) {
     ...PostCard
   }
   postsAggregate {

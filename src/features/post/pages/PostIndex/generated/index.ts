@@ -24,7 +24,7 @@ export type FetchPostsQuery = { __typename?: 'query_root' } & {
 
 export const FetchPostsDocument = gql`
   query FetchPosts($limit: Int!, $offset: Int!) {
-    posts(limit: $limit, offset: $offset) {
+    posts(limit: $limit, offset: $offset, order_by: { createdAt: desc }) {
       ...PostCard
     }
     postsAggregate {
