@@ -17,7 +17,7 @@ Router.events.on('routeChangeComplete', progress.done);
 Router.events.on('routeChangeError', progress.done);
 
 // https://nextjs.org/docs/basic-features/layouts#with-typescript
-type NextPageWithLayout = NextPage & {
+export type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode;
 };
 
