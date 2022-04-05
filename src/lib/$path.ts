@@ -1,4 +1,10 @@
 export const pagesPath = {
+  $403: {
+    $url: (url?: { hash?: string }) => ({
+      pathname: '/403' as const,
+      hash: url?.hash,
+    }),
+  },
   $404: {
     $url: (url?: { hash?: string }) => ({
       pathname: '/404' as const,
@@ -23,12 +29,6 @@ export const pagesPath = {
     add: {
       $url: (url?: { hash?: string }) => ({
         pathname: '/post/add' as const,
-        hash: url?.hash,
-      }),
-    },
-    edit: {
-      $url: (url?: { hash?: string }) => ({
-        pathname: '/post/edit' as const,
         hash: url?.hash,
       }),
     },
