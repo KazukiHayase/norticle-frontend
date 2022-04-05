@@ -1,4 +1,7 @@
-import { Avatar, Box, Paper, Typography } from '@mui/material';
+import { useAuth0 } from '@auth0/auth0-react';
+import { faPen } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Avatar, Box, Button, Paper, Typography } from '@mui/material';
 import { Container } from '@mui/material';
 import { blueGrey, grey } from '@mui/material/colors';
 import { useRouter } from 'next/router';
@@ -18,6 +21,7 @@ type PostDetailProps = {
 
 export const PostDetail: VFC<PostDetailProps> = ({ postId }) => {
   const router = useRouter();
+  const { user } = useAuth0();
   const { data, loading } = useFetchPostQuery({
     variables: { postId },
     onCompleted: (data) => {
@@ -35,34 +39,49 @@ export const PostDetail: VFC<PostDetailProps> = ({ postId }) => {
 
   return (
     <Section sx={{ bgcolor: blueGrey[50] }}>
-      <Container
-        maxWidth="md"
-        component={Paper}
-        sx={{ py: 3, bgcolor: 'white' }}
-      >
-        <Box sx={{ pb: 3 }}>
-          <UserInfo>
-            <Avatar sx={{ width: 25, height: 25 }} />
-            <Typography fontSize={14} fontWeight="bold">
-              {post.user.name}
-            </Typography>
-          </UserInfo>
-          <Box sx={{ display: 'flex', gap: 2 }}>
-            <Typography fontSize={14} color={grey[700]}>
-              作成日: {formatDate(post.createdAt, 'date')}
-            </Typography>
-            <Typography fontSize={14} color={grey[700]}>
-              更新日: {formatDate(post.updatedAt, 'date')}
-            </Typography>
+      <Container maxWidth="md">
+        {user?.sub === post.user.id && (
+          <Box sx={{ pb: 2 }}>
+            <Button
+              color="inherit"
+              size="small"
+              variant="contained"
+              startIcon={
+                <FontAwesomeIcon icon={faPen} style={{ fontSize: 14 }} />
+              }
+              onClick={() =>
+                router.push(pagesPath.post._id(postId).edit.$url())
+              }
+            >
+              編集
+            </Button>
           </Box>
-        </Box>
-        <Typography variant="h1" sx={{ pb: 1 }}>
-          {post.title}
-        </Typography>
-        <Typography variant="subtitle1" sx={{ pb: 8 }}>
-          {post.description}
-        </Typography>
-        <Typography variant="body1">{post.content}</Typography>
+        )}
+        <Paper sx={{ p: 3 }}>
+          <Box sx={{ pb: 3 }}>
+            <UserInfo>
+              <Avatar sx={{ width: 25, height: 25 }} />
+              <Typography fontSize={14} fontWeight="bold">
+                {post.user.name}
+              </Typography>
+            </UserInfo>
+            <Box sx={{ display: 'flex', gap: 2 }}>
+              <Typography fontSize={14} color={grey[700]}>
+                作成日: {formatDate(post.createdAt, 'date')}
+              </Typography>
+              <Typography fontSize={14} color={grey[700]}>
+                更新日: {formatDate(post.updatedAt, 'date')}
+              </Typography>
+            </Box>
+          </Box>
+          <Typography variant="h1" sx={{ pb: 1 }}>
+            {post.title}
+          </Typography>
+          <Typography variant="subtitle1" sx={{ pb: 8 }}>
+            {post.description}
+          </Typography>
+          <Typography variant="body1">{post.content}</Typography>
+        </Paper>
       </Container>
     </Section>
   );
