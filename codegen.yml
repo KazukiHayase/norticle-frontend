@@ -5,7 +5,6 @@ headers:
 documents:
   - 'src/graphql/**/*.gql'
   - 'src/features/**/*.gql'
-  - 'src/pages/**/*.gql' # TODO: 消す
 hooks:
   afterAllFileWrite:
     - prettier --write
