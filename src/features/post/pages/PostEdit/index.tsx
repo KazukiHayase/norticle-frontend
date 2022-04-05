@@ -53,19 +53,17 @@ export const PostEdit: VFC<PostEditProps> = ({ postId }) => {
   if (loading || !post) return <></>;
   return (
     <Section sx={{ bgcolor: blueGrey[50] }}>
-      <Container
-        maxWidth="md"
-        component={Paper}
-        sx={{ py: 3, bgcolor: 'white' }}
-      >
-        <PostForm
-          post={filter<
-            PostFormFragment,
-            NonNullable<FetchPostForEditQuery['post']>
-          >(PostFormFragmentDoc, post)}
-          submitText="更新する"
-          onSubmit={onSubmit}
-        />
+      <Container maxWidth="md">
+        <Paper sx={{ p: 3 }}>
+          <PostForm
+            post={filter<
+              PostFormFragment,
+              NonNullable<FetchPostForEditQuery['post']>
+            >(PostFormFragmentDoc, post)}
+            submitText="更新する"
+            onSubmit={onSubmit}
+          />
+        </Paper>
       </Container>
     </Section>
   );

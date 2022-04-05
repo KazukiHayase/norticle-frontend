@@ -15,16 +15,14 @@ export const PostAdd: VFC = () => {
 
   return (
     <Section sx={{ bgcolor: blueGrey[50] }}>
-      <Container
-        maxWidth="md"
-        component={Paper}
-        sx={{ py: 3, bgcolor: 'white' }}
-      >
-        <PostForm
-          submitText="投稿する"
-          submitting={loading}
-          onSubmit={onSubmit}
-        />
+      <Container maxWidth="md">
+        <Paper sx={{ p: 3 }}>
+          <PostForm
+            submitText="投稿する"
+            submitting={loading}
+            onSubmit={onSubmit}
+          />
+        </Paper>
       </Container>
     </Section>
   );
