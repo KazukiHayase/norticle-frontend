@@ -13,6 +13,12 @@ export const pagesPath = {
         hash: url?.hash,
       }),
     }),
+    add: {
+      $url: (url?: { hash?: string }) => ({
+        pathname: '/post/add' as const,
+        hash: url?.hash,
+      }),
+    },
   },
   $url: (url?: { hash?: string }) => ({
     pathname: '/' as const,
