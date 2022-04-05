@@ -23,6 +23,7 @@
     "@emotion/react": "^11.8.2",
     "@emotion/styled": "^11.8.1",
     "@hookform/resolvers": "^2.8.8",
+    "@mui/lab": "^5.0.0-alpha.75",
     "@mui/material": "^5.5.3",
     "@mui/styled-engine-sc": "^5.5.2",
     "apollo-link-scalars": "^4.0.1",

@@ -1,5 +1,6 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Box, Button, Stack } from '@mui/material';
+import LoadingButton from '@mui/lab/LoadingButton';
+import { Box, Stack } from '@mui/material';
 import { VFC } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import * as yup from 'yup';
@@ -28,12 +29,14 @@ const postFormSchema = yup.object({
 type PostFormProps = {
   post?: PostFormFragment;
   submitText: string;
+  submitting: boolean;
   onSubmit: SubmitHandler<PostForm>;
 };
 
 export const PostForm: VFC<PostFormProps> = ({
   post,
   submitText,
+  submitting = false,
   onSubmit,
 }) => {
   const { register, formState, handleSubmit } = useForm<PostForm>({
@@ -69,13 +72,15 @@ export const PostForm: VFC<PostFormProps> = ({
         />
       </Stack>
       <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-        <Button
+        <LoadingButton
           variant="contained"
+          loadingPosition="start"
+          loading={submitting}
           sx={{ fontWeight: 'bold' }}
           onClick={handleSubmit(onSubmit)}
         >
           {submitText}
-        </Button>
+        </LoadingButton>
       </Box>
     </form>
   );

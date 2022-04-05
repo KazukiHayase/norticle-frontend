@@ -8,7 +8,7 @@ import { useAddPost } from '@/features/post/graphql/mutations/addPost';
 import { Section } from '@/styles';
 
 export const PostAdd: VFC = () => {
-  const [addPost] = useAddPost();
+  const [addPost, { loading }] = useAddPost();
   const onSubmit: SubmitHandler<PostForm> = (data) => {
     addPost(data);
   };
@@ -20,7 +20,11 @@ export const PostAdd: VFC = () => {
         component={Paper}
         sx={{ py: 3, bgcolor: 'white' }}
       >
-        <PostForm submitText="投稿する" onSubmit={onSubmit} />
+        <PostForm
+          submitText="投稿する"
+          submitting={loading}
+          onSubmit={onSubmit}
+        />
       </Container>
     </Section>
   );
