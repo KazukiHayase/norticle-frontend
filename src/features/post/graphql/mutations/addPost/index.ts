@@ -5,6 +5,7 @@ import { refetchFetchPostsQuery } from '@/features/post/pages/PostIndex/generate
 import { PostInsertInput } from '@/graphql/generated/types';
 import { useNotifier } from '@/hooks/useNotifier';
 import { pagesPath } from '@/lib/$path';
+import { progress } from '@/services/progress';
 
 import { useAddPostMutation } from './generated';
 
@@ -20,6 +21,7 @@ export const useAddPost = (): AddPostHookResult => {
   });
 
   const addPost: AddPostHookResult[0] = useCallback(async (post) => {
+    progress.start();
     try {
       await addPostMutation({
         variables: {
@@ -31,6 +33,8 @@ export const useAddPost = (): AddPostHookResult => {
       notice('投稿しました', 'success');
     } catch {
       notice('投稿に失敗しました', 'error');
+    } finally {
+      progress.done();
     }
   }, []);
 
