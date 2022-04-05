@@ -7,6 +7,13 @@ export const pagesPath = {
   },
   post: {
     _id: (id: string | number) => ({
+      edit: {
+        $url: (url?: { hash?: string }) => ({
+          pathname: '/post/[id]/edit' as const,
+          query: { id },
+          hash: url?.hash,
+        }),
+      },
       $url: (url?: { hash?: string }) => ({
         pathname: '/post/[id]' as const,
         query: { id },
@@ -16,6 +23,12 @@ export const pagesPath = {
     add: {
       $url: (url?: { hash?: string }) => ({
         pathname: '/post/add' as const,
+        hash: url?.hash,
+      }),
+    },
+    edit: {
+      $url: (url?: { hash?: string }) => ({
+        pathname: '/post/edit' as const,
         hash: url?.hash,
       }),
     },
