@@ -1,6 +1,8 @@
 import * as Types from '../../../../../../graphql/generated/types';
 
+import { PostFormFragment } from '../../../../components/PostForm/generated/index';
 import { gql } from '@apollo/client';
+import { PostFormFragmentDoc } from '../../../../components/PostForm/generated/index';
 import * as Apollo from '@apollo/client';
 const defaultOptions = {};
 export type AddPostMutationVariables = Types.Exact<{
@@ -9,10 +11,7 @@ export type AddPostMutationVariables = Types.Exact<{
 
 export type AddPostMutation = { __typename?: 'mutation_root' } & {
   addPost?: Types.Maybe<
-    { __typename?: 'post' } & Pick<
-      Types.Post,
-      'id' | 'title' | 'description' | 'content'
-    >
+    { __typename?: 'post' } & Pick<Types.Post, 'id'> & PostFormFragment
   >;
 };
 
@@ -20,11 +19,10 @@ export const AddPostDocument = gql`
   mutation AddPost($post: post_insert_input!) {
     addPost(object: $post) {
       id
-      title
-      description
-      content
+      ...PostForm
     }
   }
+  ${PostFormFragmentDoc}
 `;
 export type AddPostMutationFn = Apollo.MutationFunction<
   AddPostMutation,

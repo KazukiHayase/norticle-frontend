@@ -1,5 +1,6 @@
 query FetchPostForEdit($postId: Int!) {
   post(id: $postId) {
+    id
     userId
     ...PostForm
   }

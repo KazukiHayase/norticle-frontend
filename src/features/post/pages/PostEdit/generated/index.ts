@@ -11,13 +11,15 @@ export type FetchPostForEditQueryVariables = Types.Exact<{
 
 export type FetchPostForEditQuery = { __typename?: 'query_root' } & {
   post?: Types.Maybe<
-    { __typename?: 'post' } & Pick<Types.Post, 'userId'> & PostFormFragment
+    { __typename?: 'post' } & Pick<Types.Post, 'id' | 'userId'> &
+      PostFormFragment
   >;
 };
 
 export const FetchPostForEditDocument = gql`
   query FetchPostForEdit($postId: Int!) {
     post(id: $postId) {
+      id
       userId
       ...PostForm
     }

@@ -10,7 +10,7 @@ import { Post } from '@/graphql/generated/types';
 
 import { PostFormFragment } from './generated';
 
-export type PostForm = Pick<Post, 'id' | 'title' | 'description' | 'content'>;
+export type PostForm = Pick<Post, 'title' | 'description' | 'content'>;
 const postFormSchema = yup.object({
   title: yup
     .string()
@@ -38,7 +38,6 @@ export const PostForm: VFC<PostFormProps> = ({
 }) => {
   const { register, formState, handleSubmit } = useForm<PostForm>({
     defaultValues: {
-      id: post?.id,
       title: post?.title,
       description: post?.description,
       content: post?.content,
