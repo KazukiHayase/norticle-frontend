@@ -29,7 +29,7 @@ const postFormSchema = yup.object({
 type PostFormProps = {
   post?: PostFormFragment;
   submitText: string;
-  submitting: boolean;
+  submitting?: boolean;
   onSubmit: SubmitHandler<PostForm>;
 };
 
