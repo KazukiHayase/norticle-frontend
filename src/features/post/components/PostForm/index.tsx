@@ -74,7 +74,6 @@ export const PostForm: VFC<PostFormProps> = ({
       <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
         <LoadingButton
           variant="contained"
-          loadingPosition="start"
           loading={submitting}
           sx={{ fontWeight: 'bold' }}
           onClick={handleSubmit(onSubmit)}
