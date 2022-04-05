@@ -1,0 +1,6 @@
+mutation UpdatePost($postId: Int!, $post: post_set_input!) {
+  updatePost(pk_columns: { id: $postId }, _set: $post) {
+    id
+    ...PostForm
+  }
+}

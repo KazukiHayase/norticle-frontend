@@ -3,7 +3,7 @@ import { Container, Paper } from '@mui/material';
 import { blueGrey } from '@mui/material/colors';
 import { filter } from 'graphql-anywhere';
 import { useRouter } from 'next/router';
-import { useEffect,useMemo, VFC } from 'react';
+import { useEffect, useMemo, VFC } from 'react';
 import { SubmitHandler } from 'react-hook-form';
 
 import { PostForm } from '@/features/post/components/PostForm';
@@ -11,6 +11,7 @@ import {
   PostFormFragment,
   PostFormFragmentDoc,
 } from '@/features/post/components/PostForm/generated';
+import { useUpdatePost } from '@/features/post/graphql/mutations/updatePost';
 import { pagesPath } from '@/lib/$path';
 import { progress } from '@/services/progress';
 import { Section } from '@/styles';
@@ -37,6 +38,7 @@ export const PostEdit: VFC<PostEditProps> = ({ postId }) => {
       }
     },
   });
+  const [updatePost] = useUpdatePost();
 
   const post = useMemo(() => data?.post, [data]);
 
@@ -45,7 +47,7 @@ export const PostEdit: VFC<PostEditProps> = ({ postId }) => {
   }, [loading]);
 
   const onSubmit: SubmitHandler<PostForm> = (data) => {
-    alert(JSON.stringify(data));
+    updatePost(postId, data);
   };
 
   if (loading || !post) return <></>;
@@ -61,7 +63,7 @@ export const PostEdit: VFC<PostEditProps> = ({ postId }) => {
             PostFormFragment,
             NonNullable<FetchPostForEditQuery['post']>
           >(PostFormFragmentDoc, post)}
-          submitText="保存する"
+          submitText="更新する"
           onSubmit={onSubmit}
         />
       </Container>
