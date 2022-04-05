@@ -1,0 +1,8 @@
+mutation AddPost($post: post_insert_input!) {
+  addPost(object: $post) {
+    id
+    title
+    description
+    content
+  }
+}

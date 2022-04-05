@@ -4,15 +4,13 @@ import { VFC } from 'react';
 import { SubmitHandler } from 'react-hook-form';
 
 import { PostForm } from '@/features/post/components/PostForm';
+import { useAddPost } from '@/features/post/graphql/mutations/addPost';
 import { Section } from '@/styles';
 
 export const PostAdd: VFC = () => {
-  const onSubmit: SubmitHandler<PostForm> = ({
-    title,
-    description,
-    content,
-  }) => {
-    alert(`${title}\n${description}\n${content}`);
+  const [addPost] = useAddPost();
+  const onSubmit: SubmitHandler<PostForm> = (data) => {
+    addPost(data);
   };
 
   return (

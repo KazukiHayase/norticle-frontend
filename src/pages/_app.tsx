@@ -4,6 +4,7 @@ import { NextPage } from 'next';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
 import { Router } from 'next/router';
+import { SnackbarProvider } from 'notistack';
 import { ReactElement, ReactNode } from 'react';
 
 import { AuthorizedApolloProvider } from '@/providers/authorizedApolloProvider';
@@ -36,8 +37,16 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout): JSX.Element => {
       <AuthProvider>
         <AuthorizedApolloProvider>
           <ThemeProvider theme={theme}>
-            <CssBaseline />
-            {getLayout(<Component {...pageProps} />)}
+            <SnackbarProvider
+              maxSnack={1}
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'right',
+              }}
+            >
+              <CssBaseline />
+              {getLayout(<Component {...pageProps} />)}
+            </SnackbarProvider>
           </ThemeProvider>
         </AuthorizedApolloProvider>
       </AuthProvider>
