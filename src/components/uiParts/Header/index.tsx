@@ -4,7 +4,10 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { VFC } from 'react';
 
+import { Link } from '@/components/uiParts/Link';
 import { pagesPath } from '@/lib/$path';
+
+import { Logo } from './style';
 
 export const Header: VFC = () => {
   const router = useRouter();
@@ -14,7 +17,11 @@ export const Header: VFC = () => {
     <AppBar position="static" color="transparent" sx={{ boxShadow: 'none' }}>
       <Container>
         <Toolbar sx={{ justifyContent: 'space-between' }}>
-          <Image src="/images/logo.png" width={150} height={50} />
+          <Link href={pagesPath.$url()}>
+            <Logo>
+              <Image src="/images/logo.png" width={120} height={40} />
+            </Logo>
+          </Link>
           <Box sx={{ display: 'flex', gap: 2 }}>
             {isAuthenticated ? (
               <>
