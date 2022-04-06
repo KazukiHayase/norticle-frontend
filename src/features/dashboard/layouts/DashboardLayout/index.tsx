@@ -1,4 +1,3 @@
-import { Divider } from '@mui/material';
 import { ReactNode } from 'react';
 
 import { Header } from '@/components/uiParts/Header';
@@ -15,7 +14,6 @@ export const DashboardLayout: React.VFC<DashboardLayoutProps> = ({
     <>
       <Header />
       <DashboardNav />
-      <Divider />
       {children}
     </>
   );
