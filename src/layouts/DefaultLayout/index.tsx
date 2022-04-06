@@ -1,3 +1,4 @@
+import { Divider } from '@mui/material';
 import { ReactNode } from 'react';
 
 import { Header } from '@/components/uiParts/Header';
@@ -10,6 +11,7 @@ export const DefaultLayout: React.VFC<DefaultLayoutProps> = ({ children }) => {
   return (
     <>
       <Header />
+      <Divider />
       {children}
     </>
   );
