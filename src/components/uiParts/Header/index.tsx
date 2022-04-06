@@ -16,12 +16,13 @@ export const Header: VFC = () => {
   return (
     <AppBar position="static" color="transparent" sx={{ boxShadow: 'none' }}>
       <Container>
-        <Toolbar sx={{ justifyContent: 'space-between' }}>
+        <Toolbar disableGutters>
           <Link href={pagesPath.$url()}>
             <Logo>
               <Image src="/images/logo.png" width={120} height={40} />
             </Logo>
           </Link>
+          <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: 'flex', gap: 2 }}>
             {isAuthenticated ? (
               <>
