@@ -31,7 +31,7 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout): JSX.Element => {
   return (
     <>
       <Head>
-        <title>tmp</title>
+        <title>norticle</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
       <AuthProvider>
