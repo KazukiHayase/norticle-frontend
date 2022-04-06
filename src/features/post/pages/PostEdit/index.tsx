@@ -25,7 +25,7 @@ type PostEditProps = {
 export const PostEdit: VFC<PostEditProps> = ({ postId }) => {
   const router = useRouter();
   const { user } = useAuth0();
-  const { data, loading } = useFetchPostForEditQuery({
+  const { data, loading: fetchPostLoading } = useFetchPostForEditQuery({
     variables: { postId },
     onCompleted: (data) => {
       if (!data.post) {
@@ -38,19 +38,19 @@ export const PostEdit: VFC<PostEditProps> = ({ postId }) => {
       }
     },
   });
-  const [updatePost] = useUpdatePost();
+  const [updatePost, { loading: updatePostLoading }] = useUpdatePost();
 
   const post = useMemo(() => data?.post, [data]);
 
   useEffect(() => {
-    loading ? progress.start() : progress.done();
-  }, [loading]);
+    fetchPostLoading ? progress.start() : progress.done();
+  }, [fetchPostLoading]);
 
   const onSubmit: SubmitHandler<PostForm> = (data) => {
     updatePost(postId, data);
   };
 
-  if (loading || !post) return <></>;
+  if (fetchPostLoading || !post) return <></>;
   return (
     <Section sx={{ bgcolor: blueGrey[50] }}>
       <Container maxWidth="md">
@@ -61,6 +61,7 @@ export const PostEdit: VFC<PostEditProps> = ({ postId }) => {
               NonNullable<FetchPostForEditQuery['post']>
             >(PostFormFragmentDoc, post)}
             submitText="更新する"
+            submitting={updatePostLoading}
             onSubmit={onSubmit}
           />
         </Paper>

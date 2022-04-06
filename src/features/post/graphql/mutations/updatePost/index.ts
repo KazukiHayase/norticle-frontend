@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 
 import { PostInsertInput } from '@/graphql/generated/types';
 import { useNotifier } from '@/hooks/useNotifier';
@@ -13,18 +13,19 @@ type UpdatePostHookResult = [
     postId: number,
     post: Pick<PostInsertInput, 'title' | 'description' | 'content'>,
   ) => void,
+  { loading: boolean },
 ];
 
 export const useUpdatePost = (): UpdatePostHookResult => {
   const router = useRouter();
+  const [loading, setLoading] = useState<boolean>(false);
   const { notice } = useNotifier();
   const [updatePostMutation] = useUpdatePostMutation();
 
   const updatePost: UpdatePostHookResult[0] = useCallback(
     async (postId, post) => {
+      setLoading(true);
       progress.start();
-      console.log(postId);
-      console.log(post);
       try {
         await updatePostMutation({
           variables: {
@@ -38,11 +39,12 @@ export const useUpdatePost = (): UpdatePostHookResult => {
       } catch {
         notice('更新に失敗しました', 'error');
       } finally {
+        setLoading(false);
         progress.done();
       }
     },
     [],
   );
 
-  return [updatePost];
+  return [updatePost, { loading }];
 };
