@@ -1,7 +1,8 @@
-import { Button, Container, Grid, Typography } from '@mui/material';
+import { Container, Grid, Typography } from '@mui/material';
 import { filter } from 'graphql-anywhere';
-import { useEffect, useMemo, useState, VFC } from 'react';
+import { useEffect, useMemo, VFC } from 'react';
 
+import { Pagination } from '@/components/uiParts/Pagination';
 import { PostCard } from '@/features/post/components/PostCard';
 import {
   PostCardFragment,
@@ -11,28 +12,32 @@ import { progress } from '@/services/progress';
 import { Section } from '@/styles';
 
 import { FetchPostsQuery, useFetchPostsQuery } from './generated';
-import { PaginationWrapper } from './style';
 
 export const PostIndex: VFC = () => {
   const limit = 10;
-  const [page, setPage] = useState<number>(1);
 
-  const { data, loading } = useFetchPostsQuery({
+  const { data, loading, variables, refetch } = useFetchPostsQuery({
     variables: {
-      limit,
-      offset: limit * (page - 1),
+      limit: 10,
+      offset: 0,
     },
   });
-  const { posts, lastPage } = useMemo(() => {
+  const { posts, totalPage } = useMemo(() => {
     return {
       posts: data?.posts ?? [],
-      lastPage: Math.ceil((data?.postsAggregate.aggregate?.count ?? 0) / limit),
+      totalPage: Math.ceil(
+        (data?.postsAggregate.aggregate?.count ?? 0) / limit,
+      ),
     };
   }, [data]);
 
   useEffect(() => {
     loading ? progress.start() : progress.done();
   }, [loading]);
+
+  const handleChangePage = (page: number) => {
+    refetch({ ...variables, offset: limit * (page - 1) });
+  };
 
   return (
     <Section>
@@ -52,28 +57,7 @@ export const PostIndex: VFC = () => {
             </Grid>
           ))}
         </Grid>
-        <PaginationWrapper>
-          {page > 1 && (
-            <Button
-              variant="contained"
-              color="inherit"
-              sx={{ fontWeight: 'bold' }}
-              onClick={() => setPage(page - 1)}
-            >
-              前のページ
-            </Button>
-          )}
-          {page < lastPage && (
-            <Button
-              variant="contained"
-              color="info"
-              sx={{ fontWeight: 'bold' }}
-              onClick={() => setPage(page + 1)}
-            >
-              次のページ
-            </Button>
-          )}
-        </PaginationWrapper>
+        <Pagination totalPage={totalPage} onChange={handleChangePage} />
       </Container>
     </Section>
   );
