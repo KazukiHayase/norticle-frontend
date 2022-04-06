@@ -11,6 +11,18 @@ export const pagesPath = {
       hash: url?.hash,
     }),
   },
+  dashboard: {
+    sample: {
+      $url: (url?: { hash?: string }) => ({
+        pathname: '/dashboard/sample' as const,
+        hash: url?.hash,
+      }),
+    },
+    $url: (url?: { hash?: string }) => ({
+      pathname: '/dashboard' as const,
+      hash: url?.hash,
+    }),
+  },
   post: {
     _id: (id: string | number) => ({
       edit: {
