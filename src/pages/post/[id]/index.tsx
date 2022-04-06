@@ -1,8 +1,8 @@
 import { useRouter } from 'next/router';
 import { ReactElement } from 'react';
 
-import { DefaultLayout } from '@/components/layouts/DefaultLayout';
 import { PostDetail } from '@/features/post/pages/PostDetail';
+import { DefaultLayout } from '@/layouts/DefaultLayout';
 import { pagesPath } from '@/lib/$path';
 
 // See: https://github.com/vercel/next.js/discussions/11484#discussioncomment-356055

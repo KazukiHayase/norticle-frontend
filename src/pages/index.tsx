@@ -1,7 +1,7 @@
 import { ReactElement } from 'react';
 
-import { DefaultLayout } from '@/components/layouts/DefaultLayout';
 import { PostIndex } from '@/features/post/pages/PostIndex';
+import { DefaultLayout } from '@/layouts/DefaultLayout';
 
 const IndexPage = () => {
   return <PostIndex />;

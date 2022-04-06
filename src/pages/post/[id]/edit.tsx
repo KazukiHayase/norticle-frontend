@@ -2,8 +2,8 @@ import { withAuthenticationRequired } from '@auth0/auth0-react';
 import { useRouter } from 'next/router';
 import { ReactElement } from 'react';
 
-import { DefaultLayout } from '@/components/layouts/DefaultLayout';
 import { PostEdit } from '@/features/post/pages/PostEdit';
+import { DefaultLayout } from '@/layouts/DefaultLayout';
 import { pagesPath } from '@/lib/$path';
 import { NextPageWithLayout } from '@/pages/_app';
 

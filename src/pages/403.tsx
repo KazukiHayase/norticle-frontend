@@ -1,6 +1,6 @@
 import { ReactElement } from 'react';
 
-import { DefaultLayout } from '@/components/layouts/DefaultLayout';
+import { DefaultLayout } from '@/layouts/DefaultLayout';
 
 const Page = () => {
   // TODO: デザイン調整
