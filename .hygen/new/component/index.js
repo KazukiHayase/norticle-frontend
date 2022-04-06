@@ -5,7 +5,7 @@ module.exports = {
         type: 'select',
         name: 'feature',
         message: 'Which feature?',
-        choices: ['post'],
+        choices: ['post', 'setting', 'dashboard'],
       },
       {
         type: 'input',
