@@ -15,6 +15,10 @@ export const theme = responsiveFontSizes(
             zIndex: 1300,
             opacity: '0.7',
           },
+          a: {
+            color: 'rgba(0, 0, 0, 0.87)',
+            textDecoration: 'none',
+          },
         },
       },
     },
