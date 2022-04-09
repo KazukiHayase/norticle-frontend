@@ -1,11 +1,13 @@
 import { useAuth0 } from '@auth0/auth0-react';
-import { Avatar, Box, Paper, Typography } from '@mui/material';
+import { faPen } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Avatar, Box, Button, Paper, Typography } from '@mui/material';
 import { Container } from '@mui/material';
 import { blueGrey, grey } from '@mui/material/colors';
 import { useRouter } from 'next/router';
 import { useEffect, useMemo, VFC } from 'react';
 
-import { EditButton } from '@/components/uiParts/Button/EditButton';
+import { NextLinkComposed } from '@/components/uiParts/Link';
 import { pagesPath } from '@/lib/$path';
 import { formatDate } from '@/services/date';
 import { progress } from '@/services/progress';
@@ -39,13 +41,20 @@ export const PostDetail: VFC<PostDetailProps> = ({ postId }) => {
   return (
     <Section sx={{ bgcolor: blueGrey[50] }}>
       <Container maxWidth="md">
-        {user?.sub === post.user.id && (
+        {user && user.sub === post.user.id && (
           <Box sx={{ pb: 2 }}>
-            <EditButton
-              onClick={() =>
-                router.push(pagesPath.post._id(postId).edit.$url())
+            <Button
+              color="inherit"
+              size="small"
+              variant="contained"
+              startIcon={
+                <FontAwesomeIcon icon={faPen} style={{ fontSize: 14 }} />
               }
-            />
+              component={NextLinkComposed}
+              to={pagesPath.post._id(postId).edit.$url()}
+            >
+              編集
+            </Button>
           </Box>
         )}
         <Paper sx={{ p: 3 }}>
