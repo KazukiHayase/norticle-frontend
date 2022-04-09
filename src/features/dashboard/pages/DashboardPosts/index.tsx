@@ -19,6 +19,7 @@ import { useEffect, useMemo, useState, VFC } from 'react';
 import { ConfirmModal } from '@/components/uiParts/ConfirmModal';
 import { NextLinkComposed } from '@/components/uiParts/Link';
 import { Pagination } from '@/components/uiParts/Pagination';
+import { useDeletePost } from '@/features/dashboard/graphql/mutations/deletePost';
 import { Post } from '@/graphql/generated/types';
 import { useModal } from '@/hooks/useModal';
 import { pagesPath } from '@/lib/$path';
@@ -50,6 +51,8 @@ export const DashboardPosts: VFC<DashboardPostsProps> = () => {
       offset: 0,
     },
   });
+  const [deletePost] = useDeletePost();
+
   const { posts, totalPage } = useMemo(() => {
     return {
       posts: data?.posts ?? [],
@@ -81,7 +84,8 @@ export const DashboardPosts: VFC<DashboardPostsProps> = () => {
   };
 
   const handleClickDeleteConfirmButton = () => {
-    alert(`selectedPost.id: ${selectedPost.id}`);
+    deletePost(selectedPost.id);
+    confirmModal.close();
   };
 
   const handleChangePage = (page: number) => {
