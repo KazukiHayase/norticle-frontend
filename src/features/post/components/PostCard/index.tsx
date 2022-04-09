@@ -1,6 +1,6 @@
 import { Card, CardActionArea, CardContent, CardHeader } from '@mui/material';
-import { useRouter } from 'next/router';
 
+import { NextLinkComposed } from '@/components/uiParts/Link';
 import { pagesPath } from '@/lib/$path';
 import { fromNow } from '@/services/date';
 
@@ -13,11 +13,12 @@ type PostCardProps = {
 };
 
 export const PostCard: React.VFC<PostCardProps> = ({ post }) => {
-  const router = useRouter();
-
   return (
-    <Card onClick={() => router.push(pagesPath.post._id(post.id).$url())}>
-      <CardActionArea>
+    <Card>
+      <CardActionArea
+        component={NextLinkComposed}
+        to={pagesPath.post._id(post.id).$url()}
+      >
         <CardHeader
           avatar={<Avatar src={post.user.picture} />}
           title={post.user.name}
