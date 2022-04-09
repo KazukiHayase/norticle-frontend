@@ -22,25 +22,29 @@ export const useAddPost = (): AddPostHookResult => {
     refetchQueries: [refetchFetchPostsQuery({ limit: 10, offset: 0 })],
   });
 
-  const addPost: AddPostHookResult[0] = useCallback(async (post) => {
-    setLoading(true);
-    progress.start();
-    try {
-      await addPostMutation({
-        variables: {
-          post,
-        },
-      });
+  const addPost: AddPostHookResult[0] = useCallback(
+    async (post) => {
+      setLoading(true);
+      progress.start();
 
-      router.push(pagesPath.$url());
-      notice('投稿しました', 'success');
-    } catch {
-      notice('投稿に失敗しました', 'error');
-    } finally {
-      setLoading(false);
-      progress.done();
-    }
-  }, []);
+      try {
+        await addPostMutation({
+          variables: {
+            post,
+          },
+        });
+
+        router.push(pagesPath.$url());
+        notice('投稿しました', 'success');
+      } catch {
+        notice('投稿に失敗しました', 'error');
+      } finally {
+        setLoading(false);
+        progress.done();
+      }
+    },
+    [addPostMutation, router, notice],
+  );
 
   return [addPost, { loading }];
 };

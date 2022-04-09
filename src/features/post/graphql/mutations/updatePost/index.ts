@@ -26,6 +26,7 @@ export const useUpdatePost = (): UpdatePostHookResult => {
     async (postId, post) => {
       setLoading(true);
       progress.start();
+
       try {
         await updatePostMutation({
           variables: {
@@ -43,7 +44,7 @@ export const useUpdatePost = (): UpdatePostHookResult => {
         progress.done();
       }
     },
-    [],
+    [updatePostMutation, router, notice],
   );
 
   return [updatePost, { loading }];
