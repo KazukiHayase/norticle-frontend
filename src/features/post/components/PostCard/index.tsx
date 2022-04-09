@@ -1,11 +1,4 @@
-import {
-  Avatar,
-  Card,
-  CardActionArea,
-  CardContent,
-  CardHeader,
-} from '@mui/material';
-import { grey } from '@mui/material/colors';
+import { Card, CardActionArea, CardContent, CardHeader } from '@mui/material';
 import { useRouter } from 'next/router';
 
 import { pagesPath } from '@/lib/$path';
@@ -13,6 +6,7 @@ import { fromNow } from '@/services/date';
 
 import { PostCardFragment } from './generated';
 import { PostContent, PostTitle } from './style';
+import { Avatar } from './style';
 
 type PostCardProps = {
   post: PostCardFragment;
@@ -25,12 +19,7 @@ export const PostCard: React.VFC<PostCardProps> = ({ post }) => {
     <Card onClick={() => router.push(pagesPath.post._id(post.id).$url())}>
       <CardActionArea>
         <CardHeader
-          avatar={
-            <Avatar
-              src={post.user.picture}
-              sx={{ border: 1, borderColor: grey[200] }}
-            />
-          }
+          avatar={<Avatar src={post.user.picture} />}
           title={post.user.name}
           subheader={fromNow(post.createdAt)}
         />
