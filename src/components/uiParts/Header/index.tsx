@@ -1,17 +1,42 @@
 import { useAuth0 } from '@auth0/auth0-react';
-import { AppBar, Box, Button, Container, Toolbar } from '@mui/material';
+import {
+  faNoteSticky,
+  faRightFromBracket,
+} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  AppBar,
+  Box,
+  Button,
+  Container,
+  Divider,
+  Menu,
+  MenuItem,
+  Toolbar,
+  Typography,
+} from '@mui/material';
 import Image from 'next/image';
-import { useRouter } from 'next/router';
-import { VFC } from 'react';
+import { useState, VFC } from 'react';
+import { MouseEvent } from 'react';
 
-import { Link } from '@/components/uiParts/Link';
+import { Link, NextLinkComposed } from '@/components/uiParts/Link';
 import { pagesPath } from '@/lib/$path';
 
 import { Logo } from './style';
+import { Avatar, MenuItemContent } from './style';
 
 export const Header: VFC = () => {
-  const router = useRouter();
-  const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
+  const { user, isAuthenticated, loginWithRedirect, logout } = useAuth0();
+
+  const [anchorEl, setAnchorEl] = useState<HTMLElement | undefined>(undefined);
+
+  const handleClickUserIcon = (event: MouseEvent<HTMLDivElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleCloseMenu = () => {
+    setAnchorEl(undefined);
+  };
 
   return (
     <AppBar position="static" color="transparent" sx={{ boxShadow: 'none' }}>
@@ -26,22 +51,43 @@ export const Header: VFC = () => {
           <Box sx={{ display: 'flex', gap: 2 }}>
             {isAuthenticated ? (
               <>
-                <Button
-                  variant="contained"
-                  color="secondary"
-                  onClick={() => logout()}
-                  sx={{ fontWeight: 'bold' }}
-                >
-                  ログアウト
-                </Button>
+                <Avatar
+                  src={user && user.picture}
+                  onClick={handleClickUserIcon}
+                />
                 <Button
                   variant="contained"
                   color="primary"
-                  onClick={() => router.push(pagesPath.post.add.$url())}
+                  component={NextLinkComposed}
+                  to={pagesPath.post.add.$url()}
                   sx={{ fontWeight: 'bold' }}
                 >
                   投稿する
                 </Button>
+                <Menu
+                  anchorEl={anchorEl}
+                  open={!!anchorEl}
+                  onClose={handleCloseMenu}
+                  disableAutoFocusItem
+                  sx={{ py: 0 }}
+                >
+                  <MenuItem
+                    component={NextLinkComposed}
+                    to={pagesPath.dashboard.$url()}
+                  >
+                    <MenuItemContent>
+                      <FontAwesomeIcon icon={faNoteSticky} />
+                      <Typography fontSize={14}>投稿一覧</Typography>
+                    </MenuItemContent>
+                  </MenuItem>
+                  <Divider />
+                  <MenuItem onClick={() => logout()}>
+                    <MenuItemContent>
+                      <FontAwesomeIcon icon={faRightFromBracket} />
+                      <Typography fontSize={14}>ログアウト</Typography>
+                    </MenuItemContent>
+                  </MenuItem>
+                </Menu>
               </>
             ) : (
               <Button
