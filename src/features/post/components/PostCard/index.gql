@@ -4,6 +4,8 @@ fragment PostCard on post {
   content
   createdAt
   user {
+    id
     name
+    picture
   }
 }

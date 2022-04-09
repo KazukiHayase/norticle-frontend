@@ -5,6 +5,7 @@ import {
   CardContent,
   CardHeader,
 } from '@mui/material';
+import { grey } from '@mui/material/colors';
 import { useRouter } from 'next/router';
 
 import { pagesPath } from '@/lib/$path';
@@ -24,7 +25,12 @@ export const PostCard: React.VFC<PostCardProps> = ({ post }) => {
     <Card onClick={() => router.push(pagesPath.post._id(post.id).$url())}>
       <CardActionArea>
         <CardHeader
-          avatar={<Avatar />}
+          avatar={
+            <Avatar
+              src={post.user.picture}
+              sx={{ border: 1, borderColor: grey[200] }}
+            />
+          }
           title={post.user.name}
           subheader={fromNow(post.createdAt)}
         />

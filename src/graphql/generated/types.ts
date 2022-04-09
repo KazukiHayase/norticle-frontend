@@ -632,6 +632,7 @@ export type User = {
   email: Scalars['String'];
   id: Scalars['String'];
   name: Scalars['String'];
+  picture: Scalars['String'];
   /** An array relationship */
   posts: Array<Post>;
   /** An aggregate relationship */
@@ -687,6 +688,7 @@ export type UserBoolExp = {
   email?: Maybe<StringComparisonExp>;
   id?: Maybe<StringComparisonExp>;
   name?: Maybe<StringComparisonExp>;
+  picture?: Maybe<StringComparisonExp>;
   posts?: Maybe<PostBoolExp>;
   updatedAt?: Maybe<TimestamptzComparisonExp>;
 };
@@ -704,6 +706,7 @@ export type UserInsertInput = {
   email?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
+  picture?: Maybe<Scalars['String']>;
   posts?: Maybe<PostArrRelInsertInput>;
   updatedAt?: Maybe<Scalars['timestamptz']>;
 };
@@ -715,6 +718,7 @@ export type UserMaxFields = {
   email: Maybe<Scalars['String']>;
   id: Maybe<Scalars['String']>;
   name: Maybe<Scalars['String']>;
+  picture: Maybe<Scalars['String']>;
   updatedAt: Maybe<Scalars['timestamptz']>;
 };
 
@@ -725,6 +729,7 @@ export type UserMinFields = {
   email: Maybe<Scalars['String']>;
   id: Maybe<Scalars['String']>;
   name: Maybe<Scalars['String']>;
+  picture: Maybe<Scalars['String']>;
   updatedAt: Maybe<Scalars['timestamptz']>;
 };
 
@@ -757,6 +762,7 @@ export type UserOrderBy = {
   email?: Maybe<OrderBy>;
   id?: Maybe<OrderBy>;
   name?: Maybe<OrderBy>;
+  picture?: Maybe<OrderBy>;
   posts_aggregate?: Maybe<PostAggregateOrderBy>;
   updatedAt?: Maybe<OrderBy>;
 };
@@ -777,6 +783,8 @@ export const UserSelectColumn = {
   /** column name */
   Name: 'name',
   /** column name */
+  Picture: 'picture',
+  /** column name */
   UpdatedAt: 'updatedAt',
 } as const;
 
@@ -788,6 +796,7 @@ export type UserSetInput = {
   email?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
+  picture?: Maybe<Scalars['String']>;
   updatedAt?: Maybe<Scalars['timestamptz']>;
 };
 
@@ -801,6 +810,8 @@ export const UserUpdateColumn = {
   Id: 'id',
   /** column name */
   Name: 'name',
+  /** column name */
+  Picture: 'picture',
   /** column name */
   UpdatedAt: 'updatedAt',
 } as const;
