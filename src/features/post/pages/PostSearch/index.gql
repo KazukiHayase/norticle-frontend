@@ -1,0 +1,16 @@
+# TODO: いいね数が実装されたらいいね順で取得・ソート機能実装
+query SearchPosts($where: post_bool_exp!, $limit: Int!, $offset: Int!) {
+  posts(
+    where: $where
+    limit: $limit
+    offset: $offset
+    order_by: { createdAt: desc }
+  ) {
+    ...PostCard
+  }
+  postsAggregate(where: $where) {
+    aggregate {
+      count
+    }
+  }
+}
