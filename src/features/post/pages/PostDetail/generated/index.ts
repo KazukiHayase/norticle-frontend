@@ -12,7 +12,12 @@ export type FetchPostQuery = { __typename?: 'query_root' } & {
     { __typename?: 'post' } & Pick<
       Types.Post,
       'id' | 'title' | 'description' | 'content' | 'createdAt' | 'updatedAt'
-    > & { user: { __typename?: 'user' } & Pick<Types.User, 'id' | 'name'> }
+    > & {
+        user: { __typename?: 'user' } & Pick<
+          Types.User,
+          'id' | 'name' | 'picture'
+        >;
+      }
   >;
 };
 
@@ -28,6 +33,7 @@ export const FetchPostDocument = gql`
       user {
         id
         name
+        picture
       }
     }
   }
