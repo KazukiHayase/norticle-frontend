@@ -1,20 +1,21 @@
 import { useAuth0 } from '@auth0/auth0-react';
-import { faPen } from '@fortawesome/free-solid-svg-icons';
+import { faCopy,faPen } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Avatar, Box, Button, Paper, Typography } from '@mui/material';
+import { Avatar, Box, Button, Paper, Tooltip, Typography } from '@mui/material';
 import { Container } from '@mui/material';
 import { blueGrey, grey } from '@mui/material/colors';
 import { useRouter } from 'next/router';
 import { useEffect, useMemo, VFC } from 'react';
 
 import { NextLinkComposed } from '@/components/uiParts/Link';
+import { useNotifier } from '@/hooks/useNotifier';
 import { pagesPath } from '@/lib/$path';
 import { formatDate } from '@/services/date';
 import { progress } from '@/services/progress';
 import { Section } from '@/styles';
 
 import { useFetchPostQuery } from './generated';
-import { UserInfo } from './style';
+import { CopyIconButton,Sidebar, UserInfo } from './style';
 
 type PostDetailProps = {
   postId: number;
@@ -23,6 +24,8 @@ type PostDetailProps = {
 export const PostDetail: VFC<PostDetailProps> = ({ postId }) => {
   const router = useRouter();
   const { user } = useAuth0();
+  const { notice } = useNotifier();
+
   const { data, loading } = useFetchPostQuery({
     variables: { postId },
     onCompleted: (data) => {
@@ -35,6 +38,12 @@ export const PostDetail: VFC<PostDetailProps> = ({ postId }) => {
   useEffect(() => {
     loading ? progress.start() : progress.done();
   }, [loading]);
+
+  const handleClickCopyIcon = () => {
+    navigator.clipboard
+      .writeText(post?.content ?? '')
+      .then(() => notice('コピーしました', 'success'));
+  };
 
   if (loading || !post) return <></>;
 
@@ -57,7 +66,14 @@ export const PostDetail: VFC<PostDetailProps> = ({ postId }) => {
             </Button>
           </Box>
         )}
-        <Paper sx={{ p: 3 }}>
+        <Paper sx={{ p: 3, position: 'relative' }}>
+          <Sidebar>
+            <Tooltip title="テンプレートをコピー" placement="top" arrow>
+              <CopyIconButton onClick={handleClickCopyIcon}>
+                <FontAwesomeIcon icon={faCopy} fontSize={20} />
+              </CopyIconButton>
+            </Tooltip>
+          </Sidebar>
           <Box sx={{ pb: 3 }}>
             <UserInfo>
               <Avatar sx={{ width: 25, height: 25 }} />
