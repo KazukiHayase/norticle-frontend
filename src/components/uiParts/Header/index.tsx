@@ -1,5 +1,6 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import {
+  faMagnifyingGlass,
   faNoteSticky,
   faRightFromBracket,
 } from '@fortawesome/free-solid-svg-icons';
@@ -10,6 +11,7 @@ import {
   Button,
   Container,
   Divider,
+  IconButton,
   Menu,
   MenuItem,
   Toolbar,
@@ -48,9 +50,15 @@ export const Header: VFC = () => {
             </Logo>
           </Link>
           <Box sx={{ flexGrow: 1 }} />
-          <Box sx={{ display: 'flex', gap: 2 }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
             {isAuthenticated ? (
               <>
+                <IconButton
+                  component={NextLinkComposed}
+                  to={pagesPath.search.$url()}
+                >
+                  <FontAwesomeIcon icon={faMagnifyingGlass} fontSize={20} />
+                </IconButton>
                 <Avatar
                   src={user && user.picture}
                   onClick={handleClickUserIcon}

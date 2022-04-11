@@ -45,6 +45,12 @@ export const pagesPath = {
       }),
     },
   },
+  search: {
+    $url: (url?: { hash?: string }) => ({
+      pathname: '/search' as const,
+      hash: url?.hash,
+    }),
+  },
   $url: (url?: { hash?: string }) => ({
     pathname: '/' as const,
     hash: url?.hash,
