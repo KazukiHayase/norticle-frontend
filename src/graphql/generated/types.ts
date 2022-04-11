@@ -69,6 +69,14 @@ export type MutationRoot = {
   addPost: Maybe<Post>;
   /** insert data into the table: "posts" */
   addPosts: Maybe<PostMutationResponse>;
+  /** insert a single row into the table: "tags" */
+  addTag: Maybe<Tag>;
+  /** insert a single row into the table: "taggings" */
+  addTagging: Maybe<Tagging>;
+  /** insert data into the table: "taggings" */
+  addTaggings: Maybe<TaggingMutationResponse>;
+  /** insert data into the table: "tags" */
+  addTags: Maybe<TagMutationResponse>;
   /** insert a single row into the table: "users" */
   addUser: Maybe<User>;
   /** insert data into the table: "users" */
@@ -77,6 +85,14 @@ export type MutationRoot = {
   deletePost: Maybe<Post>;
   /** delete data from the table: "posts" */
   deletePosts: Maybe<PostMutationResponse>;
+  /** delete single row from the table: "tags" */
+  deleteTag: Maybe<Tag>;
+  /** delete single row from the table: "taggings" */
+  deleteTagging: Maybe<Tagging>;
+  /** delete data from the table: "taggings" */
+  deleteTaggings: Maybe<TaggingMutationResponse>;
+  /** delete data from the table: "tags" */
+  deleteTags: Maybe<TagMutationResponse>;
   /** delete single row from the table: "users" */
   deleteUser: Maybe<User>;
   /** delete data from the table: "users" */
@@ -85,6 +101,14 @@ export type MutationRoot = {
   updatePost: Maybe<Post>;
   /** update data of the table: "posts" */
   updatePosts: Maybe<PostMutationResponse>;
+  /** update single row of the table: "tags" */
+  updateTag: Maybe<Tag>;
+  /** update single row of the table: "taggings" */
+  updateTagging: Maybe<Tagging>;
+  /** update data of the table: "taggings" */
+  updateTaggings: Maybe<TaggingMutationResponse>;
+  /** update data of the table: "tags" */
+  updateTags: Maybe<TagMutationResponse>;
   /** update single row of the table: "users" */
   updateUser: Maybe<User>;
   /** update data of the table: "users" */
@@ -101,6 +125,30 @@ export type MutationRootAddPostArgs = {
 export type MutationRootAddPostsArgs = {
   objects: Array<PostInsertInput>;
   on_conflict: Maybe<PostOnConflict>;
+};
+
+/** mutation root */
+export type MutationRootAddTagArgs = {
+  object: TagInsertInput;
+  on_conflict: Maybe<TagOnConflict>;
+};
+
+/** mutation root */
+export type MutationRootAddTaggingArgs = {
+  object: TaggingInsertInput;
+  on_conflict: Maybe<TaggingOnConflict>;
+};
+
+/** mutation root */
+export type MutationRootAddTaggingsArgs = {
+  objects: Array<TaggingInsertInput>;
+  on_conflict: Maybe<TaggingOnConflict>;
+};
+
+/** mutation root */
+export type MutationRootAddTagsArgs = {
+  objects: Array<TagInsertInput>;
+  on_conflict: Maybe<TagOnConflict>;
 };
 
 /** mutation root */
@@ -126,6 +174,26 @@ export type MutationRootDeletePostsArgs = {
 };
 
 /** mutation root */
+export type MutationRootDeleteTagArgs = {
+  id: Scalars['Int'];
+};
+
+/** mutation root */
+export type MutationRootDeleteTaggingArgs = {
+  id: Scalars['Int'];
+};
+
+/** mutation root */
+export type MutationRootDeleteTaggingsArgs = {
+  where: TaggingBoolExp;
+};
+
+/** mutation root */
+export type MutationRootDeleteTagsArgs = {
+  where: TagBoolExp;
+};
+
+/** mutation root */
 export type MutationRootDeleteUserArgs = {
   id: Scalars['String'];
 };
@@ -147,6 +215,34 @@ export type MutationRootUpdatePostsArgs = {
   _inc: Maybe<PostIncInput>;
   _set: Maybe<PostSetInput>;
   where: PostBoolExp;
+};
+
+/** mutation root */
+export type MutationRootUpdateTagArgs = {
+  _inc: Maybe<TagIncInput>;
+  _set: Maybe<TagSetInput>;
+  pk_columns: TagPkColumnsInput;
+};
+
+/** mutation root */
+export type MutationRootUpdateTaggingArgs = {
+  _inc: Maybe<TaggingIncInput>;
+  _set: Maybe<TaggingSetInput>;
+  pk_columns: TaggingPkColumnsInput;
+};
+
+/** mutation root */
+export type MutationRootUpdateTaggingsArgs = {
+  _inc: Maybe<TaggingIncInput>;
+  _set: Maybe<TaggingSetInput>;
+  where: TaggingBoolExp;
+};
+
+/** mutation root */
+export type MutationRootUpdateTagsArgs = {
+  _inc: Maybe<TagIncInput>;
+  _set: Maybe<TagSetInput>;
+  where: TagBoolExp;
 };
 
 /** mutation root */
@@ -185,11 +281,33 @@ export type Post = {
   createdAt: Scalars['timestamptz'];
   description: Scalars['String'];
   id: Scalars['Int'];
+  /** fetch data from the table: "taggings" */
+  taggings: Array<Tagging>;
+  /** An aggregate relationship */
+  taggings_aggregate: TaggingAggregate;
   title: Scalars['String'];
   updatedAt: Scalars['timestamptz'];
   /** An object relationship */
   user: User;
   userId: Scalars['String'];
+};
+
+/** テンプレートの投稿 */
+export type PostTaggingsArgs = {
+  distinct_on: Maybe<Array<TaggingSelectColumn>>;
+  limit: Maybe<Scalars['Int']>;
+  offset: Maybe<Scalars['Int']>;
+  order_by: Maybe<Array<TaggingOrderBy>>;
+  where: Maybe<TaggingBoolExp>;
+};
+
+/** テンプレートの投稿 */
+export type PostTaggingsAggregateArgs = {
+  distinct_on: Maybe<Array<TaggingSelectColumn>>;
+  limit: Maybe<Scalars['Int']>;
+  offset: Maybe<Scalars['Int']>;
+  order_by: Maybe<Array<TaggingOrderBy>>;
+  where: Maybe<TaggingBoolExp>;
 };
 
 /** aggregated selection of "posts" */
@@ -263,6 +381,7 @@ export type PostBoolExp = {
   createdAt?: Maybe<TimestamptzComparisonExp>;
   description?: Maybe<StringComparisonExp>;
   id?: Maybe<IntComparisonExp>;
+  taggings?: Maybe<TaggingBoolExp>;
   title?: Maybe<StringComparisonExp>;
   updatedAt?: Maybe<TimestamptzComparisonExp>;
   user?: Maybe<UserBoolExp>;
@@ -287,6 +406,7 @@ export type PostInsertInput = {
   createdAt?: Maybe<Scalars['timestamptz']>;
   description?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['Int']>;
+  taggings?: Maybe<TaggingArrRelInsertInput>;
   title?: Maybe<Scalars['String']>;
   updatedAt?: Maybe<Scalars['timestamptz']>;
   user?: Maybe<UserObjRelInsertInput>;
@@ -348,6 +468,13 @@ export type PostMutationResponse = {
   returning: Array<Post>;
 };
 
+/** input type for inserting object relation for remote table "posts" */
+export type PostObjRelInsertInput = {
+  data: PostInsertInput;
+  /** upsert condition */
+  on_conflict?: Maybe<PostOnConflict>;
+};
+
 /** on_conflict condition type for table "posts" */
 export type PostOnConflict = {
   constraint: PostConstraint;
@@ -361,6 +488,7 @@ export type PostOrderBy = {
   createdAt?: Maybe<OrderBy>;
   description?: Maybe<OrderBy>;
   id?: Maybe<OrderBy>;
+  taggings_aggregate?: Maybe<TaggingAggregateOrderBy>;
   title?: Maybe<OrderBy>;
   updatedAt?: Maybe<OrderBy>;
   user?: Maybe<UserOrderBy>;
@@ -508,6 +636,18 @@ export type QueryRoot = {
   posts: Array<Post>;
   /** fetch aggregated fields from the table: "posts" */
   postsAggregate: PostAggregate;
+  /** fetch data from the table: "tags" using primary key columns */
+  tag: Maybe<Tag>;
+  /** fetch data from the table: "taggings" using primary key columns */
+  tagging: Maybe<Tagging>;
+  /** fetch data from the table: "taggings" */
+  taggings: Array<Tagging>;
+  /** fetch aggregated fields from the table: "taggings" */
+  taggingsAggregate: TaggingAggregate;
+  /** fetch data from the table: "tags" */
+  tags: Array<Tag>;
+  /** fetch aggregated fields from the table: "tags" */
+  tagsAggregate: TagAggregate;
   /** fetch data from the table: "users" using primary key columns */
   user: Maybe<User>;
   /** fetch data from the table: "users" */
@@ -534,6 +674,46 @@ export type QueryRootPostsAggregateArgs = {
   offset: Maybe<Scalars['Int']>;
   order_by: Maybe<Array<PostOrderBy>>;
   where: Maybe<PostBoolExp>;
+};
+
+export type QueryRootTagArgs = {
+  id: Scalars['Int'];
+};
+
+export type QueryRootTaggingArgs = {
+  id: Scalars['Int'];
+};
+
+export type QueryRootTaggingsArgs = {
+  distinct_on: Maybe<Array<TaggingSelectColumn>>;
+  limit: Maybe<Scalars['Int']>;
+  offset: Maybe<Scalars['Int']>;
+  order_by: Maybe<Array<TaggingOrderBy>>;
+  where: Maybe<TaggingBoolExp>;
+};
+
+export type QueryRootTaggingsAggregateArgs = {
+  distinct_on: Maybe<Array<TaggingSelectColumn>>;
+  limit: Maybe<Scalars['Int']>;
+  offset: Maybe<Scalars['Int']>;
+  order_by: Maybe<Array<TaggingOrderBy>>;
+  where: Maybe<TaggingBoolExp>;
+};
+
+export type QueryRootTagsArgs = {
+  distinct_on: Maybe<Array<TagSelectColumn>>;
+  limit: Maybe<Scalars['Int']>;
+  offset: Maybe<Scalars['Int']>;
+  order_by: Maybe<Array<TagOrderBy>>;
+  where: Maybe<TagBoolExp>;
+};
+
+export type QueryRootTagsAggregateArgs = {
+  distinct_on: Maybe<Array<TagSelectColumn>>;
+  limit: Maybe<Scalars['Int']>;
+  offset: Maybe<Scalars['Int']>;
+  order_by: Maybe<Array<TagOrderBy>>;
+  where: Maybe<TagBoolExp>;
 };
 
 export type QueryRootUserArgs = {
@@ -564,6 +744,18 @@ export type SubscriptionRoot = {
   posts: Array<Post>;
   /** fetch aggregated fields from the table: "posts" */
   postsAggregate: PostAggregate;
+  /** fetch data from the table: "tags" using primary key columns */
+  tag: Maybe<Tag>;
+  /** fetch data from the table: "taggings" using primary key columns */
+  tagging: Maybe<Tagging>;
+  /** fetch data from the table: "taggings" */
+  taggings: Array<Tagging>;
+  /** fetch aggregated fields from the table: "taggings" */
+  taggingsAggregate: TaggingAggregate;
+  /** fetch data from the table: "tags" */
+  tags: Array<Tag>;
+  /** fetch aggregated fields from the table: "tags" */
+  tagsAggregate: TagAggregate;
   /** fetch data from the table: "users" using primary key columns */
   user: Maybe<User>;
   /** fetch data from the table: "users" */
@@ -592,6 +784,46 @@ export type SubscriptionRootPostsAggregateArgs = {
   where: Maybe<PostBoolExp>;
 };
 
+export type SubscriptionRootTagArgs = {
+  id: Scalars['Int'];
+};
+
+export type SubscriptionRootTaggingArgs = {
+  id: Scalars['Int'];
+};
+
+export type SubscriptionRootTaggingsArgs = {
+  distinct_on: Maybe<Array<TaggingSelectColumn>>;
+  limit: Maybe<Scalars['Int']>;
+  offset: Maybe<Scalars['Int']>;
+  order_by: Maybe<Array<TaggingOrderBy>>;
+  where: Maybe<TaggingBoolExp>;
+};
+
+export type SubscriptionRootTaggingsAggregateArgs = {
+  distinct_on: Maybe<Array<TaggingSelectColumn>>;
+  limit: Maybe<Scalars['Int']>;
+  offset: Maybe<Scalars['Int']>;
+  order_by: Maybe<Array<TaggingOrderBy>>;
+  where: Maybe<TaggingBoolExp>;
+};
+
+export type SubscriptionRootTagsArgs = {
+  distinct_on: Maybe<Array<TagSelectColumn>>;
+  limit: Maybe<Scalars['Int']>;
+  offset: Maybe<Scalars['Int']>;
+  order_by: Maybe<Array<TagOrderBy>>;
+  where: Maybe<TagBoolExp>;
+};
+
+export type SubscriptionRootTagsAggregateArgs = {
+  distinct_on: Maybe<Array<TagSelectColumn>>;
+  limit: Maybe<Scalars['Int']>;
+  offset: Maybe<Scalars['Int']>;
+  order_by: Maybe<Array<TagOrderBy>>;
+  where: Maybe<TagBoolExp>;
+};
+
 export type SubscriptionRootUserArgs = {
   id: Scalars['String'];
 };
@@ -610,6 +842,578 @@ export type SubscriptionRootUsersAggregateArgs = {
   offset: Maybe<Scalars['Int']>;
   order_by: Maybe<Array<UserOrderBy>>;
   where: Maybe<UserBoolExp>;
+};
+
+/** タグ */
+export type Tag = {
+  __typename?: 'tag';
+  createdAt: Scalars['timestamptz'];
+  id: Scalars['Int'];
+  name: Scalars['String'];
+  /** fetch data from the table: "taggings" */
+  taggings: Array<Tagging>;
+  /** An aggregate relationship */
+  taggings_aggregate: TaggingAggregate;
+  updatedAt: Scalars['timestamptz'];
+};
+
+/** タグ */
+export type TagTaggingsArgs = {
+  distinct_on: Maybe<Array<TaggingSelectColumn>>;
+  limit: Maybe<Scalars['Int']>;
+  offset: Maybe<Scalars['Int']>;
+  order_by: Maybe<Array<TaggingOrderBy>>;
+  where: Maybe<TaggingBoolExp>;
+};
+
+/** タグ */
+export type TagTaggingsAggregateArgs = {
+  distinct_on: Maybe<Array<TaggingSelectColumn>>;
+  limit: Maybe<Scalars['Int']>;
+  offset: Maybe<Scalars['Int']>;
+  order_by: Maybe<Array<TaggingOrderBy>>;
+  where: Maybe<TaggingBoolExp>;
+};
+
+/** aggregated selection of "tags" */
+export type TagAggregate = {
+  __typename?: 'tag_aggregate';
+  aggregate: Maybe<TagAggregateFields>;
+  nodes: Array<Tag>;
+};
+
+/** aggregate fields of "tags" */
+export type TagAggregateFields = {
+  __typename?: 'tag_aggregate_fields';
+  avg: Maybe<TagAvgFields>;
+  count: Scalars['Int'];
+  max: Maybe<TagMaxFields>;
+  min: Maybe<TagMinFields>;
+  stddev: Maybe<TagStddevFields>;
+  stddev_pop: Maybe<TagStddevPopFields>;
+  stddev_samp: Maybe<TagStddevSampFields>;
+  sum: Maybe<TagSumFields>;
+  var_pop: Maybe<TagVarPopFields>;
+  var_samp: Maybe<TagVarSampFields>;
+  variance: Maybe<TagVarianceFields>;
+};
+
+/** aggregate fields of "tags" */
+export type TagAggregateFieldsCountArgs = {
+  columns: Maybe<Array<TagSelectColumn>>;
+  distinct: Maybe<Scalars['Boolean']>;
+};
+
+/** aggregate avg on columns */
+export type TagAvgFields = {
+  __typename?: 'tag_avg_fields';
+  id: Maybe<Scalars['Float']>;
+};
+
+/** Boolean expression to filter rows from the table "tags". All fields are combined with a logical 'AND'. */
+export type TagBoolExp = {
+  _and?: Maybe<Array<TagBoolExp>>;
+  _not?: Maybe<TagBoolExp>;
+  _or?: Maybe<Array<TagBoolExp>>;
+  createdAt?: Maybe<TimestamptzComparisonExp>;
+  id?: Maybe<IntComparisonExp>;
+  name?: Maybe<StringComparisonExp>;
+  taggings?: Maybe<TaggingBoolExp>;
+  updatedAt?: Maybe<TimestamptzComparisonExp>;
+};
+
+/** unique or primary key constraints on table "tags" */
+export const TagConstraint = {
+  /** unique or primary key constraint */
+  TagsNameKey: 'tags_name_key',
+  /** unique or primary key constraint */
+  TagsPkey: 'tags_pkey',
+} as const;
+
+export type TagConstraint = typeof TagConstraint[keyof typeof TagConstraint];
+/** input type for incrementing numeric columns in table "tags" */
+export type TagIncInput = {
+  id?: Maybe<Scalars['Int']>;
+};
+
+/** input type for inserting data into table "tags" */
+export type TagInsertInput = {
+  createdAt?: Maybe<Scalars['timestamptz']>;
+  id?: Maybe<Scalars['Int']>;
+  name?: Maybe<Scalars['String']>;
+  taggings?: Maybe<TaggingArrRelInsertInput>;
+  updatedAt?: Maybe<Scalars['timestamptz']>;
+};
+
+/** aggregate max on columns */
+export type TagMaxFields = {
+  __typename?: 'tag_max_fields';
+  createdAt: Maybe<Scalars['timestamptz']>;
+  id: Maybe<Scalars['Int']>;
+  name: Maybe<Scalars['String']>;
+  updatedAt: Maybe<Scalars['timestamptz']>;
+};
+
+/** aggregate min on columns */
+export type TagMinFields = {
+  __typename?: 'tag_min_fields';
+  createdAt: Maybe<Scalars['timestamptz']>;
+  id: Maybe<Scalars['Int']>;
+  name: Maybe<Scalars['String']>;
+  updatedAt: Maybe<Scalars['timestamptz']>;
+};
+
+/** response of any mutation on the table "tags" */
+export type TagMutationResponse = {
+  __typename?: 'tag_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Tag>;
+};
+
+/** input type for inserting object relation for remote table "tags" */
+export type TagObjRelInsertInput = {
+  data: TagInsertInput;
+  /** upsert condition */
+  on_conflict?: Maybe<TagOnConflict>;
+};
+
+/** on_conflict condition type for table "tags" */
+export type TagOnConflict = {
+  constraint: TagConstraint;
+  update_columns: Array<TagUpdateColumn>;
+  where?: Maybe<TagBoolExp>;
+};
+
+/** Ordering options when selecting data from "tags". */
+export type TagOrderBy = {
+  createdAt?: Maybe<OrderBy>;
+  id?: Maybe<OrderBy>;
+  name?: Maybe<OrderBy>;
+  taggings_aggregate?: Maybe<TaggingAggregateOrderBy>;
+  updatedAt?: Maybe<OrderBy>;
+};
+
+/** primary key columns input for table: tag */
+export type TagPkColumnsInput = {
+  id: Scalars['Int'];
+};
+
+/** select columns of table "tags" */
+export const TagSelectColumn = {
+  /** column name */
+  CreatedAt: 'createdAt',
+  /** column name */
+  Id: 'id',
+  /** column name */
+  Name: 'name',
+  /** column name */
+  UpdatedAt: 'updatedAt',
+} as const;
+
+export type TagSelectColumn =
+  typeof TagSelectColumn[keyof typeof TagSelectColumn];
+/** input type for updating data in table "tags" */
+export type TagSetInput = {
+  createdAt?: Maybe<Scalars['timestamptz']>;
+  id?: Maybe<Scalars['Int']>;
+  name?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['timestamptz']>;
+};
+
+/** aggregate stddev on columns */
+export type TagStddevFields = {
+  __typename?: 'tag_stddev_fields';
+  id: Maybe<Scalars['Float']>;
+};
+
+/** aggregate stddev_pop on columns */
+export type TagStddevPopFields = {
+  __typename?: 'tag_stddev_pop_fields';
+  id: Maybe<Scalars['Float']>;
+};
+
+/** aggregate stddev_samp on columns */
+export type TagStddevSampFields = {
+  __typename?: 'tag_stddev_samp_fields';
+  id: Maybe<Scalars['Float']>;
+};
+
+/** aggregate sum on columns */
+export type TagSumFields = {
+  __typename?: 'tag_sum_fields';
+  id: Maybe<Scalars['Int']>;
+};
+
+/** update columns of table "tags" */
+export const TagUpdateColumn = {
+  /** column name */
+  CreatedAt: 'createdAt',
+  /** column name */
+  Id: 'id',
+  /** column name */
+  Name: 'name',
+  /** column name */
+  UpdatedAt: 'updatedAt',
+} as const;
+
+export type TagUpdateColumn =
+  typeof TagUpdateColumn[keyof typeof TagUpdateColumn];
+/** aggregate var_pop on columns */
+export type TagVarPopFields = {
+  __typename?: 'tag_var_pop_fields';
+  id: Maybe<Scalars['Float']>;
+};
+
+/** aggregate var_samp on columns */
+export type TagVarSampFields = {
+  __typename?: 'tag_var_samp_fields';
+  id: Maybe<Scalars['Float']>;
+};
+
+/** aggregate variance on columns */
+export type TagVarianceFields = {
+  __typename?: 'tag_variance_fields';
+  id: Maybe<Scalars['Float']>;
+};
+
+/** タグ付け */
+export type Tagging = {
+  __typename?: 'tagging';
+  createdAt: Scalars['timestamptz'];
+  id: Scalars['Int'];
+  /** An object relationship */
+  post: Post;
+  post_id: Scalars['Int'];
+  /** An object relationship */
+  tag: Tag;
+  tag_id: Scalars['Int'];
+  updatedAt: Scalars['timestamptz'];
+};
+
+/** aggregated selection of "taggings" */
+export type TaggingAggregate = {
+  __typename?: 'tagging_aggregate';
+  aggregate: Maybe<TaggingAggregateFields>;
+  nodes: Array<Tagging>;
+};
+
+/** aggregate fields of "taggings" */
+export type TaggingAggregateFields = {
+  __typename?: 'tagging_aggregate_fields';
+  avg: Maybe<TaggingAvgFields>;
+  count: Scalars['Int'];
+  max: Maybe<TaggingMaxFields>;
+  min: Maybe<TaggingMinFields>;
+  stddev: Maybe<TaggingStddevFields>;
+  stddev_pop: Maybe<TaggingStddevPopFields>;
+  stddev_samp: Maybe<TaggingStddevSampFields>;
+  sum: Maybe<TaggingSumFields>;
+  var_pop: Maybe<TaggingVarPopFields>;
+  var_samp: Maybe<TaggingVarSampFields>;
+  variance: Maybe<TaggingVarianceFields>;
+};
+
+/** aggregate fields of "taggings" */
+export type TaggingAggregateFieldsCountArgs = {
+  columns: Maybe<Array<TaggingSelectColumn>>;
+  distinct: Maybe<Scalars['Boolean']>;
+};
+
+/** order by aggregate values of table "taggings" */
+export type TaggingAggregateOrderBy = {
+  avg?: Maybe<TaggingAvgOrderBy>;
+  count?: Maybe<OrderBy>;
+  max?: Maybe<TaggingMaxOrderBy>;
+  min?: Maybe<TaggingMinOrderBy>;
+  stddev?: Maybe<TaggingStddevOrderBy>;
+  stddev_pop?: Maybe<TaggingStddevPopOrderBy>;
+  stddev_samp?: Maybe<TaggingStddevSampOrderBy>;
+  sum?: Maybe<TaggingSumOrderBy>;
+  var_pop?: Maybe<TaggingVarPopOrderBy>;
+  var_samp?: Maybe<TaggingVarSampOrderBy>;
+  variance?: Maybe<TaggingVarianceOrderBy>;
+};
+
+/** input type for inserting array relation for remote table "taggings" */
+export type TaggingArrRelInsertInput = {
+  data: Array<TaggingInsertInput>;
+  /** upsert condition */
+  on_conflict?: Maybe<TaggingOnConflict>;
+};
+
+/** aggregate avg on columns */
+export type TaggingAvgFields = {
+  __typename?: 'tagging_avg_fields';
+  id: Maybe<Scalars['Float']>;
+  post_id: Maybe<Scalars['Float']>;
+  tag_id: Maybe<Scalars['Float']>;
+};
+
+/** order by avg() on columns of table "taggings" */
+export type TaggingAvgOrderBy = {
+  id?: Maybe<OrderBy>;
+  post_id?: Maybe<OrderBy>;
+  tag_id?: Maybe<OrderBy>;
+};
+
+/** Boolean expression to filter rows from the table "taggings". All fields are combined with a logical 'AND'. */
+export type TaggingBoolExp = {
+  _and?: Maybe<Array<TaggingBoolExp>>;
+  _not?: Maybe<TaggingBoolExp>;
+  _or?: Maybe<Array<TaggingBoolExp>>;
+  createdAt?: Maybe<TimestamptzComparisonExp>;
+  id?: Maybe<IntComparisonExp>;
+  post?: Maybe<PostBoolExp>;
+  post_id?: Maybe<IntComparisonExp>;
+  tag?: Maybe<TagBoolExp>;
+  tag_id?: Maybe<IntComparisonExp>;
+  updatedAt?: Maybe<TimestamptzComparisonExp>;
+};
+
+/** unique or primary key constraints on table "taggings" */
+export const TaggingConstraint = {
+  /** unique or primary key constraint */
+  TaggingsPkey: 'taggings_pkey',
+  /** unique or primary key constraint */
+  TaggingsPostIdTagIdKey: 'taggings_post_id_tag_id_key',
+} as const;
+
+export type TaggingConstraint =
+  typeof TaggingConstraint[keyof typeof TaggingConstraint];
+/** input type for incrementing numeric columns in table "taggings" */
+export type TaggingIncInput = {
+  id?: Maybe<Scalars['Int']>;
+  post_id?: Maybe<Scalars['Int']>;
+  tag_id?: Maybe<Scalars['Int']>;
+};
+
+/** input type for inserting data into table "taggings" */
+export type TaggingInsertInput = {
+  createdAt?: Maybe<Scalars['timestamptz']>;
+  id?: Maybe<Scalars['Int']>;
+  post?: Maybe<PostObjRelInsertInput>;
+  post_id?: Maybe<Scalars['Int']>;
+  tag?: Maybe<TagObjRelInsertInput>;
+  tag_id?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['timestamptz']>;
+};
+
+/** aggregate max on columns */
+export type TaggingMaxFields = {
+  __typename?: 'tagging_max_fields';
+  createdAt: Maybe<Scalars['timestamptz']>;
+  id: Maybe<Scalars['Int']>;
+  post_id: Maybe<Scalars['Int']>;
+  tag_id: Maybe<Scalars['Int']>;
+  updatedAt: Maybe<Scalars['timestamptz']>;
+};
+
+/** order by max() on columns of table "taggings" */
+export type TaggingMaxOrderBy = {
+  createdAt?: Maybe<OrderBy>;
+  id?: Maybe<OrderBy>;
+  post_id?: Maybe<OrderBy>;
+  tag_id?: Maybe<OrderBy>;
+  updatedAt?: Maybe<OrderBy>;
+};
+
+/** aggregate min on columns */
+export type TaggingMinFields = {
+  __typename?: 'tagging_min_fields';
+  createdAt: Maybe<Scalars['timestamptz']>;
+  id: Maybe<Scalars['Int']>;
+  post_id: Maybe<Scalars['Int']>;
+  tag_id: Maybe<Scalars['Int']>;
+  updatedAt: Maybe<Scalars['timestamptz']>;
+};
+
+/** order by min() on columns of table "taggings" */
+export type TaggingMinOrderBy = {
+  createdAt?: Maybe<OrderBy>;
+  id?: Maybe<OrderBy>;
+  post_id?: Maybe<OrderBy>;
+  tag_id?: Maybe<OrderBy>;
+  updatedAt?: Maybe<OrderBy>;
+};
+
+/** response of any mutation on the table "taggings" */
+export type TaggingMutationResponse = {
+  __typename?: 'tagging_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Tagging>;
+};
+
+/** on_conflict condition type for table "taggings" */
+export type TaggingOnConflict = {
+  constraint: TaggingConstraint;
+  update_columns: Array<TaggingUpdateColumn>;
+  where?: Maybe<TaggingBoolExp>;
+};
+
+/** Ordering options when selecting data from "taggings". */
+export type TaggingOrderBy = {
+  createdAt?: Maybe<OrderBy>;
+  id?: Maybe<OrderBy>;
+  post?: Maybe<PostOrderBy>;
+  post_id?: Maybe<OrderBy>;
+  tag?: Maybe<TagOrderBy>;
+  tag_id?: Maybe<OrderBy>;
+  updatedAt?: Maybe<OrderBy>;
+};
+
+/** primary key columns input for table: tagging */
+export type TaggingPkColumnsInput = {
+  id: Scalars['Int'];
+};
+
+/** select columns of table "taggings" */
+export const TaggingSelectColumn = {
+  /** column name */
+  CreatedAt: 'createdAt',
+  /** column name */
+  Id: 'id',
+  /** column name */
+  PostId: 'post_id',
+  /** column name */
+  TagId: 'tag_id',
+  /** column name */
+  UpdatedAt: 'updatedAt',
+} as const;
+
+export type TaggingSelectColumn =
+  typeof TaggingSelectColumn[keyof typeof TaggingSelectColumn];
+/** input type for updating data in table "taggings" */
+export type TaggingSetInput = {
+  createdAt?: Maybe<Scalars['timestamptz']>;
+  id?: Maybe<Scalars['Int']>;
+  post_id?: Maybe<Scalars['Int']>;
+  tag_id?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['timestamptz']>;
+};
+
+/** aggregate stddev on columns */
+export type TaggingStddevFields = {
+  __typename?: 'tagging_stddev_fields';
+  id: Maybe<Scalars['Float']>;
+  post_id: Maybe<Scalars['Float']>;
+  tag_id: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev() on columns of table "taggings" */
+export type TaggingStddevOrderBy = {
+  id?: Maybe<OrderBy>;
+  post_id?: Maybe<OrderBy>;
+  tag_id?: Maybe<OrderBy>;
+};
+
+/** aggregate stddev_pop on columns */
+export type TaggingStddevPopFields = {
+  __typename?: 'tagging_stddev_pop_fields';
+  id: Maybe<Scalars['Float']>;
+  post_id: Maybe<Scalars['Float']>;
+  tag_id: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev_pop() on columns of table "taggings" */
+export type TaggingStddevPopOrderBy = {
+  id?: Maybe<OrderBy>;
+  post_id?: Maybe<OrderBy>;
+  tag_id?: Maybe<OrderBy>;
+};
+
+/** aggregate stddev_samp on columns */
+export type TaggingStddevSampFields = {
+  __typename?: 'tagging_stddev_samp_fields';
+  id: Maybe<Scalars['Float']>;
+  post_id: Maybe<Scalars['Float']>;
+  tag_id: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev_samp() on columns of table "taggings" */
+export type TaggingStddevSampOrderBy = {
+  id?: Maybe<OrderBy>;
+  post_id?: Maybe<OrderBy>;
+  tag_id?: Maybe<OrderBy>;
+};
+
+/** aggregate sum on columns */
+export type TaggingSumFields = {
+  __typename?: 'tagging_sum_fields';
+  id: Maybe<Scalars['Int']>;
+  post_id: Maybe<Scalars['Int']>;
+  tag_id: Maybe<Scalars['Int']>;
+};
+
+/** order by sum() on columns of table "taggings" */
+export type TaggingSumOrderBy = {
+  id?: Maybe<OrderBy>;
+  post_id?: Maybe<OrderBy>;
+  tag_id?: Maybe<OrderBy>;
+};
+
+/** update columns of table "taggings" */
+export const TaggingUpdateColumn = {
+  /** column name */
+  CreatedAt: 'createdAt',
+  /** column name */
+  Id: 'id',
+  /** column name */
+  PostId: 'post_id',
+  /** column name */
+  TagId: 'tag_id',
+  /** column name */
+  UpdatedAt: 'updatedAt',
+} as const;
+
+export type TaggingUpdateColumn =
+  typeof TaggingUpdateColumn[keyof typeof TaggingUpdateColumn];
+/** aggregate var_pop on columns */
+export type TaggingVarPopFields = {
+  __typename?: 'tagging_var_pop_fields';
+  id: Maybe<Scalars['Float']>;
+  post_id: Maybe<Scalars['Float']>;
+  tag_id: Maybe<Scalars['Float']>;
+};
+
+/** order by var_pop() on columns of table "taggings" */
+export type TaggingVarPopOrderBy = {
+  id?: Maybe<OrderBy>;
+  post_id?: Maybe<OrderBy>;
+  tag_id?: Maybe<OrderBy>;
+};
+
+/** aggregate var_samp on columns */
+export type TaggingVarSampFields = {
+  __typename?: 'tagging_var_samp_fields';
+  id: Maybe<Scalars['Float']>;
+  post_id: Maybe<Scalars['Float']>;
+  tag_id: Maybe<Scalars['Float']>;
+};
+
+/** order by var_samp() on columns of table "taggings" */
+export type TaggingVarSampOrderBy = {
+  id?: Maybe<OrderBy>;
+  post_id?: Maybe<OrderBy>;
+  tag_id?: Maybe<OrderBy>;
+};
+
+/** aggregate variance on columns */
+export type TaggingVarianceFields = {
+  __typename?: 'tagging_variance_fields';
+  id: Maybe<Scalars['Float']>;
+  post_id: Maybe<Scalars['Float']>;
+  tag_id: Maybe<Scalars['Float']>;
+};
+
+/** order by variance() on columns of table "taggings" */
+export type TaggingVarianceOrderBy = {
+  id?: Maybe<OrderBy>;
+  post_id?: Maybe<OrderBy>;
+  tag_id?: Maybe<OrderBy>;
 };
 
 /** Boolean expression to compare columns of type "timestamptz". All fields are combined with logical 'AND'. */

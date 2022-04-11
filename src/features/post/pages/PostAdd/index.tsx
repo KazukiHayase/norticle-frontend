@@ -9,8 +9,13 @@ import { Section } from '@/styles';
 
 export const PostAdd: VFC = () => {
   const [addPost, { loading }] = useAddPost();
-  const onSubmit: SubmitHandler<PostForm> = (data) => {
-    addPost(data);
+  const onSubmit: SubmitHandler<PostForm> = ({
+    title,
+    description,
+    content,
+    tags,
+  }) => {
+    addPost({ title, description, content }, tags);
   };
 
   return (

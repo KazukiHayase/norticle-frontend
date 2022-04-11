@@ -3,4 +3,15 @@ fragment PostForm on post {
   title
   description
   content
+  taggings {
+    id
+    tag {
+      id
+      name
+    }
+  }
+}
+
+query FetchPostFormOptions {
+  ...Tags
 }

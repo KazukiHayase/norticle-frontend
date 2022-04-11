@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import { useCallback, useState } from 'react';
 
 import { refetchFetchPostsQuery } from '@/features/post/pages/PostIndex/generated';
-import { PostInsertInput } from '@/graphql/generated/types';
+import { Post, Tag, TaggingInsertInput } from '@/graphql/generated/types';
 import { useNotifier } from '@/hooks/useNotifier';
 import { pagesPath } from '@/lib/$path';
 import { progress } from '@/services/progress';
@@ -10,7 +10,10 @@ import { progress } from '@/services/progress';
 import { useAddPostMutation } from './generated';
 
 type AddPostHookResult = [
-  (post: Pick<PostInsertInput, 'title' | 'description' | 'content'>) => void,
+  (
+    post: Pick<Post, 'title' | 'description' | 'content'>,
+    tags: Pick<Tag, 'name'>[],
+  ) => void,
   { loading: boolean },
 ];
 
@@ -23,14 +26,31 @@ export const useAddPost = (): AddPostHookResult => {
   });
 
   const addPost: AddPostHookResult[0] = useCallback(
-    async (post) => {
+    async (post, tags) => {
       setLoading(true);
       progress.start();
+
+      const taggingInputs: TaggingInsertInput[] = tags.map(({ name }) => {
+        return {
+          tag: {
+            data: { name },
+            on_conflict: {
+              constraint: 'tags_name_key',
+              update_columns: ['updatedAt'],
+            },
+          },
+        };
+      });
 
       try {
         await addPostMutation({
           variables: {
-            post,
+            post: {
+              ...post,
+              taggings: {
+                data: taggingInputs,
+              },
+            },
           },
         });
 

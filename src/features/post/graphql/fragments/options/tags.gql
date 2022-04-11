@@ -1,0 +1,6 @@
+fragment Tags on query_root {
+  tags {
+    id
+    name
+  }
+}
