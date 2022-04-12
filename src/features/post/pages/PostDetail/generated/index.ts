@@ -17,6 +17,11 @@ export type FetchPostQuery = { __typename?: 'query_root' } & {
           Types.User,
           'id' | 'name' | 'picture'
         >;
+        taggings: Array<
+          { __typename?: 'tagging' } & Pick<Types.Tagging, 'id'> & {
+              tag: { __typename?: 'tag' } & Pick<Types.Tag, 'id' | 'name'>;
+            }
+        >;
       }
   >;
 };
@@ -34,6 +39,13 @@ export const FetchPostDocument = gql`
         id
         name
         picture
+      }
+      taggings {
+        id
+        tag {
+          id
+          name
+        }
       }
     }
   }

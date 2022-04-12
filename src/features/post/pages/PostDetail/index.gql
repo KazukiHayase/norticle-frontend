@@ -11,5 +11,12 @@ query FetchPost($postId: Int!) {
       name
       picture
     }
+    taggings {
+      id
+      tag {
+        id
+        name
+      }
+    }
   }
 }

@@ -23,6 +23,10 @@ export const Avatar = styled(MuiAvatar)(
   sx({ width: 25, height: 25, border: 1, borderColor: grey[200] }),
 );
 
+export const TagWrapper = styled('div')(
+  sx({ display: 'flex', flexWrap: 'wrap', gap: 0.5, pb: 2 }),
+);
+
 export const CopyIconButton = styled(IconButton)(
   sx({ bgcolor: '#fff', width: 50, height: 50 }),
 );

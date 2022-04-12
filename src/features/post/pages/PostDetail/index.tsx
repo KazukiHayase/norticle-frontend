@@ -1,7 +1,7 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import { faCopy, faPen } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Box, Button, Paper, Tooltip, Typography } from '@mui/material';
+import { Box, Button, Chip, Paper, Tooltip, Typography } from '@mui/material';
 import { Container } from '@mui/material';
 import { blueGrey, grey } from '@mui/material/colors';
 import { useRouter } from 'next/router';
@@ -15,7 +15,7 @@ import { progress } from '@/services/progress';
 import { Section } from '@/styles';
 
 import { useFetchPostQuery } from './generated';
-import { Avatar,CopyIconButton, Sidebar, UserInfo } from './style';
+import { Avatar, CopyIconButton, Sidebar, TagWrapper, UserInfo } from './style';
 
 type PostDetailProps = {
   postId: number;
@@ -93,9 +93,24 @@ export const PostDetail: VFC<PostDetailProps> = ({ postId }) => {
           <Typography variant="h1" sx={{ pb: 1 }}>
             {post.title}
           </Typography>
-          <Typography variant="subtitle1" sx={{ pb: 8 }}>
-            {post.description}
-          </Typography>
+          <TagWrapper>
+            {!!post.taggings.length && (
+              <TagWrapper>
+                {post.taggings.map((tagging) => (
+                  <Chip
+                    key={tagging.id}
+                    size="small"
+                    label={tagging.tag.name}
+                  />
+                ))}
+              </TagWrapper>
+            )}
+          </TagWrapper>
+          {post.description && (
+            <Typography variant="subtitle1" sx={{ pb: 8 }}>
+              {post.description}
+            </Typography>
+          )}
           <Typography variant="body1">{post.content}</Typography>
         </Paper>
       </Container>
