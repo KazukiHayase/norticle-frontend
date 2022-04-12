@@ -1,7 +1,11 @@
 import { useRouter } from 'next/router';
 import { useCallback, useState } from 'react';
 
-import { PostInsertInput } from '@/graphql/generated/types';
+import {
+  PostInsertInput,
+  Tag,
+  TaggingInsertInput,
+} from '@/graphql/generated/types';
 import { useNotifier } from '@/hooks/useNotifier';
 import { pagesPath } from '@/lib/$path';
 import { progress } from '@/services/progress';
@@ -12,6 +16,7 @@ type UpdatePostHookResult = [
   (
     postId: number,
     post: Pick<PostInsertInput, 'title' | 'description' | 'content'>,
+    tags: Pick<Tag, 'name'>[],
   ) => void,
   { loading: boolean },
 ];
@@ -23,15 +28,31 @@ export const useUpdatePost = (): UpdatePostHookResult => {
   const [updatePostMutation] = useUpdatePostMutation();
 
   const updatePost: UpdatePostHookResult[0] = useCallback(
-    async (postId, post) => {
+    async (postId, post, tags) => {
       setLoading(true);
       progress.start();
+
+      const taggings: TaggingInsertInput[] = tags.map((tag) => {
+        return {
+          post_id: postId,
+          tag: {
+            data: {
+              name: tag.name,
+            },
+            on_conflict: {
+              constraint: 'tags_name_key',
+              update_columns: ['updatedAt'],
+            },
+          },
+        };
+      });
 
       try {
         await updatePostMutation({
           variables: {
             postId,
             post,
+            taggings,
           },
         });
 

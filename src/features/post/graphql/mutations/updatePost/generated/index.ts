@@ -8,19 +8,51 @@ const defaultOptions = {};
 export type UpdatePostMutationVariables = Types.Exact<{
   postId: Types.Scalars['Int'];
   post: Types.PostSetInput;
+  taggings: Array<Types.TaggingInsertInput> | Types.TaggingInsertInput;
 }>;
 
 export type UpdatePostMutation = { __typename?: 'mutation_root' } & {
   updatePost?: Types.Maybe<
     { __typename?: 'post' } & Pick<Types.Post, 'id'> & PostFormFragment
   >;
+  deleteTaggings?: Types.Maybe<
+    { __typename?: 'tagging_mutation_response' } & {
+      returning: Array<{ __typename?: 'tagging' } & Pick<Types.Tagging, 'id'>>;
+    }
+  >;
+  addTaggings?: Types.Maybe<
+    { __typename?: 'tagging_mutation_response' } & {
+      returning: Array<
+        { __typename?: 'tagging' } & Pick<
+          Types.Tagging,
+          'id' | 'post_id' | 'tag_id'
+        >
+      >;
+    }
+  >;
 };
 
 export const UpdatePostDocument = gql`
-  mutation UpdatePost($postId: Int!, $post: post_set_input!) {
+  mutation UpdatePost(
+    $postId: Int!
+    $post: post_set_input!
+    $taggings: [tagging_insert_input!]!
+  ) {
     updatePost(pk_columns: { id: $postId }, _set: $post) {
       id
       ...PostForm
+    }
+    deleteTaggings(where: { post_id: { _eq: $postId } }) {
+      returning {
+        id
+      }
+    }
+    addTaggings(objects: $taggings) {
+      returning {
+        id
+        post_id
+        tag_id
+      }
     }
   }
   ${PostFormFragmentDoc}
@@ -45,6 +77,7 @@ export type UpdatePostMutationFn = Apollo.MutationFunction<
  *   variables: {
  *      postId: // value for 'postId'
  *      post: // value for 'post'
+ *      taggings: // value for 'taggings'
  *   },
  * });
  */

@@ -46,8 +46,13 @@ export const PostEdit: VFC<PostEditProps> = ({ postId }) => {
     fetchPostLoading ? progress.start() : progress.done();
   }, [fetchPostLoading]);
 
-  const onSubmit: SubmitHandler<PostForm> = (data) => {
-    updatePost(postId, data);
+  const onSubmit: SubmitHandler<PostForm> = ({
+    title,
+    description,
+    content,
+    tags,
+  }) => {
+    updatePost(postId, { title, description, content }, tags);
   };
 
   if (fetchPostLoading || !post) return <></>;
