@@ -1,17 +1,17 @@
-import {
-  Card,
-  CardActionArea,
-  CardContent,
-  CardHeader,
-  Chip,
-} from '@mui/material';
+import { Card, CardActionArea, CardContent, CardHeader } from '@mui/material';
+import { filter } from 'graphql-anywhere';
 
 import { NextLinkComposed } from '@/components/uiParts/Link';
+import { PostTags } from '@/features/post/components/PostTags';
+import {
+  PostTagsFragment,
+  PostTagsFragmentDoc,
+} from '@/features/post/components/PostTags/generated';
 import { pagesPath } from '@/lib/$path';
 import { fromNow } from '@/services/date';
 
 import { PostCardFragment } from './generated';
-import { Avatar, PostContent, PostTitle, TagWrapper } from './style';
+import { Avatar, PostContent, PostTitle } from './style';
 
 type PostCardProps = {
   post: PostCardFragment;
@@ -31,13 +31,12 @@ export const PostCard: React.VFC<PostCardProps> = ({ post }) => {
         />
         <CardContent>
           <PostTitle variant="h3">{post.title}</PostTitle>
-          {!!post.taggings.length && (
-            <TagWrapper>
-              {post.taggings.map((tagging) => (
-                <Chip key={tagging.id} size="small" label={tagging.tag.name} />
-              ))}
-            </TagWrapper>
-          )}
+          <PostTags
+            post={filter<PostTagsFragment, PostCardFragment>(
+              PostTagsFragmentDoc,
+              post,
+            )}
+          />
           <PostContent>{post.content}</PostContent>
         </CardContent>
       </CardActionArea>

@@ -1,6 +1,8 @@
 import * as Types from '../../../../../graphql/generated/types';
 
+import { PostTagsFragment } from '../../../components/PostTags/generated/index';
 import { gql } from '@apollo/client';
+import { PostTagsFragmentDoc } from '../../../components/PostTags/generated/index';
 import * as Apollo from '@apollo/client';
 const defaultOptions = {};
 export type FetchPostQueryVariables = Types.Exact<{
@@ -17,12 +19,7 @@ export type FetchPostQuery = { __typename?: 'query_root' } & {
           Types.User,
           'id' | 'name' | 'picture'
         >;
-        taggings: Array<
-          { __typename?: 'tagging' } & Pick<Types.Tagging, 'id'> & {
-              tag: { __typename?: 'tag' } & Pick<Types.Tag, 'id' | 'name'>;
-            }
-        >;
-      }
+      } & PostTagsFragment
   >;
 };
 
@@ -40,15 +37,10 @@ export const FetchPostDocument = gql`
         name
         picture
       }
-      taggings {
-        id
-        tag {
-          id
-          name
-        }
-      }
+      ...PostTags
     }
   }
+  ${PostTagsFragmentDoc}
 `;
 
 /**
