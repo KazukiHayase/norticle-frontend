@@ -13,12 +13,12 @@ import { Section } from '@/styles';
 
 import { FetchPostsQuery, useFetchPostsQuery } from './generated';
 
-export const PostIndex: VFC = () => {
-  const limit = 10;
+const limit = 10;
 
+export const PostIndex: VFC = () => {
   const { data, loading, variables, refetch } = useFetchPostsQuery({
     variables: {
-      limit: 10,
+      limit,
       offset: 0,
     },
   });
