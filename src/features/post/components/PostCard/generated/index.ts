@@ -6,6 +6,11 @@ export type PostCardFragment = { __typename?: 'post' } & Pick<
   'id' | 'title' | 'content' | 'createdAt'
 > & {
     user: { __typename?: 'user' } & Pick<Types.User, 'id' | 'name' | 'picture'>;
+    taggings: Array<
+      { __typename?: 'tagging' } & Pick<Types.Tagging, 'id'> & {
+          tag: { __typename?: 'tag' } & Pick<Types.Tag, 'id' | 'name'>;
+        }
+    >;
   };
 
 export const PostCardFragmentDoc = gql`
@@ -18,6 +23,13 @@ export const PostCardFragmentDoc = gql`
       id
       name
       picture
+    }
+    taggings {
+      id
+      tag {
+        id
+        name
+      }
     }
   }
 `;

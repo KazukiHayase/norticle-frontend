@@ -8,4 +8,11 @@ fragment PostCard on post {
     name
     picture
   }
+  taggings {
+    id
+    tag {
+      id
+      name
+    }
+  }
 }

@@ -28,3 +28,7 @@ export const PostContent = styled(Typography)(
 export const Avatar = styled(MuiAvatar)(
   sx({ border: 1, borderColor: grey[200] }),
 );
+
+export const TagWrapper = styled('div')(
+  sx({ display: 'flex', flexWrap: 'wrap', gap: 0.5, pb: 2 }),
+);
