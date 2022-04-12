@@ -17,6 +17,7 @@ import {
   Toolbar,
   Typography,
 } from '@mui/material';
+import { grey } from '@mui/material/colors';
 import Image from 'next/image';
 import { useState, VFC } from 'react';
 import { MouseEvent } from 'react';
@@ -84,14 +85,20 @@ export const Header: VFC = () => {
                     to={pagesPath.dashboard.$url()}
                   >
                     <MenuItemContent>
-                      <FontAwesomeIcon icon={faNoteSticky} />
+                      <FontAwesomeIcon
+                        icon={faNoteSticky}
+                        style={{ color: grey[700] }}
+                      />
                       <Typography fontSize={14}>投稿一覧</Typography>
                     </MenuItemContent>
                   </MenuItem>
                   <Divider />
                   <MenuItem onClick={() => logout()}>
                     <MenuItemContent>
-                      <FontAwesomeIcon icon={faRightFromBracket} />
+                      <FontAwesomeIcon
+                        icon={faRightFromBracket}
+                        style={{ color: grey[700] }}
+                      />
                       <Typography fontSize={14}>ログアウト</Typography>
                     </MenuItemContent>
                   </MenuItem>
