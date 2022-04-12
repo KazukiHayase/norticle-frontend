@@ -51,6 +51,15 @@ export const pagesPath = {
       hash: url?.hash,
     }),
   },
+  tags: {
+    _name: (name: string | number) => ({
+      $url: (url?: { hash?: string }) => ({
+        pathname: '/tags/[name]' as const,
+        query: { name },
+        hash: url?.hash,
+      }),
+    }),
+  },
   $url: (url?: { hash?: string }) => ({
     pathname: '/' as const,
     hash: url?.hash,

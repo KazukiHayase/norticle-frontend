@@ -1,0 +1,21 @@
+# TODO: いいね数が実装されたらいいね順で取得・ソート機能実装
+query FetchTaggedPosts($tagName: String!, $limit: Int!, $offset: Int!) {
+  posts(
+    where: { taggings: { tag: { name: { _eq: $tagName } } } }
+    limit: $limit
+    offset: $offset
+    order_by: { createdAt: desc }
+  ) {
+    ...PostCard
+  }
+  postsAggregate(where: { taggings: { tag: { name: { _eq: $tagName } } } }) {
+    aggregate {
+      count
+    }
+  }
+  tagsAggregate(where: { name: { _eq: $tagName } }) {
+    aggregate {
+      count
+    }
+  }
+}
