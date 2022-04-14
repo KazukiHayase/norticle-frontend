@@ -68,17 +68,20 @@ export const PostSearch: VFC = () => {
   const handleSubmitPostSearchForm: SubmitHandler<PostSearchForm> = ({
     keyword,
   }) => {
+    const _ilike = `%${keyword}%`;
+
     searchPosts({
       variables: {
         ...searchPostsVariables,
         where: {
           _or: [
             {
-              title: { _ilike: `%${keyword}%` },
+              title: { _ilike },
             },
             {
-              content: { _ilike: `%${keyword}%` },
+              content: { _ilike },
             },
+            { taggings: { tag: { name: { _ilike } } } },
           ],
         },
         offset: 0,
