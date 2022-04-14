@@ -52,14 +52,14 @@ export const Header: VFC = () => {
           </Link>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+            <IconButton
+              component={NextLinkComposed}
+              to={pagesPath.search.$url()}
+            >
+              <FontAwesomeIcon icon={faMagnifyingGlass} fontSize={20} />
+            </IconButton>
             {isAuthenticated ? (
               <>
-                <IconButton
-                  component={NextLinkComposed}
-                  to={pagesPath.search.$url()}
-                >
-                  <FontAwesomeIcon icon={faMagnifyingGlass} fontSize={20} />
-                </IconButton>
                 <Avatar
                   src={user && user.picture}
                   onClick={handleClickUserIcon}
