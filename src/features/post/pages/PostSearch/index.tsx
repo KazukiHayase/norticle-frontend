@@ -121,9 +121,9 @@ export const PostSearch: VFC = () => {
               <SearchResultCount>{totalCount}</SearchResultCount>
               件のテンプレートがヒットしました
             </SearchResultText>
-            <Grid container spacing={2} sx={{ pb: 8 }}>
+            <Grid container spacing={{ xs: 4, md: 2 }} sx={{ pb: 8 }}>
               {posts.map((post) => (
-                <Grid key={post.id} item xs={6}>
+                <Grid key={post.id} item xs={12} md={6}>
                   <PostCard
                     post={filter<
                       PostCardFragment,

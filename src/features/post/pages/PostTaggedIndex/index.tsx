@@ -60,9 +60,9 @@ export const PostTaggedIndex: VFC<PostTaggedIndexProps> = ({ tagName }) => {
           <TaggedPostCount>{totalCount}</TaggedPostCount>
           件のテンプレート
         </TaggedPostText>
-        <Grid container spacing={2} sx={{ pb: 8 }}>
+        <Grid container spacing={{ xs: 4, md: 2 }} sx={{ pb: 8 }}>
           {posts.map((post) => (
-            <Grid key={post.id} item xs={6}>
+            <Grid key={post.id} item xs={12} md={6}>
               <PostCard
                 post={filter<
                   PostCardFragment,
