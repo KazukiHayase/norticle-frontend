@@ -51,6 +51,12 @@ export const pagesPath = {
       hash: url?.hash,
     }),
   },
+  setting: {
+    $url: (url?: { hash?: string }) => ({
+      pathname: '/setting' as const,
+      hash: url?.hash,
+    }),
+  },
   tags: {
     _name: (name: string | number) => ({
       $url: (url?: { hash?: string }) => ({
