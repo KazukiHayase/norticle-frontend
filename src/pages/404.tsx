@@ -1,11 +1,9 @@
 import { ReactElement } from 'react';
 
+import { NotFound } from '@/features/common/pages/NotFound';
 import { DefaultLayout } from '@/layouts/DefaultLayout';
 
-const Page = () => {
-  // TODO: デザイン調整
-  return <>お探しのページは存在しません</>;
-};
+const Page = () => <NotFound />;
 
 Page.getLayout = (page: ReactElement) => <DefaultLayout>{page}</DefaultLayout>;
 
