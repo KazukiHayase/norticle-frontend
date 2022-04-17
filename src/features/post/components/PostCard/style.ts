@@ -7,7 +7,7 @@ import { grey } from '@mui/material/colors';
 
 import { NextLinkComposed } from '@/components/uiParts/Link';
 
-export const PostTitle = styled(NextLinkComposed)(({ theme }) => ({
+export const Title = styled(NextLinkComposed)(({ theme }) => ({
   ...theme.typography.h3,
   display: '-webkit-box',
   marginBottom: theme.spacing(2),
@@ -16,7 +16,7 @@ export const PostTitle = styled(NextLinkComposed)(({ theme }) => ({
   WebkitBoxOrient: 'vertical',
 }));
 
-export const PostContent = styled(NextLinkComposed)(({ theme }) => ({
+export const Content = styled(NextLinkComposed)(({ theme }) => ({
   ...theme.typography.body1,
   display: '-webkit-box',
   overflow: 'hidden',
@@ -24,8 +24,14 @@ export const PostContent = styled(NextLinkComposed)(({ theme }) => ({
   WebkitBoxOrient: 'vertical',
 }));
 
+export const SubHeader = styled('div')(sx({ display: 'flex', gap: 1 }));
+
 export const Avatar = styled(MuiAvatar)(
   sx({ border: 1, borderColor: grey[200] }),
+);
+
+export const Like = styled('span')(
+  sx({ display: 'flex', alignItems: 'center', gap: 0.3 }),
 );
 
 export const TagWrapper = styled('div')(

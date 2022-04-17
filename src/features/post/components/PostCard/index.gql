@@ -8,5 +8,9 @@ fragment PostCard on post {
     name
     picture
   }
+  likes {
+    id
+    count
+  }
   ...PostTags
 }
