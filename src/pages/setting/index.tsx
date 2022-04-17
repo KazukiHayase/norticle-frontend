@@ -3,11 +3,11 @@ import { ReactElement } from 'react';
 
 import { DashboardLayout } from '@/features/dashboard/layouts/DashboardLayout';
 import { SettingLayout } from '@/features/setting/layouts/SettingLayout';
-import { SettingUser } from '@/features/setting/pages/SettingUser';
+import { SettingAccount } from '@/features/setting/pages/SettingAccount';
 import { NextPageWithLayout } from '@/pages/_app';
 
 const Page: NextPageWithLayout = withAuthenticationRequired(() => {
-  return <SettingUser />;
+  return <SettingAccount />;
 });
 
 Page.getLayout = (page: ReactElement) => {

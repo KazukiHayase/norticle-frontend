@@ -7,7 +7,7 @@ export const SettingSideMenu: VFC = () => {
     <Paper>
       <List sx={{ width: 200 }}>
         <ListItem button sx={{ fontWeight: 'bold' }}>
-          アカウント情報
+          アカウント
         </ListItem>
       </List>
     </Paper>
