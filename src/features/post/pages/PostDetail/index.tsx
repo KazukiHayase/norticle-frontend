@@ -145,7 +145,7 @@ export const PostDetail: VFC<PostDetailProps> = ({ postId }) => {
                     color={userLikeCount > 0 ? 'primary' : undefined}
                   >
                     <LikeIcon>
-                      <FontAwesomeIcon icon={faHeart} fontSize={24} />
+                      <FontAwesomeIcon icon={faHeart} fontSize={20} />
                     </LikeIcon>
                     <LikedCount>
                       {userLikeCount}/{likeLimit}
@@ -158,7 +158,7 @@ export const PostDetail: VFC<PostDetailProps> = ({ postId }) => {
               </Box>
               <Tooltip title="テンプレートをコピー" placement="top" arrow>
                 <CopyIconButton onClick={handleClickCopyIcon}>
-                  <FontAwesomeIcon icon={faCopy} fontSize={24} />
+                  <FontAwesomeIcon icon={faCopy} fontSize={20} />
                 </CopyIconButton>
               </Tooltip>
             </ActionAreaInner>
