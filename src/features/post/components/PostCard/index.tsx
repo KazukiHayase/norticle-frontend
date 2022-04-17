@@ -18,7 +18,7 @@ type PostCardProps = {
 
 export const PostCard: React.VFC<PostCardProps> = ({ post }) => {
   return (
-    <Card>
+    <Card sx={{ height: 1 }}>
       <CardHeader
         avatar={<Avatar src={post.user.picture} />}
         title={post.user.name}
