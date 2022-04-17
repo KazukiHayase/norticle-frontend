@@ -15,22 +15,31 @@ export const UserInfo = styled('div')(
   }),
 );
 
-export const ActionArea = styled('div')(
+export const ActionArea = styled('div')(({ theme }) =>
   sx({
-    height: 1,
-    position: 'absolute',
-    top: 0,
-    left: -80,
+    [theme.breakpoints.down('md')]: {
+      width: 1,
+      pt: 3,
+    },
+    [theme.breakpoints.up('md')]: {
+      height: 1,
+      position: 'absolute',
+      top: 0,
+      left: -80,
+    },
   }),
 );
 
-export const ActionAreaInner = styled('div')(
+export const ActionAreaInner = styled('div')(({ theme }) =>
   sx({
     display: 'flex',
-    flexDirection: 'column',
+    justifyContent: 'end',
     gap: 1,
-    position: 'sticky',
-    top: 50,
+    [theme.breakpoints.up('md')]: {
+      flexDirection: 'column',
+      position: 'sticky',
+      top: 50,
+    },
   }),
 );
 
@@ -39,7 +48,7 @@ export const Avatar = styled(MuiAvatar)(
 );
 
 export const CopyIconButton = styled(IconButton)(
-  sx({ bgcolor: '#fff', width: 60, height: 60 }),
+  sx({ bgcolor: { xs: grey[200], md: '#fff' }, width: 60, height: 60 }),
 );
 
 export const LikeIconButton = styled(IconButton)(
@@ -48,7 +57,7 @@ export const LikeIconButton = styled(IconButton)(
     flexDirection: 'column',
     width: 60,
     height: 60,
-    bgcolor: '#fff',
+    bgcolor: { xs: grey[200], md: '#fff' },
     position: 'relative',
   }),
 );

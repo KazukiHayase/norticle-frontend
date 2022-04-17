@@ -152,10 +152,7 @@ export const PostDetail: VFC<PostDetailProps> = ({ postId }) => {
                     </LikedCount>
                   </LikeIconButton>
                 </Tooltip>
-                <Typography
-                  color={userLikeCount > 0 ? 'primary' : 'action.active'}
-                  sx={{ textAlign: 'center' }}
-                >
+                <Typography color="action.active" sx={{ textAlign: 'center' }}>
                   {totalLikeCount}
                 </Typography>
               </Box>
