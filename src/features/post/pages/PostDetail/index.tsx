@@ -24,6 +24,7 @@ import { Section } from '@/styles';
 import { FetchPostQuery, useFetchPostQuery } from './generated';
 import {
   ActionArea,
+  ActionAreaInner,
   Avatar,
   CopyIconButton,
   LikedCount,
@@ -72,7 +73,7 @@ export const PostDetail: VFC<PostDetailProps> = ({ postId }) => {
   }, [loading]);
 
   const handleClickLikeIcon = () => {
-    if (userLikeCount <= likeLimit) return;
+    if (userLikeCount >= likeLimit) return;
     upsertLike(postId, userLikeId);
   };
 
@@ -136,32 +137,34 @@ export const PostDetail: VFC<PostDetailProps> = ({ postId }) => {
           )}
           <Typography variant="body1">{post.content}</Typography>
           <ActionArea>
-            <Box>
-              <Tooltip title="いいね" placement="top" arrow>
-                <LikeIconButton
-                  onClick={handleClickLikeIcon}
-                  color={userLikeCount > 0 ? 'primary' : undefined}
+            <ActionAreaInner>
+              <Box>
+                <Tooltip title="いいね" placement="top" arrow>
+                  <LikeIconButton
+                    onClick={handleClickLikeIcon}
+                    color={userLikeCount > 0 ? 'primary' : undefined}
+                  >
+                    <LikeIcon>
+                      <FontAwesomeIcon icon={faHeart} fontSize={24} />
+                    </LikeIcon>
+                    <LikedCount>
+                      {userLikeCount}/{likeLimit}
+                    </LikedCount>
+                  </LikeIconButton>
+                </Tooltip>
+                <Typography
+                  color={userLikeCount > 0 ? 'primary' : 'action.active'}
+                  sx={{ textAlign: 'center' }}
                 >
-                  <LikeIcon>
-                    <FontAwesomeIcon icon={faHeart} fontSize={24} />
-                  </LikeIcon>
-                  <LikedCount>
-                    {userLikeCount}/{likeLimit}
-                  </LikedCount>
-                </LikeIconButton>
+                  {totalLikeCount}
+                </Typography>
+              </Box>
+              <Tooltip title="テンプレートをコピー" placement="top" arrow>
+                <CopyIconButton onClick={handleClickCopyIcon}>
+                  <FontAwesomeIcon icon={faCopy} fontSize={26} />
+                </CopyIconButton>
               </Tooltip>
-              <Typography
-                color={userLikeCount > 0 ? 'primary' : 'action.active'}
-                sx={{ textAlign: 'center' }}
-              >
-                {totalLikeCount}
-              </Typography>
-            </Box>
-            <Tooltip title="テンプレートをコピー" placement="top" arrow>
-              <CopyIconButton onClick={handleClickCopyIcon}>
-                <FontAwesomeIcon icon={faCopy} fontSize={26} />
-              </CopyIconButton>
-            </Tooltip>
+            </ActionAreaInner>
           </ActionArea>
         </Paper>
       </Container>

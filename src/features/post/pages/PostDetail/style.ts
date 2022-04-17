@@ -17,12 +17,20 @@ export const UserInfo = styled('div')(
 
 export const ActionArea = styled('div')(
   sx({
-    display: 'flex',
-    flexDirection: 'column',
-    gap: 1,
+    height: 1,
     position: 'absolute',
     top: 0,
     left: -80,
+  }),
+);
+
+export const ActionAreaInner = styled('div')(
+  sx({
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 1,
+    position: 'sticky',
+    top: 50,
   }),
 );
 
