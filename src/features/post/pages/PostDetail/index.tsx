@@ -65,7 +65,7 @@ export const PostDetail: VFC<PostDetailProps> = ({ postId }) => {
       userLikeCount,
       totalLikeCount,
     };
-  }, [data]);
+  }, [data, user]);
 
   useEffect(() => {
     loading ? progress.start() : progress.done();

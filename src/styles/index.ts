@@ -1,4 +1,4 @@
-import { experimental_sx as sx,styled } from '@mui/system';
+import { experimental_sx as sx, styled } from '@mui/system';
 
 export const Section = styled('div')(
   sx({

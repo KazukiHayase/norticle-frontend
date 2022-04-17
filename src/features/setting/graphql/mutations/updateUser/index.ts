@@ -1,4 +1,3 @@
-import { useRouter } from 'next/router';
 import { useCallback, useState } from 'react';
 
 import { UserSetInput } from '@/graphql/generated/types';
@@ -13,7 +12,6 @@ type UpdateUserHookResult = [
 ];
 
 export const useUpdateUser = (): UpdateUserHookResult => {
-  const router = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
   const { notice } = useNotifier();
   const [updateUserMutation] = useUpdateUserMutation();
@@ -39,7 +37,7 @@ export const useUpdateUser = (): UpdateUserHookResult => {
         progress.done();
       }
     },
-    [updateUserMutation, router, notice],
+    [updateUserMutation, notice],
   );
 
   return [updateUser, { loading }];

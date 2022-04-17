@@ -1,4 +1,3 @@
-import { useRouter } from 'next/router';
 import { useCallback, useState } from 'react';
 
 import { FetchPostsForDashboardDocument } from '@/features/dashboard/pages/DashboardPosts/generated';
@@ -10,7 +9,6 @@ import { useDeletePostMutation } from './generated';
 type DeletePostHookResult = [(postId: number) => void, { loading: boolean }];
 
 export const useDeletePost = (): DeletePostHookResult => {
-  const router = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
   const { notice } = useNotifier();
   const [deletePostMutation] = useDeletePostMutation({
@@ -37,7 +35,7 @@ export const useDeletePost = (): DeletePostHookResult => {
         progress.done();
       }
     },
-    [deletePostMutation, notice, router],
+    [deletePostMutation, notice],
   );
 
   return [deletePost, { loading }];
