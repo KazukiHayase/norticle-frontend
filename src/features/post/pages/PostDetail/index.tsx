@@ -161,7 +161,7 @@ export const PostDetail: VFC<PostDetailProps> = ({ postId }) => {
               </Box>
               <Tooltip title="テンプレートをコピー" placement="top" arrow>
                 <CopyIconButton onClick={handleClickCopyIcon}>
-                  <FontAwesomeIcon icon={faCopy} fontSize={26} />
+                  <FontAwesomeIcon icon={faCopy} fontSize={24} />
                 </CopyIconButton>
               </Tooltip>
             </ActionAreaInner>
