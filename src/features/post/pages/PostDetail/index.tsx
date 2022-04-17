@@ -1,5 +1,5 @@
 import { useAuth0 } from '@auth0/auth0-react';
-import { faCopy, faPen } from '@fortawesome/free-solid-svg-icons';
+import { faCopy, faHeart,faPen } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Box, Button, Paper, Tooltip, Typography } from '@mui/material';
 import { Container } from '@mui/material';
@@ -21,7 +21,15 @@ import { progress } from '@/services/progress';
 import { Section } from '@/styles';
 
 import { FetchPostQuery, useFetchPostQuery } from './generated';
-import { Avatar, CopyIconButton, Sidebar, UserInfo } from './style';
+import {
+  ActionArea,
+  Avatar,
+  CopyIconButton,
+  LikedCount,
+  LikeIcon,
+  LikeIconButton,
+  UserInfo,
+} from './style';
 
 type PostDetailProps = {
   postId: number;
@@ -73,13 +81,6 @@ export const PostDetail: VFC<PostDetailProps> = ({ postId }) => {
           </Box>
         )}
         <Paper sx={{ p: 3, position: 'relative' }}>
-          <Sidebar>
-            <Tooltip title="テンプレートをコピー" placement="top" arrow>
-              <CopyIconButton onClick={handleClickCopyIcon}>
-                <FontAwesomeIcon icon={faCopy} fontSize={20} />
-              </CopyIconButton>
-            </Tooltip>
-          </Sidebar>
           <Box sx={{ pb: 3 }}>
             <UserInfo>
               <Avatar src={post.user.picture} />
@@ -111,6 +112,26 @@ export const PostDetail: VFC<PostDetailProps> = ({ postId }) => {
             </Typography>
           )}
           <Typography variant="body1">{post.content}</Typography>
+          <ActionArea>
+            <Box>
+              <Tooltip title="いいね" placement="top" arrow>
+                <LikeIconButton onClick={() => console.log('log')}>
+                  <LikeIcon>
+                    <FontAwesomeIcon icon={faHeart} fontSize={24} />
+                  </LikeIcon>
+                  <LikedCount>0/10</LikedCount>
+                </LikeIconButton>
+              </Tooltip>
+              <Typography color="action.active" sx={{ textAlign: 'center' }}>
+                10000
+              </Typography>
+            </Box>
+            <Tooltip title="テンプレートをコピー" placement="top" arrow>
+              <CopyIconButton onClick={handleClickCopyIcon}>
+                <FontAwesomeIcon icon={faCopy} fontSize={26} />
+              </CopyIconButton>
+            </Tooltip>
+          </ActionArea>
         </Paper>
       </Container>
     </Section>

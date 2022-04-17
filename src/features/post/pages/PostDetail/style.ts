@@ -15,8 +15,15 @@ export const UserInfo = styled('div')(
   }),
 );
 
-export const Sidebar = styled('div')(
-  sx({ position: 'absolute', top: 0, left: -70 }),
+export const ActionArea = styled('div')(
+  sx({
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 1,
+    position: 'absolute',
+    top: 0,
+    left: -80,
+  }),
 );
 
 export const Avatar = styled(MuiAvatar)(
@@ -24,5 +31,22 @@ export const Avatar = styled(MuiAvatar)(
 );
 
 export const CopyIconButton = styled(IconButton)(
-  sx({ bgcolor: '#fff', width: 50, height: 50 }),
+  sx({ bgcolor: '#fff', width: 60, height: 60 }),
+);
+
+export const LikeIconButton = styled(IconButton)(
+  sx({
+    display: 'flex',
+    flexDirection: 'column',
+    width: 60,
+    height: 60,
+    bgcolor: '#fff',
+    position: 'relative',
+  }),
+);
+
+export const LikeIcon = styled('div')(sx({ position: 'absolute', bottom: 20 }));
+
+export const LikedCount = styled('span')(
+  sx({ position: 'absolute', bottom: 5, fontSize: 14 }),
 );
