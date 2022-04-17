@@ -19,6 +19,9 @@ export type FetchPostQuery = { __typename?: 'query_root' } & {
           Types.User,
           'id' | 'name' | 'picture'
         >;
+        likes: Array<
+          { __typename?: 'like' } & Pick<Types.Like, 'id' | 'user_id' | 'count'>
+        >;
       } & PostTagsFragment
   >;
 };
@@ -36,6 +39,11 @@ export const FetchPostDocument = gql`
         id
         name
         picture
+      }
+      likes {
+        id
+        user_id
+        count
       }
       ...PostTags
     }

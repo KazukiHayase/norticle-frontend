@@ -1,5 +1,5 @@
 import { useAuth0 } from '@auth0/auth0-react';
-import { faCopy, faHeart,faPen } from '@fortawesome/free-solid-svg-icons';
+import { faCopy, faHeart, faPen } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Box, Button, Paper, Tooltip, Typography } from '@mui/material';
 import { Container } from '@mui/material';
@@ -47,7 +47,19 @@ export const PostDetail: VFC<PostDetailProps> = ({ postId }) => {
     },
   });
 
-  const post = useMemo(() => data?.post, [data]);
+  const { post, userLikeCount, totalLikeCount } = useMemo(() => {
+    const post = data?.post;
+    const userLikeCount =
+      post?.likes.find((like) => like.user_id === user?.sub)?.count ?? 0;
+    const totalLikeCount =
+      post?.likes.reduce((count, acc) => count + acc.count, 0) ?? 0;
+
+    return {
+      post,
+      userLikeCount,
+      totalLikeCount,
+    };
+  }, [data]);
 
   useEffect(() => {
     loading ? progress.start() : progress.done();
@@ -119,11 +131,11 @@ export const PostDetail: VFC<PostDetailProps> = ({ postId }) => {
                   <LikeIcon>
                     <FontAwesomeIcon icon={faHeart} fontSize={24} />
                   </LikeIcon>
-                  <LikedCount>0/10</LikedCount>
+                  <LikedCount>{userLikeCount}/10</LikedCount>
                 </LikeIconButton>
               </Tooltip>
               <Typography color="action.active" sx={{ textAlign: 'center' }}>
-                10000
+                {totalLikeCount}
               </Typography>
             </Box>
             <Tooltip title="テンプレートをコピー" placement="top" arrow>

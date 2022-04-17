@@ -11,6 +11,11 @@ query FetchPost($postId: Int!) {
       name
       picture
     }
+    likes {
+      id
+      user_id
+      count
+    }
     ...PostTags
   }
 }

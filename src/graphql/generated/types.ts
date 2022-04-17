@@ -62,9 +62,363 @@ export type StringComparisonExp = {
   _similar?: Maybe<Scalars['String']>;
 };
 
+/** 投稿へのいいね */
+export type Like = {
+  __typename?: 'like';
+  count: Scalars['Int'];
+  created_at: Scalars['timestamptz'];
+  id: Scalars['Int'];
+  /** An object relationship */
+  post: Post;
+  post_id: Scalars['Int'];
+  updated_at: Scalars['timestamptz'];
+  /** An object relationship */
+  user: User;
+  user_id: Scalars['String'];
+};
+
+/** aggregated selection of "likes" */
+export type LikeAggregate = {
+  __typename?: 'like_aggregate';
+  aggregate: Maybe<LikeAggregateFields>;
+  nodes: Array<Like>;
+};
+
+/** aggregate fields of "likes" */
+export type LikeAggregateFields = {
+  __typename?: 'like_aggregate_fields';
+  avg: Maybe<LikeAvgFields>;
+  count: Scalars['Int'];
+  max: Maybe<LikeMaxFields>;
+  min: Maybe<LikeMinFields>;
+  stddev: Maybe<LikeStddevFields>;
+  stddev_pop: Maybe<LikeStddevPopFields>;
+  stddev_samp: Maybe<LikeStddevSampFields>;
+  sum: Maybe<LikeSumFields>;
+  var_pop: Maybe<LikeVarPopFields>;
+  var_samp: Maybe<LikeVarSampFields>;
+  variance: Maybe<LikeVarianceFields>;
+};
+
+/** aggregate fields of "likes" */
+export type LikeAggregateFieldsCountArgs = {
+  columns: Maybe<Array<LikeSelectColumn>>;
+  distinct: Maybe<Scalars['Boolean']>;
+};
+
+/** order by aggregate values of table "likes" */
+export type LikeAggregateOrderBy = {
+  avg?: Maybe<LikeAvgOrderBy>;
+  count?: Maybe<OrderBy>;
+  max?: Maybe<LikeMaxOrderBy>;
+  min?: Maybe<LikeMinOrderBy>;
+  stddev?: Maybe<LikeStddevOrderBy>;
+  stddev_pop?: Maybe<LikeStddevPopOrderBy>;
+  stddev_samp?: Maybe<LikeStddevSampOrderBy>;
+  sum?: Maybe<LikeSumOrderBy>;
+  var_pop?: Maybe<LikeVarPopOrderBy>;
+  var_samp?: Maybe<LikeVarSampOrderBy>;
+  variance?: Maybe<LikeVarianceOrderBy>;
+};
+
+/** input type for inserting array relation for remote table "likes" */
+export type LikeArrRelInsertInput = {
+  data: Array<LikeInsertInput>;
+  /** upsert condition */
+  on_conflict?: Maybe<LikeOnConflict>;
+};
+
+/** aggregate avg on columns */
+export type LikeAvgFields = {
+  __typename?: 'like_avg_fields';
+  count: Maybe<Scalars['Float']>;
+  id: Maybe<Scalars['Float']>;
+  post_id: Maybe<Scalars['Float']>;
+};
+
+/** order by avg() on columns of table "likes" */
+export type LikeAvgOrderBy = {
+  count?: Maybe<OrderBy>;
+  id?: Maybe<OrderBy>;
+  post_id?: Maybe<OrderBy>;
+};
+
+/** Boolean expression to filter rows from the table "likes". All fields are combined with a logical 'AND'. */
+export type LikeBoolExp = {
+  _and?: Maybe<Array<LikeBoolExp>>;
+  _not?: Maybe<LikeBoolExp>;
+  _or?: Maybe<Array<LikeBoolExp>>;
+  count?: Maybe<IntComparisonExp>;
+  created_at?: Maybe<TimestamptzComparisonExp>;
+  id?: Maybe<IntComparisonExp>;
+  post?: Maybe<PostBoolExp>;
+  post_id?: Maybe<IntComparisonExp>;
+  updated_at?: Maybe<TimestamptzComparisonExp>;
+  user?: Maybe<UserBoolExp>;
+  user_id?: Maybe<StringComparisonExp>;
+};
+
+/** unique or primary key constraints on table "likes" */
+export const LikeConstraint = {
+  /** unique or primary key constraint */
+  LikesPkey: 'likes_pkey',
+  /** unique or primary key constraint */
+  LikesUserIdPostIdKey: 'likes_user_id_post_id_key',
+} as const;
+
+export type LikeConstraint = typeof LikeConstraint[keyof typeof LikeConstraint];
+/** input type for incrementing numeric columns in table "likes" */
+export type LikeIncInput = {
+  count?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['Int']>;
+  post_id?: Maybe<Scalars['Int']>;
+};
+
+/** input type for inserting data into table "likes" */
+export type LikeInsertInput = {
+  count?: Maybe<Scalars['Int']>;
+  created_at?: Maybe<Scalars['timestamptz']>;
+  id?: Maybe<Scalars['Int']>;
+  post?: Maybe<PostObjRelInsertInput>;
+  post_id?: Maybe<Scalars['Int']>;
+  updated_at?: Maybe<Scalars['timestamptz']>;
+  user?: Maybe<UserObjRelInsertInput>;
+  user_id?: Maybe<Scalars['String']>;
+};
+
+/** aggregate max on columns */
+export type LikeMaxFields = {
+  __typename?: 'like_max_fields';
+  count: Maybe<Scalars['Int']>;
+  created_at: Maybe<Scalars['timestamptz']>;
+  id: Maybe<Scalars['Int']>;
+  post_id: Maybe<Scalars['Int']>;
+  updated_at: Maybe<Scalars['timestamptz']>;
+  user_id: Maybe<Scalars['String']>;
+};
+
+/** order by max() on columns of table "likes" */
+export type LikeMaxOrderBy = {
+  count?: Maybe<OrderBy>;
+  created_at?: Maybe<OrderBy>;
+  id?: Maybe<OrderBy>;
+  post_id?: Maybe<OrderBy>;
+  updated_at?: Maybe<OrderBy>;
+  user_id?: Maybe<OrderBy>;
+};
+
+/** aggregate min on columns */
+export type LikeMinFields = {
+  __typename?: 'like_min_fields';
+  count: Maybe<Scalars['Int']>;
+  created_at: Maybe<Scalars['timestamptz']>;
+  id: Maybe<Scalars['Int']>;
+  post_id: Maybe<Scalars['Int']>;
+  updated_at: Maybe<Scalars['timestamptz']>;
+  user_id: Maybe<Scalars['String']>;
+};
+
+/** order by min() on columns of table "likes" */
+export type LikeMinOrderBy = {
+  count?: Maybe<OrderBy>;
+  created_at?: Maybe<OrderBy>;
+  id?: Maybe<OrderBy>;
+  post_id?: Maybe<OrderBy>;
+  updated_at?: Maybe<OrderBy>;
+  user_id?: Maybe<OrderBy>;
+};
+
+/** response of any mutation on the table "likes" */
+export type LikeMutationResponse = {
+  __typename?: 'like_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Like>;
+};
+
+/** on_conflict condition type for table "likes" */
+export type LikeOnConflict = {
+  constraint: LikeConstraint;
+  update_columns: Array<LikeUpdateColumn>;
+  where?: Maybe<LikeBoolExp>;
+};
+
+/** Ordering options when selecting data from "likes". */
+export type LikeOrderBy = {
+  count?: Maybe<OrderBy>;
+  created_at?: Maybe<OrderBy>;
+  id?: Maybe<OrderBy>;
+  post?: Maybe<PostOrderBy>;
+  post_id?: Maybe<OrderBy>;
+  updated_at?: Maybe<OrderBy>;
+  user?: Maybe<UserOrderBy>;
+  user_id?: Maybe<OrderBy>;
+};
+
+/** primary key columns input for table: like */
+export type LikePkColumnsInput = {
+  id: Scalars['Int'];
+};
+
+/** select columns of table "likes" */
+export const LikeSelectColumn = {
+  /** column name */
+  Count: 'count',
+  /** column name */
+  CreatedAt: 'created_at',
+  /** column name */
+  Id: 'id',
+  /** column name */
+  PostId: 'post_id',
+  /** column name */
+  UpdatedAt: 'updated_at',
+  /** column name */
+  UserId: 'user_id',
+} as const;
+
+export type LikeSelectColumn =
+  typeof LikeSelectColumn[keyof typeof LikeSelectColumn];
+/** input type for updating data in table "likes" */
+export type LikeSetInput = {
+  count?: Maybe<Scalars['Int']>;
+  created_at?: Maybe<Scalars['timestamptz']>;
+  id?: Maybe<Scalars['Int']>;
+  post_id?: Maybe<Scalars['Int']>;
+  updated_at?: Maybe<Scalars['timestamptz']>;
+  user_id?: Maybe<Scalars['String']>;
+};
+
+/** aggregate stddev on columns */
+export type LikeStddevFields = {
+  __typename?: 'like_stddev_fields';
+  count: Maybe<Scalars['Float']>;
+  id: Maybe<Scalars['Float']>;
+  post_id: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev() on columns of table "likes" */
+export type LikeStddevOrderBy = {
+  count?: Maybe<OrderBy>;
+  id?: Maybe<OrderBy>;
+  post_id?: Maybe<OrderBy>;
+};
+
+/** aggregate stddev_pop on columns */
+export type LikeStddevPopFields = {
+  __typename?: 'like_stddev_pop_fields';
+  count: Maybe<Scalars['Float']>;
+  id: Maybe<Scalars['Float']>;
+  post_id: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev_pop() on columns of table "likes" */
+export type LikeStddevPopOrderBy = {
+  count?: Maybe<OrderBy>;
+  id?: Maybe<OrderBy>;
+  post_id?: Maybe<OrderBy>;
+};
+
+/** aggregate stddev_samp on columns */
+export type LikeStddevSampFields = {
+  __typename?: 'like_stddev_samp_fields';
+  count: Maybe<Scalars['Float']>;
+  id: Maybe<Scalars['Float']>;
+  post_id: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev_samp() on columns of table "likes" */
+export type LikeStddevSampOrderBy = {
+  count?: Maybe<OrderBy>;
+  id?: Maybe<OrderBy>;
+  post_id?: Maybe<OrderBy>;
+};
+
+/** aggregate sum on columns */
+export type LikeSumFields = {
+  __typename?: 'like_sum_fields';
+  count: Maybe<Scalars['Int']>;
+  id: Maybe<Scalars['Int']>;
+  post_id: Maybe<Scalars['Int']>;
+};
+
+/** order by sum() on columns of table "likes" */
+export type LikeSumOrderBy = {
+  count?: Maybe<OrderBy>;
+  id?: Maybe<OrderBy>;
+  post_id?: Maybe<OrderBy>;
+};
+
+/** update columns of table "likes" */
+export const LikeUpdateColumn = {
+  /** column name */
+  Count: 'count',
+  /** column name */
+  CreatedAt: 'created_at',
+  /** column name */
+  Id: 'id',
+  /** column name */
+  PostId: 'post_id',
+  /** column name */
+  UpdatedAt: 'updated_at',
+  /** column name */
+  UserId: 'user_id',
+} as const;
+
+export type LikeUpdateColumn =
+  typeof LikeUpdateColumn[keyof typeof LikeUpdateColumn];
+/** aggregate var_pop on columns */
+export type LikeVarPopFields = {
+  __typename?: 'like_var_pop_fields';
+  count: Maybe<Scalars['Float']>;
+  id: Maybe<Scalars['Float']>;
+  post_id: Maybe<Scalars['Float']>;
+};
+
+/** order by var_pop() on columns of table "likes" */
+export type LikeVarPopOrderBy = {
+  count?: Maybe<OrderBy>;
+  id?: Maybe<OrderBy>;
+  post_id?: Maybe<OrderBy>;
+};
+
+/** aggregate var_samp on columns */
+export type LikeVarSampFields = {
+  __typename?: 'like_var_samp_fields';
+  count: Maybe<Scalars['Float']>;
+  id: Maybe<Scalars['Float']>;
+  post_id: Maybe<Scalars['Float']>;
+};
+
+/** order by var_samp() on columns of table "likes" */
+export type LikeVarSampOrderBy = {
+  count?: Maybe<OrderBy>;
+  id?: Maybe<OrderBy>;
+  post_id?: Maybe<OrderBy>;
+};
+
+/** aggregate variance on columns */
+export type LikeVarianceFields = {
+  __typename?: 'like_variance_fields';
+  count: Maybe<Scalars['Float']>;
+  id: Maybe<Scalars['Float']>;
+  post_id: Maybe<Scalars['Float']>;
+};
+
+/** order by variance() on columns of table "likes" */
+export type LikeVarianceOrderBy = {
+  count?: Maybe<OrderBy>;
+  id?: Maybe<OrderBy>;
+  post_id?: Maybe<OrderBy>;
+};
+
 /** mutation root */
 export type MutationRoot = {
   __typename?: 'mutation_root';
+  /** insert a single row into the table: "likes" */
+  addLike: Maybe<Like>;
+  /** insert data into the table: "likes" */
+  addLikes: Maybe<LikeMutationResponse>;
   /** insert a single row into the table: "posts" */
   addPost: Maybe<Post>;
   /** insert data into the table: "posts" */
@@ -81,6 +435,10 @@ export type MutationRoot = {
   addUser: Maybe<User>;
   /** insert data into the table: "users" */
   addUsers: Maybe<UserMutationResponse>;
+  /** delete single row from the table: "likes" */
+  deleteLike: Maybe<Like>;
+  /** delete data from the table: "likes" */
+  deleteLikes: Maybe<LikeMutationResponse>;
   /** delete single row from the table: "posts" */
   deletePost: Maybe<Post>;
   /** delete data from the table: "posts" */
@@ -97,6 +455,10 @@ export type MutationRoot = {
   deleteUser: Maybe<User>;
   /** delete data from the table: "users" */
   deleteUsers: Maybe<UserMutationResponse>;
+  /** update single row of the table: "likes" */
+  updateLike: Maybe<Like>;
+  /** update data of the table: "likes" */
+  updateLikes: Maybe<LikeMutationResponse>;
   /** update single row of the table: "posts" */
   updatePost: Maybe<Post>;
   /** update data of the table: "posts" */
@@ -113,6 +475,18 @@ export type MutationRoot = {
   updateUser: Maybe<User>;
   /** update data of the table: "users" */
   updateUsers: Maybe<UserMutationResponse>;
+};
+
+/** mutation root */
+export type MutationRootAddLikeArgs = {
+  object: LikeInsertInput;
+  on_conflict: Maybe<LikeOnConflict>;
+};
+
+/** mutation root */
+export type MutationRootAddLikesArgs = {
+  objects: Array<LikeInsertInput>;
+  on_conflict: Maybe<LikeOnConflict>;
 };
 
 /** mutation root */
@@ -164,6 +538,16 @@ export type MutationRootAddUsersArgs = {
 };
 
 /** mutation root */
+export type MutationRootDeleteLikeArgs = {
+  id: Scalars['Int'];
+};
+
+/** mutation root */
+export type MutationRootDeleteLikesArgs = {
+  where: LikeBoolExp;
+};
+
+/** mutation root */
 export type MutationRootDeletePostArgs = {
   id: Scalars['Int'];
 };
@@ -201,6 +585,20 @@ export type MutationRootDeleteUserArgs = {
 /** mutation root */
 export type MutationRootDeleteUsersArgs = {
   where: UserBoolExp;
+};
+
+/** mutation root */
+export type MutationRootUpdateLikeArgs = {
+  _inc: Maybe<LikeIncInput>;
+  _set: Maybe<LikeSetInput>;
+  pk_columns: LikePkColumnsInput;
+};
+
+/** mutation root */
+export type MutationRootUpdateLikesArgs = {
+  _inc: Maybe<LikeIncInput>;
+  _set: Maybe<LikeSetInput>;
+  where: LikeBoolExp;
 };
 
 /** mutation root */
@@ -281,6 +679,10 @@ export type Post = {
   createdAt: Scalars['timestamptz'];
   description: Scalars['String'];
   id: Scalars['Int'];
+  /** An array relationship */
+  likes: Array<Like>;
+  /** An aggregate relationship */
+  likes_aggregate: LikeAggregate;
   /** fetch data from the table: "taggings" */
   taggings: Array<Tagging>;
   /** An aggregate relationship */
@@ -290,6 +692,24 @@ export type Post = {
   /** An object relationship */
   user: User;
   userId: Scalars['String'];
+};
+
+/** テンプレートの投稿 */
+export type PostLikesArgs = {
+  distinct_on: Maybe<Array<LikeSelectColumn>>;
+  limit: Maybe<Scalars['Int']>;
+  offset: Maybe<Scalars['Int']>;
+  order_by: Maybe<Array<LikeOrderBy>>;
+  where: Maybe<LikeBoolExp>;
+};
+
+/** テンプレートの投稿 */
+export type PostLikesAggregateArgs = {
+  distinct_on: Maybe<Array<LikeSelectColumn>>;
+  limit: Maybe<Scalars['Int']>;
+  offset: Maybe<Scalars['Int']>;
+  order_by: Maybe<Array<LikeOrderBy>>;
+  where: Maybe<LikeBoolExp>;
 };
 
 /** テンプレートの投稿 */
@@ -381,6 +801,7 @@ export type PostBoolExp = {
   createdAt?: Maybe<TimestamptzComparisonExp>;
   description?: Maybe<StringComparisonExp>;
   id?: Maybe<IntComparisonExp>;
+  likes?: Maybe<LikeBoolExp>;
   taggings?: Maybe<TaggingBoolExp>;
   title?: Maybe<StringComparisonExp>;
   updatedAt?: Maybe<TimestamptzComparisonExp>;
@@ -406,6 +827,7 @@ export type PostInsertInput = {
   createdAt?: Maybe<Scalars['timestamptz']>;
   description?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['Int']>;
+  likes?: Maybe<LikeArrRelInsertInput>;
   taggings?: Maybe<TaggingArrRelInsertInput>;
   title?: Maybe<Scalars['String']>;
   updatedAt?: Maybe<Scalars['timestamptz']>;
@@ -488,6 +910,7 @@ export type PostOrderBy = {
   createdAt?: Maybe<OrderBy>;
   description?: Maybe<OrderBy>;
   id?: Maybe<OrderBy>;
+  likes_aggregate?: Maybe<LikeAggregateOrderBy>;
   taggings_aggregate?: Maybe<TaggingAggregateOrderBy>;
   title?: Maybe<OrderBy>;
   updatedAt?: Maybe<OrderBy>;
@@ -630,6 +1053,12 @@ export type PostVarianceOrderBy = {
 
 export type QueryRoot = {
   __typename?: 'query_root';
+  /** fetch data from the table: "likes" using primary key columns */
+  like: Maybe<Like>;
+  /** An array relationship */
+  likes: Array<Like>;
+  /** fetch aggregated fields from the table: "likes" */
+  likesAggregate: LikeAggregate;
   /** fetch data from the table: "posts" using primary key columns */
   post: Maybe<Post>;
   /** An array relationship */
@@ -654,6 +1083,26 @@ export type QueryRoot = {
   users: Array<User>;
   /** fetch aggregated fields from the table: "users" */
   usersAggregate: UserAggregate;
+};
+
+export type QueryRootLikeArgs = {
+  id: Scalars['Int'];
+};
+
+export type QueryRootLikesArgs = {
+  distinct_on: Maybe<Array<LikeSelectColumn>>;
+  limit: Maybe<Scalars['Int']>;
+  offset: Maybe<Scalars['Int']>;
+  order_by: Maybe<Array<LikeOrderBy>>;
+  where: Maybe<LikeBoolExp>;
+};
+
+export type QueryRootLikesAggregateArgs = {
+  distinct_on: Maybe<Array<LikeSelectColumn>>;
+  limit: Maybe<Scalars['Int']>;
+  offset: Maybe<Scalars['Int']>;
+  order_by: Maybe<Array<LikeOrderBy>>;
+  where: Maybe<LikeBoolExp>;
 };
 
 export type QueryRootPostArgs = {
@@ -738,6 +1187,12 @@ export type QueryRootUsersAggregateArgs = {
 
 export type SubscriptionRoot = {
   __typename?: 'subscription_root';
+  /** fetch data from the table: "likes" using primary key columns */
+  like: Maybe<Like>;
+  /** An array relationship */
+  likes: Array<Like>;
+  /** fetch aggregated fields from the table: "likes" */
+  likesAggregate: LikeAggregate;
   /** fetch data from the table: "posts" using primary key columns */
   post: Maybe<Post>;
   /** An array relationship */
@@ -762,6 +1217,26 @@ export type SubscriptionRoot = {
   users: Array<User>;
   /** fetch aggregated fields from the table: "users" */
   usersAggregate: UserAggregate;
+};
+
+export type SubscriptionRootLikeArgs = {
+  id: Scalars['Int'];
+};
+
+export type SubscriptionRootLikesArgs = {
+  distinct_on: Maybe<Array<LikeSelectColumn>>;
+  limit: Maybe<Scalars['Int']>;
+  offset: Maybe<Scalars['Int']>;
+  order_by: Maybe<Array<LikeOrderBy>>;
+  where: Maybe<LikeBoolExp>;
+};
+
+export type SubscriptionRootLikesAggregateArgs = {
+  distinct_on: Maybe<Array<LikeSelectColumn>>;
+  limit: Maybe<Scalars['Int']>;
+  offset: Maybe<Scalars['Int']>;
+  order_by: Maybe<Array<LikeOrderBy>>;
+  where: Maybe<LikeBoolExp>;
 };
 
 export type SubscriptionRootPostArgs = {
@@ -1435,6 +1910,10 @@ export type User = {
   createdAt: Scalars['timestamptz'];
   email: Scalars['String'];
   id: Scalars['String'];
+  /** An array relationship */
+  likes: Array<Like>;
+  /** An aggregate relationship */
+  likes_aggregate: LikeAggregate;
   name: Scalars['String'];
   picture: Scalars['String'];
   /** An array relationship */
@@ -1442,6 +1921,24 @@ export type User = {
   /** An aggregate relationship */
   posts_aggregate: PostAggregate;
   updatedAt: Scalars['timestamptz'];
+};
+
+/** ユーザー */
+export type UserLikesArgs = {
+  distinct_on: Maybe<Array<LikeSelectColumn>>;
+  limit: Maybe<Scalars['Int']>;
+  offset: Maybe<Scalars['Int']>;
+  order_by: Maybe<Array<LikeOrderBy>>;
+  where: Maybe<LikeBoolExp>;
+};
+
+/** ユーザー */
+export type UserLikesAggregateArgs = {
+  distinct_on: Maybe<Array<LikeSelectColumn>>;
+  limit: Maybe<Scalars['Int']>;
+  offset: Maybe<Scalars['Int']>;
+  order_by: Maybe<Array<LikeOrderBy>>;
+  where: Maybe<LikeBoolExp>;
 };
 
 /** ユーザー */
@@ -1491,6 +1988,7 @@ export type UserBoolExp = {
   createdAt?: Maybe<TimestamptzComparisonExp>;
   email?: Maybe<StringComparisonExp>;
   id?: Maybe<StringComparisonExp>;
+  likes?: Maybe<LikeBoolExp>;
   name?: Maybe<StringComparisonExp>;
   picture?: Maybe<StringComparisonExp>;
   posts?: Maybe<PostBoolExp>;
@@ -1509,6 +2007,7 @@ export type UserInsertInput = {
   createdAt?: Maybe<Scalars['timestamptz']>;
   email?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['String']>;
+  likes?: Maybe<LikeArrRelInsertInput>;
   name?: Maybe<Scalars['String']>;
   picture?: Maybe<Scalars['String']>;
   posts?: Maybe<PostArrRelInsertInput>;
@@ -1565,6 +2064,7 @@ export type UserOrderBy = {
   createdAt?: Maybe<OrderBy>;
   email?: Maybe<OrderBy>;
   id?: Maybe<OrderBy>;
+  likes_aggregate?: Maybe<LikeAggregateOrderBy>;
   name?: Maybe<OrderBy>;
   picture?: Maybe<OrderBy>;
   posts_aggregate?: Maybe<PostAggregateOrderBy>;
