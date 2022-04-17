@@ -8,12 +8,13 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
 import { InputField } from '@/components/uiParts/Form/InputField';
+import { useUpdateUser } from '@/features/setting/graphql/mutations/updateUser';
 import { User } from '@/graphql/generated/types';
 import { pagesPath } from '@/lib/$path';
 
 import { useFetchUserQuery } from './generated';
 
-type SettingAccountForm = Pick<User, 'name'>;
+type SettingAccountForm = Pick<User, 'id' | 'name'>;
 const postFormSchema = yup.object({
   name: yup
     .string()
@@ -42,12 +43,13 @@ export const SettingAccount: VFC = () => {
         router.replace(pagesPath.$403.$url());
         return;
       }
-      reset({ name: data.user.name });
+      reset({ id: data.user.id, name: data.user.name });
     },
   });
+  const [updateUser, { loading }] = useUpdateUser();
 
-  const onSubmit: SubmitHandler<SettingAccountForm> = ({ name }) => {
-    alert(`name: ${name}`);
+  const onSubmit: SubmitHandler<SettingAccountForm> = ({ id, ...user }) => {
+    updateUser(id, user);
   };
 
   return (
@@ -65,7 +67,7 @@ export const SettingAccount: VFC = () => {
       <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
         <LoadingButton
           variant="contained"
-          // loading={submitting}
+          loading={loading}
           sx={{ fontWeight: 'bold' }}
           onClick={handleSubmit(onSubmit)}
         >
