@@ -1,0 +1,17 @@
+mutation AddLike($postId: Int!) {
+  addLike(object: { post_id: $postId }) {
+    id
+    user_id
+    post_id
+    count
+  }
+}
+
+mutation UpdateLike($likeId: Int!) {
+  updateLike(pk_columns: { id: $likeId }, _inc: { count: 1 }) {
+    id
+    user_id
+    post_id
+    count
+  }
+}

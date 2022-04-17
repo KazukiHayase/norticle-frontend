@@ -14,6 +14,7 @@ import {
   PostTagsFragment,
   PostTagsFragmentDoc,
 } from '@/features/post/components/PostTags/generated';
+import { useUpsertLike } from '@/features/post/graphql/mutations/upsertLike';
 import { useNotifier } from '@/hooks/useNotifier';
 import { pagesPath } from '@/lib/$path';
 import { formatDate } from '@/services/date';
@@ -31,6 +32,8 @@ import {
   UserInfo,
 } from './style';
 
+const likeLimit = 10;
+
 type PostDetailProps = {
   postId: number;
 };
@@ -46,16 +49,19 @@ export const PostDetail: VFC<PostDetailProps> = ({ postId }) => {
       if (!data.post) router.replace(pagesPath.$404.$url());
     },
   });
+  const [upsertLike] = useUpsertLike();
 
-  const { post, userLikeCount, totalLikeCount } = useMemo(() => {
+  const { post, userLikeId, userLikeCount, totalLikeCount } = useMemo(() => {
     const post = data?.post;
-    const userLikeCount =
-      post?.likes.find((like) => like.user_id === user?.sub)?.count ?? 0;
+    const userLike = post?.likes.find((like) => like.user_id === user?.sub);
+    const userLikeId = userLike?.id;
+    const userLikeCount = userLike?.count ?? 0;
     const totalLikeCount =
       post?.likes.reduce((count, acc) => count + acc.count, 0) ?? 0;
 
     return {
       post,
+      userLikeId,
       userLikeCount,
       totalLikeCount,
     };
@@ -64,6 +70,11 @@ export const PostDetail: VFC<PostDetailProps> = ({ postId }) => {
   useEffect(() => {
     loading ? progress.start() : progress.done();
   }, [loading]);
+
+  const handleClickLikeIcon = () => {
+    if (userLikeCount <= likeLimit) return;
+    upsertLike(postId, userLikeId);
+  };
 
   const handleClickCopyIcon = () => {
     navigator.clipboard
@@ -127,14 +138,22 @@ export const PostDetail: VFC<PostDetailProps> = ({ postId }) => {
           <ActionArea>
             <Box>
               <Tooltip title="いいね" placement="top" arrow>
-                <LikeIconButton onClick={() => console.log('log')}>
+                <LikeIconButton
+                  onClick={handleClickLikeIcon}
+                  color={userLikeCount > 0 ? 'primary' : undefined}
+                >
                   <LikeIcon>
                     <FontAwesomeIcon icon={faHeart} fontSize={24} />
                   </LikeIcon>
-                  <LikedCount>{userLikeCount}/10</LikedCount>
+                  <LikedCount>
+                    {userLikeCount}/{likeLimit}
+                  </LikedCount>
                 </LikeIconButton>
               </Tooltip>
-              <Typography color="action.active" sx={{ textAlign: 'center' }}>
+              <Typography
+                color={userLikeCount > 0 ? 'primary' : 'action.active'}
+                sx={{ textAlign: 'center' }}
+              >
                 {totalLikeCount}
               </Typography>
             </Box>
