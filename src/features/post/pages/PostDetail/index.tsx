@@ -19,6 +19,7 @@ import {
   PostTagsFragment,
   PostTagsFragmentDoc,
 } from '@/features/post/components/PostTags/generated';
+import { useStockPost } from '@/features/post/graphql/mutations/stockPost';
 import { useUpsertLike } from '@/features/post/graphql/mutations/upsertLike';
 import { useNotifier } from '@/hooks/useNotifier';
 import { pagesPath } from '@/lib/$path';
@@ -52,12 +53,13 @@ export const PostDetail: VFC<PostDetailProps> = ({ postId }) => {
   const { notice } = useNotifier();
 
   const { data, loading } = useFetchPostQuery({
-    variables: { postId, userId: user?.sub ?? '' },
+    variables: { postId },
     onCompleted: (data) => {
       if (!data.post) router.replace(pagesPath.$404.$url());
     },
   });
   const [upsertLike] = useUpsertLike();
+  const [stockPost] = useStockPost();
 
   const { post, userLikeId, userLikeCount, totalLikeCount, stock } =
     useMemo(() => {
@@ -93,8 +95,11 @@ export const PostDetail: VFC<PostDetailProps> = ({ postId }) => {
       .then(() => notice('コピーしました', 'success'));
   };
 
-  if (loading || !post) return <></>;
+  const handleClickStockIcon = () => {
+    stock ? alert('unStockPost') : stockPost(postId);
+  };
 
+  if (loading || !post) return <></>;
   return (
     <Section sx={{ bgcolor: blueGrey[50] }}>
       <Container maxWidth="md">
@@ -168,7 +173,7 @@ export const PostDetail: VFC<PostDetailProps> = ({ postId }) => {
               </Box>
               <Tooltip title="マイテンプレートに追加" placement="top" arrow>
                 <StockIconButton
-                  onClick={() => alert('onClick')}
+                  onClick={handleClickStockIcon}
                   isActive={!!stock}
                 >
                   <FontAwesomeIcon icon={faBookmark} fontSize={20} />
