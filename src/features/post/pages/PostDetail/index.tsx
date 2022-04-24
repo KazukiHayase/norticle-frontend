@@ -173,7 +173,7 @@ export const PostDetail: VFC<PostDetailProps> = ({ postId }) => {
                   {totalLikeCount}
                 </TotalLikedCount>
               </Box>
-              <Tooltip title="マイテンプレート" placement="top" arrow>
+              <Tooltip title="ストック" placement="top" arrow>
                 <StockIconButton
                   onClick={handleClickStockIcon}
                   isActive={!!stock}

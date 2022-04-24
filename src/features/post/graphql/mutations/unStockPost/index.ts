@@ -28,9 +28,9 @@ export const useUnStockPost = (): UnStockPostHookResult => {
           refetchQueries: [FetchPostDocument],
         });
 
-        notice('マイテンプレートから削除しました', 'success');
+        notice('ストック解除しました', 'success');
       } catch {
-        notice('マイテンプレートからの削除に失敗しました', 'error');
+        notice('ストック解除に失敗しました', 'error');
       } finally {
         setLoading(false);
         progress.done();
