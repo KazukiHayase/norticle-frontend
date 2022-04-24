@@ -423,6 +423,10 @@ export type MutationRoot = {
   addPost: Maybe<Post>;
   /** insert data into the table: "posts" */
   addPosts: Maybe<PostMutationResponse>;
+  /** insert a single row into the table: "stocks" */
+  addStock: Maybe<Stock>;
+  /** insert data into the table: "stocks" */
+  addStocks: Maybe<StockMutationResponse>;
   /** insert a single row into the table: "tags" */
   addTag: Maybe<Tag>;
   /** insert a single row into the table: "taggings" */
@@ -443,6 +447,10 @@ export type MutationRoot = {
   deletePost: Maybe<Post>;
   /** delete data from the table: "posts" */
   deletePosts: Maybe<PostMutationResponse>;
+  /** delete single row from the table: "stocks" */
+  deleteStock: Maybe<Stock>;
+  /** delete data from the table: "stocks" */
+  deleteStocks: Maybe<StockMutationResponse>;
   /** delete single row from the table: "tags" */
   deleteTag: Maybe<Tag>;
   /** delete single row from the table: "taggings" */
@@ -463,6 +471,10 @@ export type MutationRoot = {
   updatePost: Maybe<Post>;
   /** update data of the table: "posts" */
   updatePosts: Maybe<PostMutationResponse>;
+  /** update single row of the table: "stocks" */
+  updateStock: Maybe<Stock>;
+  /** update data of the table: "stocks" */
+  updateStocks: Maybe<StockMutationResponse>;
   /** update single row of the table: "tags" */
   updateTag: Maybe<Tag>;
   /** update single row of the table: "taggings" */
@@ -499,6 +511,18 @@ export type MutationRootAddPostArgs = {
 export type MutationRootAddPostsArgs = {
   objects: Array<PostInsertInput>;
   on_conflict: Maybe<PostOnConflict>;
+};
+
+/** mutation root */
+export type MutationRootAddStockArgs = {
+  object: StockInsertInput;
+  on_conflict: Maybe<StockOnConflict>;
+};
+
+/** mutation root */
+export type MutationRootAddStocksArgs = {
+  objects: Array<StockInsertInput>;
+  on_conflict: Maybe<StockOnConflict>;
 };
 
 /** mutation root */
@@ -558,6 +582,16 @@ export type MutationRootDeletePostsArgs = {
 };
 
 /** mutation root */
+export type MutationRootDeleteStockArgs = {
+  id: Scalars['Int'];
+};
+
+/** mutation root */
+export type MutationRootDeleteStocksArgs = {
+  where: StockBoolExp;
+};
+
+/** mutation root */
 export type MutationRootDeleteTagArgs = {
   id: Scalars['Int'];
 };
@@ -613,6 +647,20 @@ export type MutationRootUpdatePostsArgs = {
   _inc: Maybe<PostIncInput>;
   _set: Maybe<PostSetInput>;
   where: PostBoolExp;
+};
+
+/** mutation root */
+export type MutationRootUpdateStockArgs = {
+  _inc: Maybe<StockIncInput>;
+  _set: Maybe<StockSetInput>;
+  pk_columns: StockPkColumnsInput;
+};
+
+/** mutation root */
+export type MutationRootUpdateStocksArgs = {
+  _inc: Maybe<StockIncInput>;
+  _set: Maybe<StockSetInput>;
+  where: StockBoolExp;
 };
 
 /** mutation root */
@@ -683,6 +731,10 @@ export type Post = {
   likes: Array<Like>;
   /** An aggregate relationship */
   likes_aggregate: LikeAggregate;
+  /** An array relationship */
+  stocks: Array<Stock>;
+  /** An aggregate relationship */
+  stocks_aggregate: StockAggregate;
   /** fetch data from the table: "taggings" */
   taggings: Array<Tagging>;
   /** An aggregate relationship */
@@ -710,6 +762,24 @@ export type PostLikesAggregateArgs = {
   offset: Maybe<Scalars['Int']>;
   order_by: Maybe<Array<LikeOrderBy>>;
   where: Maybe<LikeBoolExp>;
+};
+
+/** テンプレートの投稿 */
+export type PostStocksArgs = {
+  distinct_on: Maybe<Array<StockSelectColumn>>;
+  limit: Maybe<Scalars['Int']>;
+  offset: Maybe<Scalars['Int']>;
+  order_by: Maybe<Array<StockOrderBy>>;
+  where: Maybe<StockBoolExp>;
+};
+
+/** テンプレートの投稿 */
+export type PostStocksAggregateArgs = {
+  distinct_on: Maybe<Array<StockSelectColumn>>;
+  limit: Maybe<Scalars['Int']>;
+  offset: Maybe<Scalars['Int']>;
+  order_by: Maybe<Array<StockOrderBy>>;
+  where: Maybe<StockBoolExp>;
 };
 
 /** テンプレートの投稿 */
@@ -802,6 +872,7 @@ export type PostBoolExp = {
   description?: Maybe<StringComparisonExp>;
   id?: Maybe<IntComparisonExp>;
   likes?: Maybe<LikeBoolExp>;
+  stocks?: Maybe<StockBoolExp>;
   taggings?: Maybe<TaggingBoolExp>;
   title?: Maybe<StringComparisonExp>;
   updatedAt?: Maybe<TimestamptzComparisonExp>;
@@ -828,6 +899,7 @@ export type PostInsertInput = {
   description?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['Int']>;
   likes?: Maybe<LikeArrRelInsertInput>;
+  stocks?: Maybe<StockArrRelInsertInput>;
   taggings?: Maybe<TaggingArrRelInsertInput>;
   title?: Maybe<Scalars['String']>;
   updatedAt?: Maybe<Scalars['timestamptz']>;
@@ -911,6 +983,7 @@ export type PostOrderBy = {
   description?: Maybe<OrderBy>;
   id?: Maybe<OrderBy>;
   likes_aggregate?: Maybe<LikeAggregateOrderBy>;
+  stocks_aggregate?: Maybe<StockAggregateOrderBy>;
   taggings_aggregate?: Maybe<TaggingAggregateOrderBy>;
   title?: Maybe<OrderBy>;
   updatedAt?: Maybe<OrderBy>;
@@ -1065,6 +1138,12 @@ export type QueryRoot = {
   posts: Array<Post>;
   /** fetch aggregated fields from the table: "posts" */
   postsAggregate: PostAggregate;
+  /** fetch data from the table: "stocks" using primary key columns */
+  stock: Maybe<Stock>;
+  /** An array relationship */
+  stocks: Array<Stock>;
+  /** fetch aggregated fields from the table: "stocks" */
+  stocksAggregate: StockAggregate;
   /** fetch data from the table: "tags" using primary key columns */
   tag: Maybe<Tag>;
   /** fetch data from the table: "taggings" using primary key columns */
@@ -1123,6 +1202,26 @@ export type QueryRootPostsAggregateArgs = {
   offset: Maybe<Scalars['Int']>;
   order_by: Maybe<Array<PostOrderBy>>;
   where: Maybe<PostBoolExp>;
+};
+
+export type QueryRootStockArgs = {
+  id: Scalars['Int'];
+};
+
+export type QueryRootStocksArgs = {
+  distinct_on: Maybe<Array<StockSelectColumn>>;
+  limit: Maybe<Scalars['Int']>;
+  offset: Maybe<Scalars['Int']>;
+  order_by: Maybe<Array<StockOrderBy>>;
+  where: Maybe<StockBoolExp>;
+};
+
+export type QueryRootStocksAggregateArgs = {
+  distinct_on: Maybe<Array<StockSelectColumn>>;
+  limit: Maybe<Scalars['Int']>;
+  offset: Maybe<Scalars['Int']>;
+  order_by: Maybe<Array<StockOrderBy>>;
+  where: Maybe<StockBoolExp>;
 };
 
 export type QueryRootTagArgs = {
@@ -1185,6 +1284,327 @@ export type QueryRootUsersAggregateArgs = {
   where: Maybe<UserBoolExp>;
 };
 
+/** ストック */
+export type Stock = {
+  __typename?: 'stock';
+  created_at: Scalars['timestamptz'];
+  id: Scalars['Int'];
+  /** An object relationship */
+  post: Post;
+  post_id: Scalars['Int'];
+  updated_at: Scalars['timestamptz'];
+  /** An object relationship */
+  user: User;
+  user_id: Scalars['String'];
+};
+
+/** aggregated selection of "stocks" */
+export type StockAggregate = {
+  __typename?: 'stock_aggregate';
+  aggregate: Maybe<StockAggregateFields>;
+  nodes: Array<Stock>;
+};
+
+/** aggregate fields of "stocks" */
+export type StockAggregateFields = {
+  __typename?: 'stock_aggregate_fields';
+  avg: Maybe<StockAvgFields>;
+  count: Scalars['Int'];
+  max: Maybe<StockMaxFields>;
+  min: Maybe<StockMinFields>;
+  stddev: Maybe<StockStddevFields>;
+  stddev_pop: Maybe<StockStddevPopFields>;
+  stddev_samp: Maybe<StockStddevSampFields>;
+  sum: Maybe<StockSumFields>;
+  var_pop: Maybe<StockVarPopFields>;
+  var_samp: Maybe<StockVarSampFields>;
+  variance: Maybe<StockVarianceFields>;
+};
+
+/** aggregate fields of "stocks" */
+export type StockAggregateFieldsCountArgs = {
+  columns: Maybe<Array<StockSelectColumn>>;
+  distinct: Maybe<Scalars['Boolean']>;
+};
+
+/** order by aggregate values of table "stocks" */
+export type StockAggregateOrderBy = {
+  avg?: Maybe<StockAvgOrderBy>;
+  count?: Maybe<OrderBy>;
+  max?: Maybe<StockMaxOrderBy>;
+  min?: Maybe<StockMinOrderBy>;
+  stddev?: Maybe<StockStddevOrderBy>;
+  stddev_pop?: Maybe<StockStddevPopOrderBy>;
+  stddev_samp?: Maybe<StockStddevSampOrderBy>;
+  sum?: Maybe<StockSumOrderBy>;
+  var_pop?: Maybe<StockVarPopOrderBy>;
+  var_samp?: Maybe<StockVarSampOrderBy>;
+  variance?: Maybe<StockVarianceOrderBy>;
+};
+
+/** input type for inserting array relation for remote table "stocks" */
+export type StockArrRelInsertInput = {
+  data: Array<StockInsertInput>;
+  /** upsert condition */
+  on_conflict?: Maybe<StockOnConflict>;
+};
+
+/** aggregate avg on columns */
+export type StockAvgFields = {
+  __typename?: 'stock_avg_fields';
+  id: Maybe<Scalars['Float']>;
+  post_id: Maybe<Scalars['Float']>;
+};
+
+/** order by avg() on columns of table "stocks" */
+export type StockAvgOrderBy = {
+  id?: Maybe<OrderBy>;
+  post_id?: Maybe<OrderBy>;
+};
+
+/** Boolean expression to filter rows from the table "stocks". All fields are combined with a logical 'AND'. */
+export type StockBoolExp = {
+  _and?: Maybe<Array<StockBoolExp>>;
+  _not?: Maybe<StockBoolExp>;
+  _or?: Maybe<Array<StockBoolExp>>;
+  created_at?: Maybe<TimestamptzComparisonExp>;
+  id?: Maybe<IntComparisonExp>;
+  post?: Maybe<PostBoolExp>;
+  post_id?: Maybe<IntComparisonExp>;
+  updated_at?: Maybe<TimestamptzComparisonExp>;
+  user?: Maybe<UserBoolExp>;
+  user_id?: Maybe<StringComparisonExp>;
+};
+
+/** unique or primary key constraints on table "stocks" */
+export const StockConstraint = {
+  /** unique or primary key constraint */
+  StocksPkey: 'stocks_pkey',
+  /** unique or primary key constraint */
+  StocksUserIdPostIdKey: 'stocks_user_id_post_id_key',
+} as const;
+
+export type StockConstraint =
+  typeof StockConstraint[keyof typeof StockConstraint];
+/** input type for incrementing numeric columns in table "stocks" */
+export type StockIncInput = {
+  id?: Maybe<Scalars['Int']>;
+  post_id?: Maybe<Scalars['Int']>;
+};
+
+/** input type for inserting data into table "stocks" */
+export type StockInsertInput = {
+  created_at?: Maybe<Scalars['timestamptz']>;
+  id?: Maybe<Scalars['Int']>;
+  post?: Maybe<PostObjRelInsertInput>;
+  post_id?: Maybe<Scalars['Int']>;
+  updated_at?: Maybe<Scalars['timestamptz']>;
+  user?: Maybe<UserObjRelInsertInput>;
+  user_id?: Maybe<Scalars['String']>;
+};
+
+/** aggregate max on columns */
+export type StockMaxFields = {
+  __typename?: 'stock_max_fields';
+  created_at: Maybe<Scalars['timestamptz']>;
+  id: Maybe<Scalars['Int']>;
+  post_id: Maybe<Scalars['Int']>;
+  updated_at: Maybe<Scalars['timestamptz']>;
+  user_id: Maybe<Scalars['String']>;
+};
+
+/** order by max() on columns of table "stocks" */
+export type StockMaxOrderBy = {
+  created_at?: Maybe<OrderBy>;
+  id?: Maybe<OrderBy>;
+  post_id?: Maybe<OrderBy>;
+  updated_at?: Maybe<OrderBy>;
+  user_id?: Maybe<OrderBy>;
+};
+
+/** aggregate min on columns */
+export type StockMinFields = {
+  __typename?: 'stock_min_fields';
+  created_at: Maybe<Scalars['timestamptz']>;
+  id: Maybe<Scalars['Int']>;
+  post_id: Maybe<Scalars['Int']>;
+  updated_at: Maybe<Scalars['timestamptz']>;
+  user_id: Maybe<Scalars['String']>;
+};
+
+/** order by min() on columns of table "stocks" */
+export type StockMinOrderBy = {
+  created_at?: Maybe<OrderBy>;
+  id?: Maybe<OrderBy>;
+  post_id?: Maybe<OrderBy>;
+  updated_at?: Maybe<OrderBy>;
+  user_id?: Maybe<OrderBy>;
+};
+
+/** response of any mutation on the table "stocks" */
+export type StockMutationResponse = {
+  __typename?: 'stock_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Stock>;
+};
+
+/** on_conflict condition type for table "stocks" */
+export type StockOnConflict = {
+  constraint: StockConstraint;
+  update_columns: Array<StockUpdateColumn>;
+  where?: Maybe<StockBoolExp>;
+};
+
+/** Ordering options when selecting data from "stocks". */
+export type StockOrderBy = {
+  created_at?: Maybe<OrderBy>;
+  id?: Maybe<OrderBy>;
+  post?: Maybe<PostOrderBy>;
+  post_id?: Maybe<OrderBy>;
+  updated_at?: Maybe<OrderBy>;
+  user?: Maybe<UserOrderBy>;
+  user_id?: Maybe<OrderBy>;
+};
+
+/** primary key columns input for table: stock */
+export type StockPkColumnsInput = {
+  id: Scalars['Int'];
+};
+
+/** select columns of table "stocks" */
+export const StockSelectColumn = {
+  /** column name */
+  CreatedAt: 'created_at',
+  /** column name */
+  Id: 'id',
+  /** column name */
+  PostId: 'post_id',
+  /** column name */
+  UpdatedAt: 'updated_at',
+  /** column name */
+  UserId: 'user_id',
+} as const;
+
+export type StockSelectColumn =
+  typeof StockSelectColumn[keyof typeof StockSelectColumn];
+/** input type for updating data in table "stocks" */
+export type StockSetInput = {
+  created_at?: Maybe<Scalars['timestamptz']>;
+  id?: Maybe<Scalars['Int']>;
+  post_id?: Maybe<Scalars['Int']>;
+  updated_at?: Maybe<Scalars['timestamptz']>;
+  user_id?: Maybe<Scalars['String']>;
+};
+
+/** aggregate stddev on columns */
+export type StockStddevFields = {
+  __typename?: 'stock_stddev_fields';
+  id: Maybe<Scalars['Float']>;
+  post_id: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev() on columns of table "stocks" */
+export type StockStddevOrderBy = {
+  id?: Maybe<OrderBy>;
+  post_id?: Maybe<OrderBy>;
+};
+
+/** aggregate stddev_pop on columns */
+export type StockStddevPopFields = {
+  __typename?: 'stock_stddev_pop_fields';
+  id: Maybe<Scalars['Float']>;
+  post_id: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev_pop() on columns of table "stocks" */
+export type StockStddevPopOrderBy = {
+  id?: Maybe<OrderBy>;
+  post_id?: Maybe<OrderBy>;
+};
+
+/** aggregate stddev_samp on columns */
+export type StockStddevSampFields = {
+  __typename?: 'stock_stddev_samp_fields';
+  id: Maybe<Scalars['Float']>;
+  post_id: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev_samp() on columns of table "stocks" */
+export type StockStddevSampOrderBy = {
+  id?: Maybe<OrderBy>;
+  post_id?: Maybe<OrderBy>;
+};
+
+/** aggregate sum on columns */
+export type StockSumFields = {
+  __typename?: 'stock_sum_fields';
+  id: Maybe<Scalars['Int']>;
+  post_id: Maybe<Scalars['Int']>;
+};
+
+/** order by sum() on columns of table "stocks" */
+export type StockSumOrderBy = {
+  id?: Maybe<OrderBy>;
+  post_id?: Maybe<OrderBy>;
+};
+
+/** update columns of table "stocks" */
+export const StockUpdateColumn = {
+  /** column name */
+  CreatedAt: 'created_at',
+  /** column name */
+  Id: 'id',
+  /** column name */
+  PostId: 'post_id',
+  /** column name */
+  UpdatedAt: 'updated_at',
+  /** column name */
+  UserId: 'user_id',
+} as const;
+
+export type StockUpdateColumn =
+  typeof StockUpdateColumn[keyof typeof StockUpdateColumn];
+/** aggregate var_pop on columns */
+export type StockVarPopFields = {
+  __typename?: 'stock_var_pop_fields';
+  id: Maybe<Scalars['Float']>;
+  post_id: Maybe<Scalars['Float']>;
+};
+
+/** order by var_pop() on columns of table "stocks" */
+export type StockVarPopOrderBy = {
+  id?: Maybe<OrderBy>;
+  post_id?: Maybe<OrderBy>;
+};
+
+/** aggregate var_samp on columns */
+export type StockVarSampFields = {
+  __typename?: 'stock_var_samp_fields';
+  id: Maybe<Scalars['Float']>;
+  post_id: Maybe<Scalars['Float']>;
+};
+
+/** order by var_samp() on columns of table "stocks" */
+export type StockVarSampOrderBy = {
+  id?: Maybe<OrderBy>;
+  post_id?: Maybe<OrderBy>;
+};
+
+/** aggregate variance on columns */
+export type StockVarianceFields = {
+  __typename?: 'stock_variance_fields';
+  id: Maybe<Scalars['Float']>;
+  post_id: Maybe<Scalars['Float']>;
+};
+
+/** order by variance() on columns of table "stocks" */
+export type StockVarianceOrderBy = {
+  id?: Maybe<OrderBy>;
+  post_id?: Maybe<OrderBy>;
+};
+
 export type SubscriptionRoot = {
   __typename?: 'subscription_root';
   /** fetch data from the table: "likes" using primary key columns */
@@ -1199,6 +1619,12 @@ export type SubscriptionRoot = {
   posts: Array<Post>;
   /** fetch aggregated fields from the table: "posts" */
   postsAggregate: PostAggregate;
+  /** fetch data from the table: "stocks" using primary key columns */
+  stock: Maybe<Stock>;
+  /** An array relationship */
+  stocks: Array<Stock>;
+  /** fetch aggregated fields from the table: "stocks" */
+  stocksAggregate: StockAggregate;
   /** fetch data from the table: "tags" using primary key columns */
   tag: Maybe<Tag>;
   /** fetch data from the table: "taggings" using primary key columns */
@@ -1257,6 +1683,26 @@ export type SubscriptionRootPostsAggregateArgs = {
   offset: Maybe<Scalars['Int']>;
   order_by: Maybe<Array<PostOrderBy>>;
   where: Maybe<PostBoolExp>;
+};
+
+export type SubscriptionRootStockArgs = {
+  id: Scalars['Int'];
+};
+
+export type SubscriptionRootStocksArgs = {
+  distinct_on: Maybe<Array<StockSelectColumn>>;
+  limit: Maybe<Scalars['Int']>;
+  offset: Maybe<Scalars['Int']>;
+  order_by: Maybe<Array<StockOrderBy>>;
+  where: Maybe<StockBoolExp>;
+};
+
+export type SubscriptionRootStocksAggregateArgs = {
+  distinct_on: Maybe<Array<StockSelectColumn>>;
+  limit: Maybe<Scalars['Int']>;
+  offset: Maybe<Scalars['Int']>;
+  order_by: Maybe<Array<StockOrderBy>>;
+  where: Maybe<StockBoolExp>;
 };
 
 export type SubscriptionRootTagArgs = {
@@ -1920,6 +2366,10 @@ export type User = {
   posts: Array<Post>;
   /** An aggregate relationship */
   posts_aggregate: PostAggregate;
+  /** An array relationship */
+  stocks: Array<Stock>;
+  /** An aggregate relationship */
+  stocks_aggregate: StockAggregate;
   updatedAt: Scalars['timestamptz'];
 };
 
@@ -1959,6 +2409,24 @@ export type UserPostsAggregateArgs = {
   where: Maybe<PostBoolExp>;
 };
 
+/** ユーザー */
+export type UserStocksArgs = {
+  distinct_on: Maybe<Array<StockSelectColumn>>;
+  limit: Maybe<Scalars['Int']>;
+  offset: Maybe<Scalars['Int']>;
+  order_by: Maybe<Array<StockOrderBy>>;
+  where: Maybe<StockBoolExp>;
+};
+
+/** ユーザー */
+export type UserStocksAggregateArgs = {
+  distinct_on: Maybe<Array<StockSelectColumn>>;
+  limit: Maybe<Scalars['Int']>;
+  offset: Maybe<Scalars['Int']>;
+  order_by: Maybe<Array<StockOrderBy>>;
+  where: Maybe<StockBoolExp>;
+};
+
 /** aggregated selection of "users" */
 export type UserAggregate = {
   __typename?: 'user_aggregate';
@@ -1992,6 +2460,7 @@ export type UserBoolExp = {
   name?: Maybe<StringComparisonExp>;
   picture?: Maybe<StringComparisonExp>;
   posts?: Maybe<PostBoolExp>;
+  stocks?: Maybe<StockBoolExp>;
   updatedAt?: Maybe<TimestamptzComparisonExp>;
 };
 
@@ -2011,6 +2480,7 @@ export type UserInsertInput = {
   name?: Maybe<Scalars['String']>;
   picture?: Maybe<Scalars['String']>;
   posts?: Maybe<PostArrRelInsertInput>;
+  stocks?: Maybe<StockArrRelInsertInput>;
   updatedAt?: Maybe<Scalars['timestamptz']>;
 };
 
@@ -2068,6 +2538,7 @@ export type UserOrderBy = {
   name?: Maybe<OrderBy>;
   picture?: Maybe<OrderBy>;
   posts_aggregate?: Maybe<PostAggregateOrderBy>;
+  stocks_aggregate?: Maybe<StockAggregateOrderBy>;
   updatedAt?: Maybe<OrderBy>;
 };
 

@@ -7,6 +7,7 @@ import * as Apollo from '@apollo/client';
 const defaultOptions = {};
 export type FetchPostQueryVariables = Types.Exact<{
   postId: Types.Scalars['Int'];
+  userId: Types.Scalars['String'];
 }>;
 
 export type FetchPostQuery = { __typename?: 'query_root' } & {
@@ -22,12 +23,20 @@ export type FetchPostQuery = { __typename?: 'query_root' } & {
         likes: Array<
           { __typename?: 'like' } & Pick<Types.Like, 'id' | 'user_id' | 'count'>
         >;
+        stocks_aggregate: { __typename?: 'stock_aggregate' } & {
+          aggregate?: Types.Maybe<
+            { __typename?: 'stock_aggregate_fields' } & Pick<
+              Types.StockAggregateFields,
+              'count'
+            >
+          >;
+        };
       } & PostTagsFragment
   >;
 };
 
 export const FetchPostDocument = gql`
-  query FetchPost($postId: Int!) {
+  query FetchPost($postId: Int!, $userId: String!) {
     post(id: $postId) {
       id
       title
@@ -44,6 +53,11 @@ export const FetchPostDocument = gql`
         id
         user_id
         count
+      }
+      stocks_aggregate(where: { user_id: { _eq: $userId } }) {
+        aggregate {
+          count
+        }
       }
       ...PostTags
     }
@@ -64,6 +78,7 @@ export const FetchPostDocument = gql`
  * const { data, loading, error } = useFetchPostQuery({
  *   variables: {
  *      postId: // value for 'postId'
+ *      userId: // value for 'userId'
  *   },
  * });
  */

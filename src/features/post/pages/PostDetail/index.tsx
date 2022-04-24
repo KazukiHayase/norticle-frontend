@@ -1,5 +1,10 @@
 import { useAuth0 } from '@auth0/auth0-react';
-import { faCopy, faHeart, faPen } from '@fortawesome/free-solid-svg-icons';
+import {
+  faBookmark,
+  faCopy,
+  faHeart,
+  faPen,
+} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Box, Button, Paper, Tooltip, Typography } from '@mui/material';
 import { Container } from '@mui/material';
@@ -30,6 +35,7 @@ import {
   LikedCount,
   LikeIcon,
   LikeIconButton,
+  StockIconButton,
   TotalLikedCount,
   UserInfo,
 } from './style';
@@ -46,28 +52,31 @@ export const PostDetail: VFC<PostDetailProps> = ({ postId }) => {
   const { notice } = useNotifier();
 
   const { data, loading } = useFetchPostQuery({
-    variables: { postId },
+    variables: { postId, userId: user?.sub ?? '' },
     onCompleted: (data) => {
       if (!data.post) router.replace(pagesPath.$404.$url());
     },
   });
   const [upsertLike] = useUpsertLike();
 
-  const { post, userLikeId, userLikeCount, totalLikeCount } = useMemo(() => {
-    const post = data?.post;
-    const userLike = post?.likes.find((like) => like.user_id === user?.sub);
-    const userLikeId = userLike?.id;
-    const userLikeCount = userLike?.count ?? 0;
-    const totalLikeCount =
-      post?.likes.reduce((count, acc) => count + acc.count, 0) ?? 0;
+  const { post, userLikeId, userLikeCount, totalLikeCount, isStocked } =
+    useMemo(() => {
+      const post = data?.post;
+      const userLike = post?.likes.find((like) => like.user_id === user?.sub);
+      const userLikeId = userLike?.id;
+      const userLikeCount = userLike?.count ?? 0;
+      const totalLikeCount =
+        post?.likes.reduce((count, acc) => count + acc.count, 0) ?? 0;
+      const isStocked = !!post?.stocks_aggregate.aggregate?.count;
 
-    return {
-      post,
-      userLikeId,
-      userLikeCount,
-      totalLikeCount,
-    };
-  }, [data, user]);
+      return {
+        post,
+        userLikeId,
+        userLikeCount,
+        totalLikeCount,
+        isStocked,
+      };
+    }, [data, user]);
 
   useEffect(() => {
     loading ? progress.start() : progress.done();
@@ -157,6 +166,14 @@ export const PostDetail: VFC<PostDetailProps> = ({ postId }) => {
                   {totalLikeCount}
                 </TotalLikedCount>
               </Box>
+              <Tooltip title="マイテンプレートに追加" placement="top" arrow>
+                <StockIconButton
+                  onClick={() => alert('onClick')}
+                  isActive={isStocked}
+                >
+                  <FontAwesomeIcon icon={faBookmark} fontSize={20} />
+                </StockIconButton>
+              </Tooltip>
               <Tooltip title="テンプレートをコピー" placement="top" arrow>
                 <CopyIconButton onClick={handleClickCopyIcon}>
                   <FontAwesomeIcon icon={faCopy} fontSize={20} />
