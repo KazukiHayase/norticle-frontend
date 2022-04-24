@@ -30,6 +30,7 @@ import {
   LikedCount,
   LikeIcon,
   LikeIconButton,
+  TotalLikedCount,
   UserInfo,
 } from './style';
 
@@ -142,7 +143,7 @@ export const PostDetail: VFC<PostDetailProps> = ({ postId }) => {
                 <Tooltip title="いいね" placement="top" arrow>
                   <LikeIconButton
                     onClick={handleClickLikeIcon}
-                    color={userLikeCount > 0 ? 'primary' : undefined}
+                    isActive={userLikeCount > 0}
                   >
                     <LikeIcon>
                       <FontAwesomeIcon icon={faHeart} fontSize={20} />
@@ -152,9 +153,9 @@ export const PostDetail: VFC<PostDetailProps> = ({ postId }) => {
                     </LikedCount>
                   </LikeIconButton>
                 </Tooltip>
-                <Typography color="action.active" sx={{ textAlign: 'center' }}>
+                <TotalLikedCount isActive={userLikeCount > 0}>
                   {totalLikeCount}
-                </Typography>
+                </TotalLikedCount>
               </Box>
               <Tooltip title="テンプレートをコピー" placement="top" arrow>
                 <CopyIconButton onClick={handleClickCopyIcon}>
