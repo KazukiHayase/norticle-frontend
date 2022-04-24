@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 
-import { refetchFetchPostQuery } from '@/features/post/pages/PostDetail/generated';
+import { FetchPostDocument } from '@/features/post/pages/PostDetail/generated';
 import { Post } from '@/graphql/generated/types';
 import { useNotifier } from '@/hooks/useNotifier';
 import { progress } from '@/services/progress';
@@ -22,7 +22,7 @@ export const useStockPost = (): StockPostHookResult => {
       try {
         await stockPostMutation({
           variables: { postId },
-          refetchQueries: [refetchFetchPostQuery({ postId })],
+          refetchQueries: [FetchPostDocument],
         });
 
         notice('マイテンプレートに追加しました', 'success');

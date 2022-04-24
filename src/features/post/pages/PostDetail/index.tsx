@@ -20,6 +20,7 @@ import {
   PostTagsFragmentDoc,
 } from '@/features/post/components/PostTags/generated';
 import { useStockPost } from '@/features/post/graphql/mutations/stockPost';
+import { useUnStockPost } from '@/features/post/graphql/mutations/unStockPost';
 import { useUpsertLike } from '@/features/post/graphql/mutations/upsertLike';
 import { useNotifier } from '@/hooks/useNotifier';
 import { pagesPath } from '@/lib/$path';
@@ -60,6 +61,7 @@ export const PostDetail: VFC<PostDetailProps> = ({ postId }) => {
   });
   const [upsertLike] = useUpsertLike();
   const [stockPost] = useStockPost();
+  const [unStockPost] = useUnStockPost();
 
   const { post, userLikeId, userLikeCount, totalLikeCount, stock } =
     useMemo(() => {
@@ -96,7 +98,7 @@ export const PostDetail: VFC<PostDetailProps> = ({ postId }) => {
   };
 
   const handleClickStockIcon = () => {
-    stock ? alert('unStockPost') : stockPost(postId);
+    stock ? unStockPost(stock.id) : stockPost(postId);
   };
 
   if (loading || !post) return <></>;
@@ -171,7 +173,7 @@ export const PostDetail: VFC<PostDetailProps> = ({ postId }) => {
                   {totalLikeCount}
                 </TotalLikedCount>
               </Box>
-              <Tooltip title="マイテンプレートに追加" placement="top" arrow>
+              <Tooltip title="マイテンプレート" placement="top" arrow>
                 <StockIconButton
                   onClick={handleClickStockIcon}
                   isActive={!!stock}
