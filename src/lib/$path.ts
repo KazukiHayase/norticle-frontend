@@ -12,9 +12,9 @@ export const pagesPath = {
     }),
   },
   dashboard: {
-    sample: {
+    stocks: {
       $url: (url?: { hash?: string }) => ({
-        pathname: '/dashboard/sample' as const,
+        pathname: '/dashboard/stocks' as const,
         hash: url?.hash,
       }),
     },
