@@ -107,11 +107,12 @@ export const DashboardPosts: VFC<DashboardPostsProps> = () => {
                   p: 3,
                 }}
               >
-                <Box>
+                <Box sx={{ width: 1 }}>
                   <Typography
                     variant="h3"
                     component={NextLinkComposed}
                     to={pagesPath.post._id(post.id).edit.$url()}
+                    sx={{ display: 'block', width: 1 }}
                   >
                     {post.title}
                   </Typography>
