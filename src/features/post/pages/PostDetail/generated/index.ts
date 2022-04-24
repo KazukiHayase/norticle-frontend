@@ -23,14 +23,7 @@ export type FetchPostQuery = { __typename?: 'query_root' } & {
         likes: Array<
           { __typename?: 'like' } & Pick<Types.Like, 'id' | 'user_id' | 'count'>
         >;
-        stocks_aggregate: { __typename?: 'stock_aggregate' } & {
-          aggregate?: Types.Maybe<
-            { __typename?: 'stock_aggregate_fields' } & Pick<
-              Types.StockAggregateFields,
-              'count'
-            >
-          >;
-        };
+        stocks: Array<{ __typename?: 'stock' } & Pick<Types.Stock, 'id'>>;
       } & PostTagsFragment
   >;
 };
@@ -54,10 +47,8 @@ export const FetchPostDocument = gql`
         user_id
         count
       }
-      stocks_aggregate(where: { user_id: { _eq: $userId } }) {
-        aggregate {
-          count
-        }
+      stocks(where: { user_id: { _eq: $userId } }) {
+        id
       }
       ...PostTags
     }

@@ -16,10 +16,8 @@ query FetchPost($postId: Int!, $userId: String!) {
       user_id
       count
     }
-    stocks_aggregate(where: { user_id: { _eq: $userId } }) {
-      aggregate {
-        count
-      }
+    stocks(where: { user_id: { _eq: $userId } }) {
+      id
     }
     ...PostTags
   }

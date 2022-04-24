@@ -59,7 +59,7 @@ export const PostDetail: VFC<PostDetailProps> = ({ postId }) => {
   });
   const [upsertLike] = useUpsertLike();
 
-  const { post, userLikeId, userLikeCount, totalLikeCount, isStocked } =
+  const { post, userLikeId, userLikeCount, totalLikeCount, stock } =
     useMemo(() => {
       const post = data?.post;
       const userLike = post?.likes.find((like) => like.user_id === user?.sub);
@@ -67,14 +67,14 @@ export const PostDetail: VFC<PostDetailProps> = ({ postId }) => {
       const userLikeCount = userLike?.count ?? 0;
       const totalLikeCount =
         post?.likes.reduce((count, acc) => count + acc.count, 0) ?? 0;
-      const isStocked = !!post?.stocks_aggregate.aggregate?.count;
+      const stock = post?.stocks[0];
 
       return {
         post,
         userLikeId,
         userLikeCount,
         totalLikeCount,
-        isStocked,
+        stock,
       };
     }, [data, user]);
 
@@ -169,7 +169,7 @@ export const PostDetail: VFC<PostDetailProps> = ({ postId }) => {
               <Tooltip title="マイテンプレートに追加" placement="top" arrow>
                 <StockIconButton
                   onClick={() => alert('onClick')}
-                  isActive={isStocked}
+                  isActive={!!stock}
                 >
                   <FontAwesomeIcon icon={faBookmark} fontSize={20} />
                 </StockIconButton>
