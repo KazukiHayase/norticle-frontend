@@ -1,4 +1,4 @@
-query FetchPost($postId: Int!, $userId: String!) {
+query FetchPost($postId: Int!) {
   post(id: $postId) {
     id
     title
@@ -16,7 +16,7 @@ query FetchPost($postId: Int!, $userId: String!) {
       user_id
       count
     }
-    stocks(where: { user_id: { _eq: $userId } }) {
+    stocks {
       id
     }
     ...PostTags

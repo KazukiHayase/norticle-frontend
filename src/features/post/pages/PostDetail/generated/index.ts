@@ -7,7 +7,6 @@ import * as Apollo from '@apollo/client';
 const defaultOptions = {};
 export type FetchPostQueryVariables = Types.Exact<{
   postId: Types.Scalars['Int'];
-  userId: Types.Scalars['String'];
 }>;
 
 export type FetchPostQuery = { __typename?: 'query_root' } & {
@@ -29,7 +28,7 @@ export type FetchPostQuery = { __typename?: 'query_root' } & {
 };
 
 export const FetchPostDocument = gql`
-  query FetchPost($postId: Int!, $userId: String!) {
+  query FetchPost($postId: Int!) {
     post(id: $postId) {
       id
       title
@@ -47,7 +46,7 @@ export const FetchPostDocument = gql`
         user_id
         count
       }
-      stocks(where: { user_id: { _eq: $userId } }) {
+      stocks {
         id
       }
       ...PostTags
@@ -69,7 +68,6 @@ export const FetchPostDocument = gql`
  * const { data, loading, error } = useFetchPostQuery({
  *   variables: {
  *      postId: // value for 'postId'
- *      userId: // value for 'userId'
  *   },
  * });
  */
