@@ -4,11 +4,10 @@ import { VFC } from 'react';
 
 import { NextLinkComposed } from '@/components/uiParts/Link';
 import { pagesPath } from '@/lib/$path';
-import { Section } from '@/styles';
 
 export const NotFound: VFC = () => {
   return (
-    <Section>
+    <Box sx={{ py: 20 }}>
       <Container maxWidth="md">
         <Typography
           component="h1"
@@ -31,6 +30,6 @@ export const NotFound: VFC = () => {
           </Button>
         </Box>
       </Container>
-    </Section>
+    </Box>
   );
 };
