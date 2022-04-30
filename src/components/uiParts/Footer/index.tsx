@@ -53,6 +53,14 @@ export const Footer: VFC = () => {
               >
                 プライバシーポリシー
               </Typography>
+              <Typography
+                component={NextLinkComposed}
+                // TODO: twitterへのリンク
+                to={pagesPath.privacy.$url()}
+                sx={{ ':hover': { textDecoration: 'underline' } }}
+              >
+                運営者
+              </Typography>
             </Stack>
           </Box>
         </Box>
