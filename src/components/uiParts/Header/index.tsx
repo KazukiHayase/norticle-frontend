@@ -1,5 +1,6 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import {
+  faBookBookmark,
   faMagnifyingGlass,
   faNoteSticky,
   faRightFromBracket,
@@ -83,6 +84,7 @@ export const Header: VFC = () => {
                   <MenuItem
                     component={NextLinkComposed}
                     to={pagesPath.dashboard.$url()}
+                    onClick={handleCloseMenu}
                   >
                     <MenuItemContent>
                       <FontAwesomeIcon
@@ -90,6 +92,19 @@ export const Header: VFC = () => {
                         style={{ color: grey[700] }}
                       />
                       <Typography fontSize={14}>投稿一覧</Typography>
+                    </MenuItemContent>
+                  </MenuItem>
+                  <MenuItem
+                    component={NextLinkComposed}
+                    to={pagesPath.dashboard.stocks.$url()}
+                    onClick={handleCloseMenu}
+                  >
+                    <MenuItemContent>
+                      <FontAwesomeIcon
+                        icon={faBookBookmark}
+                        style={{ color: grey[700] }}
+                      />
+                      <Typography fontSize={14}>ストック一覧</Typography>
                     </MenuItemContent>
                   </MenuItem>
                   <Divider />
