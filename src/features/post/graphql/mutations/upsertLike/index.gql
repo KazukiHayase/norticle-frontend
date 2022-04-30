@@ -1,8 +1,8 @@
 mutation AddLike($postId: Int!) {
-  addLike(object: { post_id: $postId }) {
+  addLike(object: { postId: $postId }) {
     id
-    user_id
-    post_id
+    userId
+    postId
     count
   }
 }
@@ -10,8 +10,8 @@ mutation AddLike($postId: Int!) {
 mutation UpdateLike($likeId: Int!) {
   updateLike(pk_columns: { id: $likeId }, _inc: { count: 1 }) {
     id
-    user_id
-    post_id
+    userId
+    postId
     count
   }
 }

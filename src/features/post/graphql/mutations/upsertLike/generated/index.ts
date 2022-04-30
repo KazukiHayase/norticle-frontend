@@ -11,7 +11,7 @@ export type AddLikeMutation = { __typename?: 'mutation_root' } & {
   addLike?: Types.Maybe<
     { __typename?: 'like' } & Pick<
       Types.Like,
-      'id' | 'user_id' | 'post_id' | 'count'
+      'id' | 'userId' | 'postId' | 'count'
     >
   >;
 };
@@ -24,17 +24,17 @@ export type UpdateLikeMutation = { __typename?: 'mutation_root' } & {
   updateLike?: Types.Maybe<
     { __typename?: 'like' } & Pick<
       Types.Like,
-      'id' | 'user_id' | 'post_id' | 'count'
+      'id' | 'userId' | 'postId' | 'count'
     >
   >;
 };
 
 export const AddLikeDocument = gql`
   mutation AddLike($postId: Int!) {
-    addLike(object: { post_id: $postId }) {
+    addLike(object: { postId: $postId }) {
       id
-      user_id
-      post_id
+      userId
+      postId
       count
     }
   }
@@ -83,8 +83,8 @@ export const UpdateLikeDocument = gql`
   mutation UpdateLike($likeId: Int!) {
     updateLike(pk_columns: { id: $likeId }, _inc: { count: 1 }) {
       id
-      user_id
-      post_id
+      userId
+      postId
       count
     }
   }
