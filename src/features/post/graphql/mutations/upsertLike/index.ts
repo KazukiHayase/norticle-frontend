@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 
-import { refetchFetchPostQuery } from '@/features/post/pages/PostDetail/generated';
+import { FetchPostDocument } from '@/features/post/pages/PostDetail/generated';
 import { useNotifier } from '@/hooks/useNotifier';
 
 import { useAddLikeMutation, useUpdateLikeMutation } from './generated';
@@ -26,7 +26,7 @@ export const useUpsertLike = (): UpsertLikeHookResult => {
           ? await updateLike({ variables: { likeId } })
           : await addLike({
               variables: { postId },
-              refetchQueries: [refetchFetchPostQuery({ postId })],
+              refetchQueries: [FetchPostDocument],
             });
       } catch {
         notice('エラーが発生しました', 'error');
