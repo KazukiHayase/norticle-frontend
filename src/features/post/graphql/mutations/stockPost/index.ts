@@ -25,9 +25,9 @@ export const useStockPost = (): StockPostHookResult => {
           refetchQueries: [FetchPostDocument],
         });
 
-        notice('ストックに追加しました', 'success');
+        notice('ストックしました', 'success');
       } catch {
-        notice('ストックへの追加に失敗しました', 'error');
+        notice('ストックに失敗しました', 'error');
       } finally {
         setLoading(false);
         progress.done();
