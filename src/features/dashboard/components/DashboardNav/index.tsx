@@ -8,6 +8,7 @@ import { pagesPath } from '@/lib/$path';
 
 const dashboardList = {
   [pagesPath.dashboard.$url().pathname]: '投稿一覧',
+  [pagesPath.dashboard.stocks.$url().pathname]: 'ストック一覧',
   [pagesPath.setting.$url().pathname]: '各種設定',
 } as const;
 type dashboardList = typeof dashboardList[keyof typeof dashboardList];
@@ -31,6 +32,13 @@ export const DashboardNav: VFC = () => {
             to={pagesPath.dashboard.$url()}
             label={dashboardList[pagesPath.dashboard.$url().pathname]}
             value={pagesPath.dashboard.$url().pathname}
+            sx={{ fontWeight: 'bold' }}
+          />
+          <Tab
+            component={NextLinkComposed}
+            to={pagesPath.dashboard.stocks.$url()}
+            label={dashboardList[pagesPath.dashboard.stocks.$url().pathname]}
+            value={pagesPath.dashboard.stocks.$url().pathname}
             sx={{ fontWeight: 'bold' }}
           />
           <Tab
