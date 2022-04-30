@@ -28,6 +28,10 @@ export const theme = responsiveFontSizes(
         fontSize: '2.2rem',
         fontWeight: 'bold',
       },
+      h2: {
+        fontSize: '1.8rem',
+        fontWeight: 'bold',
+      },
       h3: {
         fontSize: '1.4rem',
         fontWeight: 'bold',
