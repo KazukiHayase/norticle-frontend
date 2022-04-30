@@ -50,11 +50,11 @@ type PostDetailProps = {
 
 export const PostDetail: VFC<PostDetailProps> = ({ postId }) => {
   const router = useRouter();
-  const { user } = useAuth0();
+  const { isAuthenticated, user } = useAuth0();
   const { notice } = useNotifier();
 
   const { data, loading } = useFetchPostQuery({
-    variables: { postId },
+    variables: { postId, userId: user?.sub ?? '', isLoggedIn: isAuthenticated },
     onCompleted: (data) => {
       if (!data.post) router.replace(pagesPath.$404.$url());
     },
@@ -71,7 +71,7 @@ export const PostDetail: VFC<PostDetailProps> = ({ postId }) => {
       const userLikeCount = userLike?.count ?? 0;
       const totalLikeCount =
         post?.likes.reduce((count, acc) => count + acc.count, 0) ?? 0;
-      const stock = post?.stocks[0];
+      const stock = post?.stocks?.[0] ?? undefined;
 
       return {
         post,

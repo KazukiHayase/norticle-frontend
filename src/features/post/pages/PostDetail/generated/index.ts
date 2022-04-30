@@ -7,6 +7,8 @@ import * as Apollo from '@apollo/client';
 const defaultOptions = {};
 export type FetchPostQueryVariables = Types.Exact<{
   postId: Types.Scalars['Int'];
+  userId: Types.Scalars['String'];
+  isLoggedIn?: Types.Maybe<Types.Scalars['Boolean']>;
 }>;
 
 export type FetchPostQuery = { __typename?: 'query_root' } & {
@@ -22,13 +24,19 @@ export type FetchPostQuery = { __typename?: 'query_root' } & {
         likes: Array<
           { __typename?: 'like' } & Pick<Types.Like, 'id' | 'user_id' | 'count'>
         >;
-        stocks: Array<{ __typename?: 'stock' } & Pick<Types.Stock, 'id'>>;
+        stocks?: Types.Maybe<
+          Array<{ __typename?: 'stock' } & Pick<Types.Stock, 'id'>>
+        >;
       } & PostTagsFragment
   >;
 };
 
 export const FetchPostDocument = gql`
-  query FetchPost($postId: Int!) {
+  query FetchPost(
+    $postId: Int!
+    $userId: String!
+    $isLoggedIn: Boolean = false
+  ) {
     post(id: $postId) {
       id
       title
@@ -46,7 +54,8 @@ export const FetchPostDocument = gql`
         user_id
         count
       }
-      stocks {
+      stocks(where: { userId: { _eq: $userId } }, limit: 1)
+        @include(if: $isLoggedIn) {
         id
       }
       ...PostTags
@@ -68,6 +77,8 @@ export const FetchPostDocument = gql`
  * const { data, loading, error } = useFetchPostQuery({
  *   variables: {
  *      postId: // value for 'postId'
+ *      userId: // value for 'userId'
+ *      isLoggedIn: // value for 'isLoggedIn'
  *   },
  * });
  */

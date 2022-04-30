@@ -1,4 +1,4 @@
-query FetchPost($postId: Int!) {
+query FetchPost($postId: Int!, $userId: String!, $isLoggedIn: Boolean = false) {
   post(id: $postId) {
     id
     title
@@ -16,7 +16,8 @@ query FetchPost($postId: Int!) {
       user_id
       count
     }
-    stocks {
+    stocks(where: { userId: { _eq: $userId } }, limit: 1)
+      @include(if: $isLoggedIn) {
       id
     }
     ...PostTags
