@@ -45,6 +45,12 @@ export const pagesPath = {
       }),
     },
   },
+  privacy: {
+    $url: (url?: { hash?: string }) => ({
+      pathname: '/privacy' as const,
+      hash: url?.hash,
+    }),
+  },
   search: {
     $url: (url?: { hash?: string }) => ({
       pathname: '/search' as const,
@@ -64,6 +70,12 @@ export const pagesPath = {
         query: { name },
         hash: url?.hash,
       }),
+    }),
+  },
+  terms: {
+    $url: (url?: { hash?: string }) => ({
+      pathname: '/terms' as const,
+      hash: url?.hash,
     }),
   },
   $url: (url?: { hash?: string }) => ({
