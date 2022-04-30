@@ -39,7 +39,7 @@ export const FetchPostsForDashboardDocument = gql`
       createdAt
       updatedAt
     }
-    postsAggregate {
+    postsAggregate(where: { userId: { _eq: $userId } }) {
       aggregate {
         count
       }

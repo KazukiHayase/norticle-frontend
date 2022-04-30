@@ -10,7 +10,7 @@ query FetchPostsForDashboard($userId: String!, $limit: Int!, $offset: Int!) {
     createdAt
     updatedAt
   }
-  postsAggregate {
+  postsAggregate(where: { userId: { _eq: $userId } }) {
     aggregate {
       count
     }
