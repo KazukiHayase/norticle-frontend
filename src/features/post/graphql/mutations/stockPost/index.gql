@@ -1,5 +1,5 @@
 mutation StockPost($postId: Int!) {
-  addStock(object: { post_id: $postId }) {
+  addStock(object: { postId: $postId }) {
     id
   }
 }

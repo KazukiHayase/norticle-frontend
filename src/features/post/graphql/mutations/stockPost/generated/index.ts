@@ -13,7 +13,7 @@ export type StockPostMutation = { __typename?: 'mutation_root' } & {
 
 export const StockPostDocument = gql`
   mutation StockPost($postId: Int!) {
-    addStock(object: { post_id: $postId }) {
+    addStock(object: { postId: $postId }) {
       id
     }
   }
