@@ -66,11 +66,10 @@ export const PostDetail: VFC<PostDetailProps> = ({ postId }) => {
   const { post, userLikeId, userLikeCount, totalLikeCount, stock } =
     useMemo(() => {
       const post = data?.post;
-      const userLike = post?.likes.find((like) => like.user_id === user?.sub);
+      const userLike = post?.likes?.find((like) => like.userId === user?.sub);
       const userLikeId = userLike?.id;
       const userLikeCount = userLike?.count ?? 0;
-      const totalLikeCount =
-        post?.likes.reduce((count, acc) => count + acc.count, 0) ?? 0;
+      const totalLikeCount = post?.likes_aggregate.aggregate?.sum?.count;
       const stock = post?.stocks?.[0] ?? undefined;
 
       return {

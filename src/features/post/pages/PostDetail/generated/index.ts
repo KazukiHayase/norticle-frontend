@@ -21,8 +21,25 @@ export type FetchPostQuery = { __typename?: 'query_root' } & {
           Types.User,
           'id' | 'name' | 'picture'
         >;
-        likes: Array<
-          { __typename?: 'like' } & Pick<Types.Like, 'id' | 'user_id' | 'count'>
+        likes_aggregate: { __typename?: 'like_aggregate' } & {
+          aggregate?: Types.Maybe<
+            { __typename?: 'like_aggregate_fields' } & {
+              sum?: Types.Maybe<
+                { __typename?: 'like_sum_fields' } & Pick<
+                  Types.LikeSumFields,
+                  'count'
+                >
+              >;
+            }
+          >;
+        };
+        likes?: Types.Maybe<
+          Array<
+            { __typename?: 'like' } & Pick<
+              Types.Like,
+              'id' | 'userId' | 'count'
+            >
+          >
         >;
         stocks?: Types.Maybe<
           Array<{ __typename?: 'stock' } & Pick<Types.Stock, 'id'>>
@@ -49,13 +66,20 @@ export const FetchPostDocument = gql`
         name
         picture
       }
-      likes {
+      likes_aggregate {
+        aggregate {
+          sum {
+            count
+          }
+        }
+      }
+      likes(where: { userId: { _eq: $userId } }, limit: 1)
+        @include(if: $isLoggedIn) {
         id
-        user_id
+        userId
         count
       }
-      stocks(where: { userId: { _eq: $userId } }, limit: 1)
-        @include(if: $isLoggedIn) {
+      stocks @include(if: $isLoggedIn) {
         id
       }
       ...PostTags

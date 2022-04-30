@@ -11,13 +11,20 @@ query FetchPost($postId: Int!, $userId: String!, $isLoggedIn: Boolean = false) {
       name
       picture
     }
-    likes {
+    likes_aggregate {
+      aggregate {
+        sum {
+          count
+        }
+      }
+    }
+    likes(where: { userId: { _eq: $userId } }, limit: 1)
+      @include(if: $isLoggedIn) {
       id
-      user_id
+      userId
       count
     }
-    stocks(where: { userId: { _eq: $userId } }, limit: 1)
-      @include(if: $isLoggedIn) {
+    stocks @include(if: $isLoggedIn) {
       id
     }
     ...PostTags
