@@ -1,4 +1,3 @@
-import { useAuth0 } from '@auth0/auth0-react';
 import { faEllipsis } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -28,7 +27,6 @@ import { useFetchStockedPostsQuery } from './generated';
 
 export const DashboardStockedPosts: VFC = () => {
   const limit = 10;
-  const { user } = useAuth0();
   const { notice } = useNotifier();
 
   const [anchorEl, setAnchorEl] = useState<HTMLElement | undefined>(undefined);
@@ -42,7 +40,6 @@ export const DashboardStockedPosts: VFC = () => {
 
   const { data, loading, variables, refetch } = useFetchStockedPostsQuery({
     variables: {
-      userId: user?.sub ?? '',
       limit,
       offset: 0,
     },

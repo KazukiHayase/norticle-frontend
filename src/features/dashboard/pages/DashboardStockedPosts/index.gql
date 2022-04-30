@@ -1,10 +1,5 @@
-query FetchStockedPosts($userId: String!, $limit: Int!, $offset: Int!) {
-  stocks(
-    where: { userId: { _eq: $userId } }
-    limit: $limit
-    offset: $offset
-    order_by: { createdAt: desc }
-  ) {
+query FetchStockedPosts($limit: Int!, $offset: Int!) {
+  stocks(limit: $limit, offset: $offset, order_by: { createdAt: desc }) {
     id
     post {
       id

@@ -4,7 +4,6 @@ import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 const defaultOptions = {};
 export type FetchStockedPostsQueryVariables = Types.Exact<{
-  userId: Types.Scalars['String'];
   limit: Types.Scalars['Int'];
   offset: Types.Scalars['Int'];
 }>;
@@ -29,13 +28,8 @@ export type FetchStockedPostsQuery = { __typename?: 'query_root' } & {
 };
 
 export const FetchStockedPostsDocument = gql`
-  query FetchStockedPosts($userId: String!, $limit: Int!, $offset: Int!) {
-    stocks(
-      where: { userId: { _eq: $userId } }
-      limit: $limit
-      offset: $offset
-      order_by: { createdAt: desc }
-    ) {
+  query FetchStockedPosts($limit: Int!, $offset: Int!) {
+    stocks(limit: $limit, offset: $offset, order_by: { createdAt: desc }) {
       id
       post {
         id
@@ -65,7 +59,6 @@ export const FetchStockedPostsDocument = gql`
  * @example
  * const { data, loading, error } = useFetchStockedPostsQuery({
  *   variables: {
- *      userId: // value for 'userId'
  *      limit: // value for 'limit'
  *      offset: // value for 'offset'
  *   },
