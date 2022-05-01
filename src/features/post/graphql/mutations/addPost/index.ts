@@ -1,7 +1,8 @@
 import { useRouter } from 'next/router';
 import { useCallback, useState } from 'react';
 
-import { refetchFetchPostsQuery } from '@/features/post/pages/PostIndex/generated';
+import { FetchPostsDocument } from '@/features/post/pages/PostIndex/generated';
+import { FetchNewPostsDocument } from '@/features/post/pages/PostNew/generated';
 import { Post, Tag, TaggingInsertInput } from '@/graphql/generated/types';
 import { useNotifier } from '@/hooks/useNotifier';
 import { pagesPath } from '@/lib/$path';
@@ -22,7 +23,7 @@ export const useAddPost = (): AddPostHookResult => {
   const { notice } = useNotifier();
   const [loading, setLoading] = useState<boolean>(false);
   const [addPostMutation] = useAddPostMutation({
-    refetchQueries: [refetchFetchPostsQuery({ limit: 10, offset: 0 })],
+    refetchQueries: [FetchPostsDocument, FetchNewPostsDocument],
   });
 
   const addPost: AddPostHookResult[0] = useCallback(

@@ -1,6 +1,7 @@
 import type { OptionalQuery as OptionalQuery0 } from '../pages/dashboard';
 import type { OptionalQuery as OptionalQuery1 } from '../pages/dashboard/stocks';
 import type { OptionalQuery as OptionalQuery2 } from '../pages/posts';
+import type { OptionalQuery as OptionalQuery3 } from '../pages/tags/[name]';
 
 export const pagesPath = {
   $403: {
@@ -76,9 +77,9 @@ export const pagesPath = {
   },
   tags: {
     _name: (name: string | number) => ({
-      $url: (url?: { hash?: string }) => ({
+      $url: (url?: { query?: OptionalQuery3; hash?: string }) => ({
         pathname: '/tags/[name]' as const,
-        query: { name },
+        query: { name, ...url?.query },
         hash: url?.hash,
       }),
     }),

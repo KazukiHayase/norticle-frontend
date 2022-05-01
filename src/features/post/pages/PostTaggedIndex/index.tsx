@@ -20,13 +20,18 @@ const limit = 10;
 
 type PostTaggedIndexProps = {
   tagName: string;
+  page?: number;
 };
 
-export const PostTaggedIndex: VFC<PostTaggedIndexProps> = ({ tagName }) => {
+export const PostTaggedIndex: VFC<PostTaggedIndexProps> = ({
+  tagName,
+  page,
+}) => {
   const router = useRouter();
+  const currentPage = useMemo(() => page ?? 1, [page]);
 
-  const { data, loading, variables, refetch } = useFetchTaggedPostsQuery({
-    variables: { tagName, limit, offset: 0 },
+  const { data, loading } = useFetchTaggedPostsQuery({
+    variables: { tagName, limit, offset: (currentPage - 1) * limit },
     onCompleted: (data) => {
       // タグがない場合は404
       if (!data.tagsAggregate.aggregate?.count) {
@@ -48,10 +53,6 @@ export const PostTaggedIndex: VFC<PostTaggedIndexProps> = ({ tagName }) => {
     loading ? progress.start() : progress.done();
   }, [loading]);
 
-  const handleChangePage = (page: number) => {
-    refetch({ ...variables, offset: limit * (page - 1) });
-  };
-
   return (
     <Section>
       <Container maxWidth="md">
@@ -72,7 +73,16 @@ export const PostTaggedIndex: VFC<PostTaggedIndexProps> = ({ tagName }) => {
             </Grid>
           ))}
         </Grid>
-        <Pagination totalPage={totalPage} onChange={handleChangePage} />
+        <Pagination
+          page={currentPage}
+          totalPage={totalPage}
+          prevPageLink={pagesPath.tags._name(tagName).$url({
+            query: { page: currentPage - 1 },
+          })}
+          nextPageLink={pagesPath.tags._name(tagName).$url({
+            query: { page: currentPage + 1 },
+          })}
+        />
       </Container>
     </Section>
   );
