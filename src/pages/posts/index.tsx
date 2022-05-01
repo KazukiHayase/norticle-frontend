@@ -6,7 +6,7 @@ import { PostNew } from '@/features/post/pages/PostNew';
 import { DefaultLayout } from '@/layouts/DefaultLayout';
 import { NextPageWithLayout } from '@/pages/_app';
 
-export type Query = {
+export type OptionalQuery = {
   page?: number;
 };
 

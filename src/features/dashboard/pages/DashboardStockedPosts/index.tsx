@@ -25,10 +25,18 @@ import { Section } from '@/styles';
 
 import { useFetchStockedPostsQuery } from './generated';
 
-export const DashboardStockedPosts: VFC = () => {
-  const limit = 10;
+const limit = 10;
+
+type DashboardStockedPostsProps = {
+  page?: number;
+};
+
+export const DashboardStockedPosts: VFC<DashboardStockedPostsProps> = ({
+  page,
+}) => {
   const { notice } = useNotifier();
 
+  const currentPage = useMemo(() => page ?? 1, [page]);
   const [anchorEl, setAnchorEl] = useState<HTMLElement | undefined>(undefined);
   const [selectedPost, setSelectedPost] = useState<
     Pick<Post, 'id' | 'title' | 'content'>
@@ -38,10 +46,10 @@ export const DashboardStockedPosts: VFC = () => {
     content: '',
   });
 
-  const { data, loading, variables, refetch } = useFetchStockedPostsQuery({
+  const { data, loading } = useFetchStockedPostsQuery({
     variables: {
       limit,
-      offset: 0,
+      offset: (currentPage - 1) * limit,
     },
   });
 
@@ -68,10 +76,6 @@ export const DashboardStockedPosts: VFC = () => {
 
   const handleCloseMenu = () => {
     setAnchorEl(undefined);
-  };
-
-  const handleChangePage = (page: number) => {
-    refetch({ ...variables, offset: limit * (page - 1) });
   };
 
   const handleClickCopyButton = () => {
@@ -123,7 +127,16 @@ export const DashboardStockedPosts: VFC = () => {
               </Paper>
             ))}
           </Stack>
-          <Pagination totalPage={totalPage} onChange={handleChangePage} />
+          <Pagination
+            page={currentPage}
+            totalPage={totalPage}
+            prevPageLink={pagesPath.dashboard.stocks.$url({
+              query: { page: currentPage - 1 },
+            })}
+            nextPageLink={pagesPath.dashboard.stocks.$url({
+              query: { page: currentPage + 1 },
+            })}
+          />
         </Container>
       </Section>
       <Menu anchorEl={anchorEl} open={!!anchorEl} onClose={handleCloseMenu}>

@@ -25,7 +25,7 @@ export const PostNew: VFC<PostNewProps> = ({ page }) => {
   const { data, loading } = useFetchNewPostsQuery({
     variables: {
       limit,
-      offset: currentPage - 1,
+      offset: (currentPage - 1) * limit,
     },
   });
   const { posts, totalPage } = useMemo(() => {

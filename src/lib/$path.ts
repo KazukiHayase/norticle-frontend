@@ -1,4 +1,6 @@
-import type { Query as Query0 } from '../pages/posts';
+import type { OptionalQuery as OptionalQuery0 } from '../pages/dashboard';
+import type { OptionalQuery as OptionalQuery1 } from '../pages/dashboard/stocks';
+import type { OptionalQuery as OptionalQuery2 } from '../pages/posts';
 
 export const pagesPath = {
   $403: {
@@ -15,13 +17,15 @@ export const pagesPath = {
   },
   dashboard: {
     stocks: {
-      $url: (url?: { hash?: string }) => ({
+      $url: (url?: { query?: OptionalQuery1; hash?: string }) => ({
         pathname: '/dashboard/stocks' as const,
+        query: url?.query,
         hash: url?.hash,
       }),
     },
-    $url: (url?: { hash?: string }) => ({
+    $url: (url?: { query?: OptionalQuery0; hash?: string }) => ({
       pathname: '/dashboard' as const,
+      query: url?.query,
       hash: url?.hash,
     }),
   },
@@ -46,10 +50,10 @@ export const pagesPath = {
         hash: url?.hash,
       }),
     },
-    $url: (url: { query: Query0; hash?: string }) => ({
+    $url: (url?: { query?: OptionalQuery2; hash?: string }) => ({
       pathname: '/posts' as const,
-      query: url.query,
-      hash: url.hash,
+      query: url?.query,
+      hash: url?.hash,
     }),
   },
   privacy: {

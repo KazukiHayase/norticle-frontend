@@ -29,14 +29,16 @@ import { Section } from '@/styles';
 
 import { useFetchPostsForDashboardQuery } from './generated';
 
+const limit = 10;
+
 type DashboardPostsProps = {
-  tmp?: string;
+  page?: number;
 };
 
-export const DashboardPosts: VFC<DashboardPostsProps> = () => {
-  const limit = 10;
+export const DashboardPosts: VFC<DashboardPostsProps> = ({ page }) => {
   const { user } = useAuth0();
 
+  const currentPage = useMemo(() => page ?? 1, [page]);
   const confirmModal = useModal(false);
   const [anchorEl, setAnchorEl] = useState<HTMLElement | undefined>(undefined);
   const [selectedPost, setSelectedPost] = useState<Pick<Post, 'id' | 'title'>>({
@@ -44,11 +46,11 @@ export const DashboardPosts: VFC<DashboardPostsProps> = () => {
     title: '',
   });
 
-  const { data, loading, variables, refetch } = useFetchPostsForDashboardQuery({
+  const { data, loading } = useFetchPostsForDashboardQuery({
     variables: {
       userId: user?.sub ?? '',
       limit,
-      offset: 0,
+      offset: (currentPage - 1) * limit,
     },
   });
   const [deletePost] = useDeletePost();
@@ -86,10 +88,6 @@ export const DashboardPosts: VFC<DashboardPostsProps> = () => {
   const handleClickDeleteConfirmButton = () => {
     deletePost(selectedPost.id);
     confirmModal.close();
-  };
-
-  const handleChangePage = (page: number) => {
-    refetch({ ...variables, offset: limit * (page - 1) });
   };
 
   return (
@@ -133,7 +131,16 @@ export const DashboardPosts: VFC<DashboardPostsProps> = () => {
               </Paper>
             ))}
           </Stack>
-          <Pagination totalPage={totalPage} onChange={handleChangePage} />
+          <Pagination
+            page={currentPage}
+            totalPage={totalPage}
+            prevPageLink={pagesPath.dashboard.$url({
+              query: { page: currentPage - 1 },
+            })}
+            nextPageLink={pagesPath.dashboard.$url({
+              query: { page: currentPage + 1 },
+            })}
+          />
         </Container>
       </Section>
       <Menu anchorEl={anchorEl} open={!!anchorEl} onClose={handleCloseMenu}>
