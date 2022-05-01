@@ -1,0 +1,14 @@
+query FetchTrendPosts($limit: Int!, $offset: Int!) {
+  posts(
+    limit: $limit
+    offset: $offset
+    order_by: { likes_aggregate: { sum: { count: desc_nulls_last } } }
+  ) {
+    ...PostCard
+  }
+  postsAggregate {
+    aggregate {
+      count
+    }
+  }
+}
