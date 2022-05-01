@@ -1,8 +1,8 @@
 import { Container, Grid, Typography } from '@mui/material';
+import { blueGrey } from '@mui/material/colors';
 import { filter } from 'graphql-anywhere';
 import { useEffect, useMemo, VFC } from 'react';
 
-import { Pagination } from '@/components/uiParts/Pagination';
 import { PostCard } from '@/features/post/components/PostCard';
 import {
   PostCardFragment,
@@ -13,21 +13,18 @@ import { Section } from '@/styles';
 
 import { FetchPostsQuery, useFetchPostsQuery } from './generated';
 
-const limit = 10;
+const limit = 6;
 
 export const PostIndex: VFC = () => {
-  const { data, loading, variables, refetch } = useFetchPostsQuery({
+  const { data, loading } = useFetchPostsQuery({
     variables: {
       limit,
-      offset: 0,
     },
   });
-  const { posts, totalPage } = useMemo(() => {
+  const { newPosts, trendPosts } = useMemo(() => {
     return {
-      posts: data?.posts ?? [],
-      totalPage: Math.ceil(
-        (data?.postsAggregate.aggregate?.count ?? 0) / limit,
-      ),
+      newPosts: data?.newPosts ?? [],
+      trendPosts: data?.trendPosts ?? [],
     };
   }, [data]);
 
@@ -35,30 +32,46 @@ export const PostIndex: VFC = () => {
     loading ? progress.start() : progress.done();
   }, [loading]);
 
-  const handleChangePage = (page: number) => {
-    refetch({ ...variables, offset: limit * (page - 1) });
-  };
-
   return (
-    <Section>
-      <Container maxWidth="md">
-        <Typography variant="h1" sx={{ pb: 2 }}>
-          テンプレート一覧
-        </Typography>
-        <Grid container spacing={{ xs: 4, md: 2 }} sx={{ pb: 8 }}>
-          {posts.map((post) => (
-            <Grid key={post.id} item xs={12} md={6}>
-              <PostCard
-                post={filter<
-                  PostCardFragment,
-                  FetchPostsQuery['posts'][number]
-                >(PostCardFragmentDoc, post)}
-              />
-            </Grid>
-          ))}
-        </Grid>
-        <Pagination totalPage={totalPage} onChange={handleChangePage} />
-      </Container>
-    </Section>
+    <>
+      <Section>
+        <Container maxWidth="md">
+          <Typography variant="h1" sx={{ pb: 3 }}>
+            💫 新着
+          </Typography>
+          <Grid container spacing={{ xs: 4, md: 2 }} sx={{ pb: 8 }}>
+            {newPosts.map((post) => (
+              <Grid key={post.id} item xs={12} md={6}>
+                <PostCard
+                  post={filter<
+                    PostCardFragment,
+                    FetchPostsQuery['newPosts'][number]
+                  >(PostCardFragmentDoc, post)}
+                />
+              </Grid>
+            ))}
+          </Grid>
+        </Container>
+      </Section>
+      <Section sx={{ bgcolor: blueGrey[50] }}>
+        <Container maxWidth="md">
+          <Typography variant="h1" sx={{ pb: 3 }}>
+            🎉 トレンド
+          </Typography>
+          <Grid container spacing={{ xs: 4, md: 2 }} sx={{ pb: 8 }}>
+            {trendPosts.map((post) => (
+              <Grid key={post.id} item xs={12} md={6}>
+                <PostCard
+                  post={filter<
+                    PostCardFragment,
+                    FetchPostsQuery['trendPosts'][number]
+                  >(PostCardFragmentDoc, post)}
+                />
+              </Grid>
+            ))}
+          </Grid>
+        </Container>
+      </Section>
+    </>
   );
 };

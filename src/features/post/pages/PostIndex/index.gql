@@ -1,10 +1,11 @@
-query FetchPosts($limit: Int!, $offset: Int!) {
-  posts(limit: $limit, offset: $offset, order_by: { createdAt: desc }) {
+query FetchPosts($limit: Int!) {
+  newPosts: posts(limit: $limit, order_by: { createdAt: desc }) {
     ...PostCard
   }
-  postsAggregate {
-    aggregate {
-      count
-    }
+  trendPosts: posts(
+    limit: $limit
+    order_by: { likes_aggregate: { sum: { count: desc_nulls_last } } }
+  ) {
+    ...PostCard
   }
 }

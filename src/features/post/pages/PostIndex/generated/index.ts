@@ -7,30 +7,23 @@ import * as Apollo from '@apollo/client';
 const defaultOptions = {};
 export type FetchPostsQueryVariables = Types.Exact<{
   limit: Types.Scalars['Int'];
-  offset: Types.Scalars['Int'];
 }>;
 
 export type FetchPostsQuery = { __typename?: 'query_root' } & {
-  posts: Array<{ __typename?: 'post' } & PostCardFragment>;
-  postsAggregate: { __typename?: 'post_aggregate' } & {
-    aggregate?: Types.Maybe<
-      { __typename?: 'post_aggregate_fields' } & Pick<
-        Types.PostAggregateFields,
-        'count'
-      >
-    >;
-  };
+  newPosts: Array<{ __typename?: 'post' } & PostCardFragment>;
+  trendPosts: Array<{ __typename?: 'post' } & PostCardFragment>;
 };
 
 export const FetchPostsDocument = gql`
-  query FetchPosts($limit: Int!, $offset: Int!) {
-    posts(limit: $limit, offset: $offset, order_by: { createdAt: desc }) {
+  query FetchPosts($limit: Int!) {
+    newPosts: posts(limit: $limit, order_by: { createdAt: desc }) {
       ...PostCard
     }
-    postsAggregate {
-      aggregate {
-        count
-      }
+    trendPosts: posts(
+      limit: $limit
+      order_by: { likes_aggregate: { sum: { count: desc_nulls_last } } }
+    ) {
+      ...PostCard
     }
   }
   ${PostCardFragmentDoc}
@@ -49,7 +42,6 @@ export const FetchPostsDocument = gql`
  * const { data, loading, error } = useFetchPostsQuery({
  *   variables: {
  *      limit: // value for 'limit'
- *      offset: // value for 'offset'
  *   },
  * });
  */
