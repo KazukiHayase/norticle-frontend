@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Box, Container, Grid, InputAdornment, TextField } from '@mui/material';
 import { filter } from 'graphql-anywhere';
+import { useRouter } from 'next/router';
 import { useEffect, useMemo, VFC } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import * as yup from 'yup';
@@ -13,14 +14,11 @@ import {
   PostCardFragment,
   PostCardFragmentDoc,
 } from '@/features/post/components/PostCard/generated';
+import { pagesPath } from '@/lib/$path';
 import { progress } from '@/services/progress';
 import { Section } from '@/styles';
 
-import {
-  SearchPostsQuery,
-  SearchPostsQueryVariables,
-  useSearchPostsLazyQuery,
-} from './generated';
+import { SearchPostsQuery, useSearchPostsQuery } from './generated';
 import {
   SearchResultCount,
   SearchResultNotFound,
@@ -35,22 +33,40 @@ const postSearchFormSchema = yup.object({
 });
 
 const limit = 10;
-const defaultVariables: SearchPostsQueryVariables = {
-  where: {},
-  limit,
-  offset: 0,
+
+type PostSearchProps = {
+  keyword?: string;
+  page?: number;
 };
 
-export const PostSearch: VFC = () => {
+export const PostSearch: VFC<PostSearchProps> = ({ keyword, page }) => {
+  const router = useRouter();
+  const currentPage = useMemo(() => page ?? 1, [page]);
+
   const { register, handleSubmit, getValues } = useForm<PostSearchForm>({
+    defaultValues: { keyword },
     resolver: yupResolver(postSearchFormSchema),
   });
 
-  const [searchPosts, { data, called, loading, variables }] =
-    useSearchPostsLazyQuery({
-      variables: defaultVariables,
-    });
-  const searchPostsVariables = variables ?? defaultVariables;
+  const { data, loading } = useSearchPostsQuery({
+    skip: !keyword,
+    variables: {
+      where: {
+        _or: [
+          {
+            title: { _ilike: `%${keyword}%` },
+          },
+          {
+            content: { _ilike: `%${keyword}%` },
+          },
+          { taggings: { tag: { name: { _ilike: `%${keyword}%` } } } },
+        ],
+      },
+      limit,
+      offset: (currentPage - 1) * limit,
+    },
+  });
+
   const { posts, totalCount, totalPage } = useMemo(() => {
     return {
       posts: data?.posts ?? [],
@@ -62,37 +78,13 @@ export const PostSearch: VFC = () => {
   }, [data]);
 
   useEffect(() => {
-    called && loading ? progress.start() : progress.done();
-  }, [called, loading]);
+    loading ? progress.start() : progress.done();
+  }, [loading]);
 
   const handleSubmitPostSearchForm: SubmitHandler<PostSearchForm> = ({
     keyword,
   }) => {
-    const _ilike = `%${keyword}%`;
-
-    searchPosts({
-      variables: {
-        ...searchPostsVariables,
-        where: {
-          _or: [
-            {
-              title: { _ilike },
-            },
-            {
-              content: { _ilike },
-            },
-            { taggings: { tag: { name: { _ilike } } } },
-          ],
-        },
-        offset: 0,
-      },
-    });
-  };
-
-  const handleChangePage = (page: number) => {
-    searchPosts({
-      variables: { ...searchPostsVariables, offset: limit * (page - 1) },
-    });
+    router.push(pagesPath.search.$url({ query: { q: keyword } }));
   };
 
   return (
@@ -136,9 +128,18 @@ export const PostSearch: VFC = () => {
                 </Grid>
               ))}
             </Grid>
-            <Pagination totalPage={totalPage} onChange={handleChangePage} />
+            <Pagination
+              page={currentPage}
+              totalPage={totalPage}
+              prevPageLink={pagesPath.search.$url({
+                query: { q: keyword, page: currentPage - 1 },
+              })}
+              nextPageLink={pagesPath.search.$url({
+                query: { q: keyword, page: currentPage + 1 },
+              })}
+            />
           </>
-        ) : called ? (
+        ) : keyword ? (
           <SearchResultNotFound>
             「{getValues('keyword')}」
             に一致するテンプレートは見つかりませんでした

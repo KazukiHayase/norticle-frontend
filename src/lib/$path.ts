@@ -1,7 +1,8 @@
 import type { OptionalQuery as OptionalQuery0 } from '../pages/dashboard';
 import type { OptionalQuery as OptionalQuery1 } from '../pages/dashboard/stocks';
 import type { OptionalQuery as OptionalQuery2 } from '../pages/posts';
-import type { OptionalQuery as OptionalQuery3 } from '../pages/tags/[name]';
+import type { OptionalQuery as OptionalQuery3 } from '../pages/search';
+import type { OptionalQuery as OptionalQuery4 } from '../pages/tags/[name]';
 
 export const pagesPath = {
   $403: {
@@ -64,8 +65,9 @@ export const pagesPath = {
     }),
   },
   search: {
-    $url: (url?: { hash?: string }) => ({
+    $url: (url?: { query?: OptionalQuery3; hash?: string }) => ({
       pathname: '/search' as const,
+      query: url?.query,
       hash: url?.hash,
     }),
   },
@@ -77,7 +79,7 @@ export const pagesPath = {
   },
   tags: {
     _name: (name: string | number) => ({
-      $url: (url?: { query?: OptionalQuery3; hash?: string }) => ({
+      $url: (url?: { query?: OptionalQuery4; hash?: string }) => ({
         pathname: '/tags/[name]' as const,
         query: { name, ...url?.query },
         hash: url?.hash,
