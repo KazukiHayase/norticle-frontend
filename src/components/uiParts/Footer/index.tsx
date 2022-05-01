@@ -4,13 +4,12 @@ import { VFC } from 'react';
 
 import { Link, NextLinkComposed } from '@/components/uiParts/Link';
 import { pagesPath } from '@/lib/$path';
-import { Section } from '@/styles';
 
 import { Logo } from './style';
 
 export const Footer: VFC = () => {
   return (
-    <Section>
+    <Box sx={{ py: 5 }}>
       <Container maxWidth="lg">
         <Box sx={{ display: 'flex', justifyContent: 'space-between', pb: 15 }}>
           <Link href={pagesPath.$url()}>
@@ -69,6 +68,6 @@ export const Footer: VFC = () => {
           © 2022 Norticle
         </Typography>
       </Container>
-    </Section>
+    </Box>
   );
 };
