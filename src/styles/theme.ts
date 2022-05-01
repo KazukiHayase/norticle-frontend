@@ -10,6 +10,7 @@ export const theme = responsiveFontSizes(
             padding: 0,
             boxSizing: 'border-box',
             whiteSpace: 'pre-wrap',
+            wordBreak: 'break-word',
           },
           '.itemImageManageModalDragItem': {
             zIndex: 1300,
