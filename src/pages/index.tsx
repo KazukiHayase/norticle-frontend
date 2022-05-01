@@ -3,9 +3,7 @@ import { ReactElement } from 'react';
 import { PostIndex } from '@/features/post/pages/PostIndex';
 import { DefaultLayout } from '@/layouts/DefaultLayout';
 
-const IndexPage = () => {
-  return <PostIndex />;
-};
+const IndexPage = () => <PostIndex />;
 
 IndexPage.getLayout = (page: ReactElement) => (
   <DefaultLayout>{page}</DefaultLayout>
