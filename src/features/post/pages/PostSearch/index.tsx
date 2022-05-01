@@ -43,7 +43,7 @@ export const PostSearch: VFC<PostSearchProps> = ({ keyword, page }) => {
   const router = useRouter();
   const currentPage = useMemo(() => page ?? 1, [page]);
 
-  const { register, handleSubmit, getValues } = useForm<PostSearchForm>({
+  const { register, handleSubmit } = useForm<PostSearchForm>({
     defaultValues: { keyword },
     resolver: yupResolver(postSearchFormSchema),
   });
@@ -89,7 +89,7 @@ export const PostSearch: VFC<PostSearchProps> = ({ keyword, page }) => {
 
   return (
     <Section>
-      <Container maxWidth="md">
+      <Container maxWidth="md" sx={{ minHeight: 500 }}>
         <Box sx={{ pb: 8 }}>
           <form onSubmit={handleSubmit(handleSubmitPostSearchForm)}>
             <TextField
@@ -139,10 +139,9 @@ export const PostSearch: VFC<PostSearchProps> = ({ keyword, page }) => {
               })}
             />
           </>
-        ) : keyword ? (
+        ) : !loading && keyword ? (
           <SearchResultNotFound>
-            「{getValues('keyword')}」
-            に一致するテンプレートは見つかりませんでした
+            「{keyword}」 に一致するテンプレートは見つかりませんでした
           </SearchResultNotFound>
         ) : (
           <></>
