@@ -50,7 +50,7 @@ type PostDetailProps = {
 
 export const PostDetail: VFC<PostDetailProps> = ({ postId }) => {
   const router = useRouter();
-  const { isAuthenticated, user } = useAuth0();
+  const { isAuthenticated, user, loginWithRedirect } = useAuth0();
   const { notice } = useNotifier();
 
   const { data, loading } = useFetchPostQuery({
@@ -86,7 +86,9 @@ export const PostDetail: VFC<PostDetailProps> = ({ postId }) => {
   }, [loading]);
 
   const handleClickLikeIcon = () => {
+    if (!isAuthenticated) return loginWithRedirect();
     if (userLikeCount >= likeLimit) return;
+
     upsertLike(postId, userLikeId);
   };
 
@@ -97,6 +99,8 @@ export const PostDetail: VFC<PostDetailProps> = ({ postId }) => {
   };
 
   const handleClickStockIcon = () => {
+    if (!isAuthenticated) return loginWithRedirect();
+
     stock ? unStockPost(stock.id) : stockPost(postId);
   };
 
