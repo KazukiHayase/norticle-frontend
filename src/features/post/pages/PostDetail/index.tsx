@@ -114,7 +114,7 @@ export const PostDetail: VFC<PostDetailProps> = ({ postId }) => {
                 <FontAwesomeIcon icon={faPen} style={{ fontSize: 14 }} />
               }
               component={NextLinkComposed}
-              to={pagesPath.post._id(postId).edit.$url()}
+              to={pagesPath.posts._id(postId).edit.$url()}
             >
               編集
             </Button>

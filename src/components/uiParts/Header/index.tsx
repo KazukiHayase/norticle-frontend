@@ -69,7 +69,7 @@ export const Header: VFC = () => {
                   variant="contained"
                   color="primary"
                   component={NextLinkComposed}
-                  to={pagesPath.post.add.$url()}
+                  to={pagesPath.posts.add.$url()}
                   sx={{ fontWeight: 'bold' }}
                 >
                   投稿する

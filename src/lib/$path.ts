@@ -23,24 +23,24 @@ export const pagesPath = {
       hash: url?.hash,
     }),
   },
-  post: {
+  posts: {
     _id: (id: string | number) => ({
       edit: {
         $url: (url?: { hash?: string }) => ({
-          pathname: '/post/[id]/edit' as const,
+          pathname: '/posts/[id]/edit' as const,
           query: { id },
           hash: url?.hash,
         }),
       },
       $url: (url?: { hash?: string }) => ({
-        pathname: '/post/[id]' as const,
+        pathname: '/posts/[id]' as const,
         query: { id },
         hash: url?.hash,
       }),
     }),
     add: {
       $url: (url?: { hash?: string }) => ({
-        pathname: '/post/add' as const,
+        pathname: '/posts/add' as const,
         hash: url?.hash,
       }),
     },

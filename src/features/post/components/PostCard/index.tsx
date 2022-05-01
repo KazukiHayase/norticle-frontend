@@ -12,7 +12,7 @@ import { pagesPath } from '@/lib/$path';
 import { fromNow } from '@/services/date';
 
 import { PostCardFragment } from './generated';
-import { Avatar, Content, Like, SubHeader,Title } from './style';
+import { Avatar, Content, Like, SubHeader, Title } from './style';
 
 type PostCardProps = {
   post: PostCardFragment;
@@ -40,14 +40,14 @@ export const PostCard: React.VFC<PostCardProps> = ({ post }) => {
         }
       />
       <CardContent>
-        <Title to={pagesPath.post._id(post.id).$url()}>{post.title}</Title>
+        <Title to={pagesPath.posts._id(post.id).$url()}>{post.title}</Title>
         <PostTags
           post={filter<PostTagsFragment, PostCardFragment>(
             PostTagsFragmentDoc,
             post,
           )}
         />
-        <Content to={pagesPath.post._id(post.id).$url()}>
+        <Content to={pagesPath.posts._id(post.id).$url()}>
           {post.content}
         </Content>
       </CardContent>

@@ -111,7 +111,7 @@ export const DashboardPosts: VFC<DashboardPostsProps> = () => {
                   <Typography
                     variant="h3"
                     component={NextLinkComposed}
-                    to={pagesPath.post._id(post.id).edit.$url()}
+                    to={pagesPath.posts._id(post.id).edit.$url()}
                     sx={{ display: 'block', width: 1 }}
                   >
                     {post.title}
@@ -139,7 +139,7 @@ export const DashboardPosts: VFC<DashboardPostsProps> = () => {
       <Menu anchorEl={anchorEl} open={!!anchorEl} onClose={handleCloseMenu}>
         <MenuItem
           component={NextLinkComposed}
-          to={pagesPath.post._id(selectedPost.id).edit.$url()}
+          to={pagesPath.posts._id(selectedPost.id).edit.$url()}
         >
           <Typography>編集する</Typography>
         </MenuItem>

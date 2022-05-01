@@ -56,7 +56,7 @@ export const useUpdatePost = (): UpdatePostHookResult => {
           },
         });
 
-        router.push(pagesPath.post._id(postId).$url());
+        router.push(pagesPath.posts._id(postId).$url());
         notice('更新しました', 'success');
       } catch {
         notice('更新に失敗しました', 'error');

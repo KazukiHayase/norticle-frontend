@@ -101,7 +101,7 @@ export const DashboardStockedPosts: VFC = () => {
                   <Typography
                     variant="h3"
                     component={NextLinkComposed}
-                    to={pagesPath.post._id(post.id).$url()}
+                    to={pagesPath.posts._id(post.id).$url()}
                     sx={{ display: 'block', width: 1 }}
                   >
                     {post.title}
