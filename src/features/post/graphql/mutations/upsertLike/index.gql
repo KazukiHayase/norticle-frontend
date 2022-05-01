@@ -4,6 +4,16 @@ mutation AddLike($postId: Int!) {
     userId
     postId
     count
+    post {
+      id
+      likes_aggregate {
+        aggregate {
+          sum {
+            count
+          }
+        }
+      }
+    }
   }
 }
 
@@ -13,5 +23,15 @@ mutation UpdateLike($likeId: Int!) {
     userId
     postId
     count
+    post {
+      id
+      likes_aggregate {
+        aggregate {
+          sum {
+            count
+          }
+        }
+      }
+    }
   }
 }

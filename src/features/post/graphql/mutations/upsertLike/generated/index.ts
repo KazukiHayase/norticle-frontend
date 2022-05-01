@@ -12,7 +12,22 @@ export type AddLikeMutation = { __typename?: 'mutation_root' } & {
     { __typename?: 'like' } & Pick<
       Types.Like,
       'id' | 'userId' | 'postId' | 'count'
-    >
+    > & {
+        post: { __typename?: 'post' } & Pick<Types.Post, 'id'> & {
+            likes_aggregate: { __typename?: 'like_aggregate' } & {
+              aggregate?: Types.Maybe<
+                { __typename?: 'like_aggregate_fields' } & {
+                  sum?: Types.Maybe<
+                    { __typename?: 'like_sum_fields' } & Pick<
+                      Types.LikeSumFields,
+                      'count'
+                    >
+                  >;
+                }
+              >;
+            };
+          };
+      }
   >;
 };
 
@@ -25,7 +40,22 @@ export type UpdateLikeMutation = { __typename?: 'mutation_root' } & {
     { __typename?: 'like' } & Pick<
       Types.Like,
       'id' | 'userId' | 'postId' | 'count'
-    >
+    > & {
+        post: { __typename?: 'post' } & Pick<Types.Post, 'id'> & {
+            likes_aggregate: { __typename?: 'like_aggregate' } & {
+              aggregate?: Types.Maybe<
+                { __typename?: 'like_aggregate_fields' } & {
+                  sum?: Types.Maybe<
+                    { __typename?: 'like_sum_fields' } & Pick<
+                      Types.LikeSumFields,
+                      'count'
+                    >
+                  >;
+                }
+              >;
+            };
+          };
+      }
   >;
 };
 
@@ -36,6 +66,16 @@ export const AddLikeDocument = gql`
       userId
       postId
       count
+      post {
+        id
+        likes_aggregate {
+          aggregate {
+            sum {
+              count
+            }
+          }
+        }
+      }
     }
   }
 `;
@@ -86,6 +126,16 @@ export const UpdateLikeDocument = gql`
       userId
       postId
       count
+      post {
+        id
+        likes_aggregate {
+          aggregate {
+            sum {
+              count
+            }
+          }
+        }
+      }
     }
   }
 `;
