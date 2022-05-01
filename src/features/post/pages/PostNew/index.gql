@@ -1,0 +1,10 @@
+query FetchNewPosts($limit: Int!, $offset: Int!) {
+  posts(limit: $limit, offset: $offset, order_by: { createdAt: desc }) {
+    ...PostCard
+  }
+  postsAggregate {
+    aggregate {
+      count
+    }
+  }
+}

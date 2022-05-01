@@ -1,3 +1,5 @@
+import type { Query as Query0 } from '../pages/posts';
+
 export const pagesPath = {
   $403: {
     $url: (url?: { hash?: string }) => ({
@@ -44,6 +46,11 @@ export const pagesPath = {
         hash: url?.hash,
       }),
     },
+    $url: (url: { query: Query0; hash?: string }) => ({
+      pathname: '/posts' as const,
+      query: url.query,
+      hash: url.hash,
+    }),
   },
   privacy: {
     $url: (url?: { hash?: string }) => ({

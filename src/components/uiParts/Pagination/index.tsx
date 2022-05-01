@@ -1,40 +1,46 @@
 import { Button } from '@mui/material';
-import { useState, VFC } from 'react';
+import { VFC } from 'react';
+
+import {
+  NextLinkComposed,
+  NextLinkComposedProps,
+} from '@/components/uiParts/Link';
 
 import { Wrapper } from './style';
 
 type PaginationProps = {
+  page: number;
   totalPage: number;
-  onChange: (page: number) => void;
+  prevPageLink: NextLinkComposedProps['to'];
+  nextPageLink: NextLinkComposedProps['to'];
 };
 
-export const Pagination: VFC<PaginationProps> = ({ totalPage, onChange }) => {
-  const [page, setPage] = useState<number>(1);
-
+export const Pagination: VFC<PaginationProps> = ({
+  page,
+  totalPage,
+  prevPageLink,
+  nextPageLink,
+}) => {
   return (
     <Wrapper>
       {page > 1 && (
         <Button
+          component={NextLinkComposed}
+          to={prevPageLink}
           variant="contained"
           color="inherit"
           sx={{ fontWeight: 'bold' }}
-          onClick={() => {
-            setPage(page - 1);
-            onChange(page - 1);
-          }}
         >
           前のページ
         </Button>
       )}
       {page < totalPage && (
         <Button
+          component={NextLinkComposed}
+          to={nextPageLink}
           variant="contained"
           color="info"
           sx={{ fontWeight: 'bold' }}
-          onClick={() => {
-            setPage(page + 1);
-            onChange(page + 1);
-          }}
         >
           次のページ
         </Button>
