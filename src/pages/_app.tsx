@@ -11,6 +11,9 @@ import { AuthorizedApolloProvider } from '@/providers/authorizedApolloProvider';
 import { AuthProvider } from '@/providers/authProvider';
 import { progress } from '@/services/progress';
 import { theme } from '@/styles/theme';
+import { ErrorBoundary } from 'react-error-boundary';
+import { ErrorFallback } from '@/features/common/pages/ErrorFallback';
+import { DefaultLayout } from '@/layouts/DefaultLayout';
 
 Router.events.on('routeChangeStart', progress.start);
 Router.events.on('routeChangeComplete', progress.done);
@@ -34,22 +37,30 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout): JSX.Element => {
         <title>norticle</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
-      <AuthProvider>
-        <AuthorizedApolloProvider>
-          <ThemeProvider theme={theme}>
-            <SnackbarProvider
-              maxSnack={1}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'right',
-              }}
-            >
-              <CssBaseline />
-              {getLayout(<Component {...pageProps} />)}
-            </SnackbarProvider>
-          </ThemeProvider>
-        </AuthorizedApolloProvider>
-      </AuthProvider>
+      <ErrorBoundary
+        FallbackComponent={() => (
+          <DefaultLayout>
+            <ErrorFallback />
+          </DefaultLayout>
+        )}
+      >
+        <AuthProvider>
+          <AuthorizedApolloProvider>
+            <ThemeProvider theme={theme}>
+              <SnackbarProvider
+                maxSnack={1}
+                anchorOrigin={{
+                  vertical: 'bottom',
+                  horizontal: 'right',
+                }}
+              >
+                <CssBaseline />
+                {getLayout(<Component {...pageProps} />)}
+              </SnackbarProvider>
+            </ThemeProvider>
+          </AuthorizedApolloProvider>
+        </AuthProvider>
+      </ErrorBoundary>
     </>
   );
 };
