@@ -1,10 +1,9 @@
-# TODO: いいね数が実装されたらいいね順で取得・ソート機能実装
 query FetchTaggedPosts($tagName: String!, $limit: Int!, $offset: Int!) {
   posts(
     where: { taggings: { tag: { name: { _eq: $tagName } } } }
     limit: $limit
     offset: $offset
-    order_by: { createdAt: desc }
+    order_by: { likes_aggregate: { sum: { count: desc_nulls_last } } }
   ) {
     ...PostCard
   }
