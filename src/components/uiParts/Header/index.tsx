@@ -42,6 +42,10 @@ export const Header: VFC = () => {
     setAnchorEl(undefined);
   };
 
+  const handleClickLogoutButton = () => {
+    logout({ returnTo: process.env.NEXT_PUBLIC_AUTH0_LOGOUT_REDIRECT_URI });
+  };
+
   return (
     <AppBar position="static" color="transparent" sx={{ boxShadow: 'none' }}>
       <Container>
@@ -108,7 +112,7 @@ export const Header: VFC = () => {
                     </MenuItemContent>
                   </MenuItem>
                   <Divider />
-                  <MenuItem onClick={() => logout()}>
+                  <MenuItem onClick={handleClickLogoutButton}>
                     <MenuItemContent>
                       <FontAwesomeIcon
                         icon={faRightFromBracket}
