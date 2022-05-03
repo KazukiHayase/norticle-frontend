@@ -90,7 +90,7 @@ export const PostSearch: VFC<PostSearchProps> = ({ keyword, page }) => {
   return (
     <Section>
       <Container maxWidth="md" sx={{ minHeight: 500 }}>
-        <Box sx={{ pb: 8 }}>
+        <Box sx={{ w: 1, pb: 8 }}>
           <form onSubmit={handleSubmit(handleSubmitPostSearchForm)}>
             <TextField
               fullWidth
