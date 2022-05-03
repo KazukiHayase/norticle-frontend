@@ -1,14 +1,30 @@
-import { Auth0Provider, Auth0ProviderOptions } from '@auth0/auth0-react';
+import { useNotifier } from '@/hooks/useNotifier';
+import {
+  Auth0Provider,
+  Auth0ProviderOptions,
+  useAuth0,
+} from '@auth0/auth0-react';
 import Router from 'next/router';
-import { ReactNode } from 'react';
+import { ReactNode, useEffect } from 'react';
 
 type AuthProviderProps = {
   readonly children: ReactNode;
 };
 
 export const AuthProvider: React.VFC<AuthProviderProps> = ({ children }) => {
-  // TODO: エラー時の対応
-  // const { isLoading, error } = useAuth0();
+  const { isLoading, error } = useAuth0();
+  const { notice } = useNotifier();
+
+  useEffect(() => {
+    if (!isLoading && error) {
+      notice('ログインに失敗しました', 'error');
+
+      // 本番以外ではログを出力
+      if (process.env.NEXT_PUBLIC_ENVIRONMENT !== 'production') {
+        console.log(`[Auth0 error]: Message: ${error.message}`);
+      }
+    }
+  }, [isLoading, error]);
 
   const options: Auth0ProviderOptions = {
     clientId: process.env.NEXT_PUBLIC_AUTH0_CLIENT_ID || '',
