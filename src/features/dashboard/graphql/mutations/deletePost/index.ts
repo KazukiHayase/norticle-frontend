@@ -12,6 +12,7 @@ export const useDeletePost = (): DeletePostHookResult => {
   const [loading, setLoading] = useState<boolean>(false);
   const { notice } = useNotifier();
   const [deletePostMutation] = useDeletePostMutation({
+    context: { disableNotification: true },
     refetchQueries: [FetchPostsForDashboardDocument],
   });
 

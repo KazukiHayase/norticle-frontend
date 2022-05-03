@@ -14,7 +14,9 @@ type UpdateUserHookResult = [
 export const useUpdateUser = (): UpdateUserHookResult => {
   const [loading, setLoading] = useState<boolean>(false);
   const { notice } = useNotifier();
-  const [updateUserMutation] = useUpdateUserMutation();
+  const [updateUserMutation] = useUpdateUserMutation({
+    context: { disableNotification: true },
+  });
 
   const updateUser: UpdateUserHookResult[0] = useCallback(
     async (userId, user) => {

@@ -23,6 +23,7 @@ export const useAddPost = (): AddPostHookResult => {
   const { notice } = useNotifier();
   const [loading, setLoading] = useState<boolean>(false);
   const [addPostMutation] = useAddPostMutation({
+    context: { disableNotification: true },
     refetchQueries: [FetchPostsDocument, FetchNewPostsDocument],
   });
 

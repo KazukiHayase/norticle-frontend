@@ -14,7 +14,9 @@ export const useUpsertLike = (): UpsertLikeHookResult => {
   const [loading, setLoading] = useState<boolean>(false);
   const { notice } = useNotifier();
   const [addLike] = useAddLikeMutation();
-  const [updateLike] = useUpdateLikeMutation();
+  const [updateLike] = useUpdateLikeMutation({
+    context: { disableNotification: true },
+  });
 
   // likeIdがパラメーターに含まれているかどうかで、insert/updateを使い分ける
   const upsertLike: UpsertLikeHookResult[0] = useCallback(

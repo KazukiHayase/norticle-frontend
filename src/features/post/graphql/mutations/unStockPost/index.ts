@@ -15,7 +15,9 @@ type UnStockPostHookResult = [
 export const useUnStockPost = (): UnStockPostHookResult => {
   const { notice } = useNotifier();
   const [loading, setLoading] = useState<boolean>(false);
-  const [unStockPostMutation] = useUnStockPostMutation();
+  const [unStockPostMutation] = useUnStockPostMutation({
+    context: { disableNotification: true },
+  });
 
   const unStockPost: UnStockPostHookResult[0] = useCallback(
     async (stockId) => {

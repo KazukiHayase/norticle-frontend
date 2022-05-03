@@ -5,7 +5,7 @@ export const useErrorLink = () => {
   const { notice } = useNotifier();
 
   return onError(({ graphQLErrors, networkError, operation }) => {
-    const enableNotification = !operation.getContext().disableErrorRedirect;
+    const enableNotification = !operation.getContext().disableNotification;
 
     if (graphQLErrors) {
       if (enableNotification) notice('予期せぬエラーが発生しました', 'error');

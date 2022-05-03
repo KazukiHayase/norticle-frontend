@@ -25,7 +25,9 @@ export const useUpdatePost = (): UpdatePostHookResult => {
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
   const { notice } = useNotifier();
-  const [updatePostMutation] = useUpdatePostMutation();
+  const [updatePostMutation] = useUpdatePostMutation({
+    context: { disableNotification: true },
+  });
 
   const updatePost: UpdatePostHookResult[0] = useCallback(
     async (postId, post, tags) => {

@@ -12,7 +12,9 @@ type StockPostHookResult = [(postId: Post['id']) => void, { loading: boolean }];
 export const useStockPost = (): StockPostHookResult => {
   const { notice } = useNotifier();
   const [loading, setLoading] = useState<boolean>(false);
-  const [stockPostMutation] = useStockPostMutation();
+  const [stockPostMutation] = useStockPostMutation({
+    context: { disableNotification: true },
+  });
 
   const stockPost: StockPostHookResult[0] = useCallback(
     async (postId) => {
