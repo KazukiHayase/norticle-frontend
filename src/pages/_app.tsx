@@ -44,22 +44,22 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout): JSX.Element => {
           </DefaultLayout>
         )}
       >
-        <AuthProvider>
-          <AuthorizedApolloProvider>
-            <ThemeProvider theme={theme}>
-              <SnackbarProvider
-                maxSnack={1}
-                anchorOrigin={{
-                  vertical: 'bottom',
-                  horizontal: 'right',
-                }}
-              >
+        <SnackbarProvider
+          maxSnack={1}
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'right',
+          }}
+        >
+          <AuthProvider>
+            <AuthorizedApolloProvider>
+              <ThemeProvider theme={theme}>
                 <CssBaseline />
                 {getLayout(<Component {...pageProps} />)}
-              </SnackbarProvider>
-            </ThemeProvider>
-          </AuthorizedApolloProvider>
-        </AuthProvider>
+              </ThemeProvider>
+            </AuthorizedApolloProvider>
+          </AuthProvider>
+        </SnackbarProvider>
       </ErrorBoundary>
     </>
   );

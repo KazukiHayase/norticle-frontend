@@ -7,7 +7,7 @@ import {
 } from '@apollo/client';
 
 import { customScalarLink } from './links/customScalarLink';
-import { errorLink } from './links/errorLink';
+import { useErrorLink } from './links/useErrorLink';
 import { useAuthLink } from './links/useAuthLink';
 
 type AuthorizedApolloProviderProps = {
@@ -20,6 +20,7 @@ export const AuthorizedApolloProvider: React.VFC<AuthorizedApolloProviderProps> 
       uri: process.env.NEXT_PUBLIC_GRAPHQL_URL,
     });
     const authLink = useAuthLink();
+    const errorLink = useErrorLink();
 
     const cache = new InMemoryCache({
       // See: https://www.apollographql.com/docs/react/caching/cache-configuration/#overriding-root-operation-types-uncommon
