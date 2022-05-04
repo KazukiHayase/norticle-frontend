@@ -86,7 +86,8 @@ export const PostDetail: VFC<PostDetailProps> = ({ postId }) => {
   }, [loading]);
 
   const handleClickLikeIcon = () => {
-    if (!isAuthenticated) return loginWithRedirect();
+    if (!isAuthenticated)
+      return loginWithRedirect({ appState: { returnTo: router.asPath } });
     if (userLikeCount >= likeLimit) return;
 
     upsertLike(postId, userLikeId);
@@ -99,7 +100,8 @@ export const PostDetail: VFC<PostDetailProps> = ({ postId }) => {
   };
 
   const handleClickStockIcon = () => {
-    if (!isAuthenticated) return loginWithRedirect();
+    if (!isAuthenticated)
+      return loginWithRedirect({ appState: { returnTo: router.asPath } });
 
     stock ? unStockPost(stock.id) : stockPost(postId);
   };

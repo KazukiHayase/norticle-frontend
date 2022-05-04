@@ -1,4 +1,5 @@
 import { useNotifier } from '@/hooks/useNotifier';
+import { pagesPath } from '@/lib/$path';
 import {
   Auth0Provider,
   Auth0ProviderOptions,
@@ -33,7 +34,7 @@ export const AuthProvider: React.VFC<AuthProviderProps> = ({ children }) => {
     redirectUri: process.env.NEXT_PUBLIC_AUTH0_REDIRECT_URI,
     cacheLocation: 'localstorage',
     onRedirectCallback: (appState) => {
-      Router.replace(appState?.returnTo || '/');
+      Router.replace(appState?.returnTo ?? pagesPath.$url());
     },
   };
 

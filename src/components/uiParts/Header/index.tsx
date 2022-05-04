@@ -28,8 +28,10 @@ import { pagesPath } from '@/lib/$path';
 
 import { Logo } from './style';
 import { Avatar, MenuItemContent } from './style';
+import { useRouter } from 'next/router';
 
 export const Header: VFC = () => {
+  const router = useRouter();
   const { user, isAuthenticated, loginWithRedirect, logout } = useAuth0();
 
   const [anchorEl, setAnchorEl] = useState<HTMLElement | undefined>(undefined);
@@ -40,6 +42,10 @@ export const Header: VFC = () => {
 
   const handleCloseMenu = () => {
     setAnchorEl(undefined);
+  };
+
+  const handleClickLoginButton = () => {
+    loginWithRedirect({ appState: { returnTo: router.asPath } });
   };
 
   const handleClickLogoutButton = () => {
@@ -127,7 +133,7 @@ export const Header: VFC = () => {
               <Button
                 variant="contained"
                 color="primary"
-                onClick={loginWithRedirect}
+                onClick={handleClickLoginButton}
                 sx={{ fontWeight: 'bold' }}
               >
                 ログイン
