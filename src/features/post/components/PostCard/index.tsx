@@ -19,11 +19,6 @@ type PostCardProps = {
 };
 
 export const PostCard: React.VFC<PostCardProps> = ({ post }) => {
-  const totalLikeCount = post.likes.reduce(
-    (count, acc) => count + acc.count,
-    0,
-  );
-
   return (
     <Card sx={{ height: 1 }}>
       <CardHeader
@@ -34,7 +29,7 @@ export const PostCard: React.VFC<PostCardProps> = ({ post }) => {
             <span>{fromNow(post.createdAt)}</span>
             <Like>
               <FontAwesomeIcon icon={faHeart} />
-              {totalLikeCount}
+              {post.likes_aggregate.aggregate?.count ?? 0}
             </Like>
           </SubHeader>
         }
