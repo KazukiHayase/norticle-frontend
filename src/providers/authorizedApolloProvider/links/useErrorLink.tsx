@@ -1,5 +1,6 @@
-import { useNotifier } from '@/hooks/useNotifier';
 import { onError } from '@apollo/client/link/error';
+
+import { useNotifier } from '@/hooks/useNotifier';
 
 export const useErrorLink = () => {
   const { notice } = useNotifier();

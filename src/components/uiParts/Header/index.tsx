@@ -20,6 +20,7 @@ import {
 } from '@mui/material';
 import { grey } from '@mui/material/colors';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 import { useState, VFC } from 'react';
 import { MouseEvent } from 'react';
 
@@ -28,7 +29,6 @@ import { pagesPath } from '@/lib/$path';
 
 import { Logo } from './style';
 import { Avatar, MenuItemContent } from './style';
-import { useRouter } from 'next/router';
 
 export const Header: VFC = () => {
   const router = useRouter();

@@ -6,14 +6,14 @@ import Head from 'next/head';
 import { Router } from 'next/router';
 import { SnackbarProvider } from 'notistack';
 import { ReactElement, ReactNode } from 'react';
+import { ErrorBoundary } from 'react-error-boundary';
 
+import { ErrorFallback } from '@/features/common/pages/ErrorFallback';
+import { DefaultLayout } from '@/layouts/DefaultLayout';
 import { AuthorizedApolloProvider } from '@/providers/authorizedApolloProvider';
 import { AuthProvider } from '@/providers/authProvider';
 import { progress } from '@/services/progress';
 import { theme } from '@/styles/theme';
-import { ErrorBoundary } from 'react-error-boundary';
-import { ErrorFallback } from '@/features/common/pages/ErrorFallback';
-import { DefaultLayout } from '@/layouts/DefaultLayout';
 
 Router.events.on('routeChangeStart', progress.start);
 Router.events.on('routeChangeComplete', progress.done);

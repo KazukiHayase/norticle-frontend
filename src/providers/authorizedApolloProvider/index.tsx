@@ -7,8 +7,8 @@ import {
 } from '@apollo/client';
 
 import { customScalarLink } from './links/customScalarLink';
-import { useErrorLink } from './links/useErrorLink';
 import { useAuthLink } from './links/useAuthLink';
+import { useErrorLink } from './links/useErrorLink';
 
 type AuthorizedApolloProviderProps = {
   children?: React.ReactNode;
