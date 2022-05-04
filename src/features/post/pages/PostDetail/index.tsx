@@ -49,8 +49,6 @@ export const PostDetail: VFC<PostDetailProps> = ({ postId }) => {
   const { isAuthenticated, user, loginWithRedirect } = useAuth0();
   const { notice } = useNotifier();
 
-  // TODO: userのいいねしてるかどうかはstateで管理したほうがいい
-
   const { data, loading } = useFetchPostQuery({
     variables: { postId, userId: user?.sub ?? '', isLoggedIn: isAuthenticated },
     onCompleted: (data) => {
