@@ -1,3 +1,5 @@
+import { useApolloClient } from '@apollo/client';
+import { useAuth0 } from '@auth0/auth0-react';
 import { useCallback, useState } from 'react';
 
 import {
@@ -9,8 +11,6 @@ import { Post } from '@/graphql/generated/types';
 import { useNotifier } from '@/hooks/useNotifier';
 
 import { useStockPostMutation } from './generated';
-import { useApolloClient } from '@apollo/client';
-import { useAuth0 } from '@auth0/auth0-react';
 
 type StockPostHookResult = [(postId: Post['id']) => void, { loading: boolean }];
 
@@ -72,7 +72,7 @@ export const useStockPost = (): StockPostHookResult => {
         setLoading(false);
       }
     },
-    [stockPostMutation, notice],
+    [isAuthenticated, user, notice, client, stockPostMutation],
   );
 
   return [stockPost, { loading }];

@@ -1,3 +1,5 @@
+import { useApolloClient } from '@apollo/client';
+import { useAuth0 } from '@auth0/auth0-react';
 import { useCallback, useState } from 'react';
 
 import {
@@ -9,8 +11,6 @@ import { Post, Stock } from '@/graphql/generated/types';
 import { useNotifier } from '@/hooks/useNotifier';
 
 import { useUnStockPostMutation } from './generated';
-import { useApolloClient } from '@apollo/client';
-import { useAuth0 } from '@auth0/auth0-react';
 
 type UnStockPostHookResult = [
   (postId: Post['id'], stockId: Stock['id']) => void,
@@ -76,7 +76,7 @@ export const useUnStockPost = (): UnStockPostHookResult => {
         setLoading(false);
       }
     },
-    [unStockPostMutation, notice],
+    [isAuthenticated, user, notice, client, unStockPostMutation],
   );
 
   return [unStockPost, { loading }];

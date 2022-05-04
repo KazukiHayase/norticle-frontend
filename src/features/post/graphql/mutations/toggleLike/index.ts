@@ -1,15 +1,15 @@
+import { useApolloClient } from '@apollo/client';
+import { useAuth0 } from '@auth0/auth0-react';
 import { useCallback, useState } from 'react';
 
-import { useNotifier } from '@/hooks/useNotifier';
-
-import { useAddLikeMutation, useDeleteLikeMutation } from './generated';
-import { useAuth0 } from '@auth0/auth0-react';
-import { useApolloClient } from '@apollo/client';
 import {
   FetchPostDocument,
   FetchPostQuery,
   FetchPostQueryVariables,
 } from '@/features/post/pages/PostDetail/generated';
+import { useNotifier } from '@/hooks/useNotifier';
+
+import { useAddLikeMutation, useDeleteLikeMutation } from './generated';
 
 type ToggleLikeHookResult = [
   (postId: number, likeId?: number) => void,
@@ -96,7 +96,7 @@ export const useToggleLike = (): ToggleLikeHookResult => {
         setLoading(false);
       }
     },
-    [addLike, deleteLike, notice, setLoading],
+    [isAuthenticated, user, notice, client, addLike, deleteLike, setLoading],
   );
 
   return [toggleLike, { loading }];

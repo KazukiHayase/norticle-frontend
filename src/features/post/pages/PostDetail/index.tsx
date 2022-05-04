@@ -20,8 +20,8 @@ import {
   PostTagsFragmentDoc,
 } from '@/features/post/components/PostTags/generated';
 import { useStockPost } from '@/features/post/graphql/mutations/stockPost';
-import { useUnStockPost } from '@/features/post/graphql/mutations/unStockPost';
 import { useToggleLike } from '@/features/post/graphql/mutations/toggleLike';
+import { useUnStockPost } from '@/features/post/graphql/mutations/unStockPost';
 import { useNotifier } from '@/hooks/useNotifier';
 import { pagesPath } from '@/lib/$path';
 import { formatDate } from '@/services/date';
@@ -71,7 +71,7 @@ export const PostDetail: VFC<PostDetailProps> = ({ postId }) => {
       totalLikeCount,
       stock,
     };
-  }, [data, user]);
+  }, [data]);
 
   useEffect(() => {
     loading ? progress.start() : progress.done();
