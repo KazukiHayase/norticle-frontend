@@ -71,16 +71,6 @@ export const LikeIconButton = styled(IconButton, {
   }),
 );
 
-export const LikeIcon = styled('div')(sx({ position: 'absolute', bottom: 15 }));
-
-export const LikedCount = styled('span')(
-  sx({
-    position: 'absolute',
-    bottom: 5,
-    fontSize: 12,
-  }),
-);
-
 export const TotalLikedCount = styled('span', {
   shouldForwardProp: (prop) => prop !== 'isActive',
 })<{ isActive: boolean }>(({ theme, isActive }) =>

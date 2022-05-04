@@ -13,17 +13,16 @@ query FetchPost($postId: Int!, $userId: String!, $isLoggedIn: Boolean = false) {
     }
     likes_aggregate {
       aggregate {
-        sum {
-          count
-        }
+        count
       }
     }
-    likes(where: { userId: { _eq: $userId } }, limit: 1)
+    userLikesAggregate: likes_aggregate(where: { userId: { _eq: $userId } })
       @include(if: $isLoggedIn) {
-      id
-      userId
-      count
+      aggregate {
+        count
+      }
     }
+    # NOTE: パーミッションの設定で自分のストックしか取得できない
     stocks @include(if: $isLoggedIn) {
       id
     }

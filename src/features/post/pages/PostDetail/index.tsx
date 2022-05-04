@@ -34,15 +34,11 @@ import {
   ActionAreaInner,
   Avatar,
   CopyIconButton,
-  LikedCount,
-  LikeIcon,
   LikeIconButton,
   StockIconButton,
   TotalLikedCount,
   UserInfo,
 } from './style';
-
-const likeLimit = 10;
 
 type PostDetailProps = {
   postId: number;
@@ -52,6 +48,8 @@ export const PostDetail: VFC<PostDetailProps> = ({ postId }) => {
   const router = useRouter();
   const { isAuthenticated, user, loginWithRedirect } = useAuth0();
   const { notice } = useNotifier();
+
+  // userのいいねしてるかどうかはstateで管理したほうがいい
 
   const { data, loading } = useFetchPostQuery({
     variables: { postId, userId: user?.sub ?? '', isLoggedIn: isAuthenticated },
@@ -66,10 +64,9 @@ export const PostDetail: VFC<PostDetailProps> = ({ postId }) => {
   const { post, userLikeId, userLikeCount, totalLikeCount, stock } =
     useMemo(() => {
       const post = data?.post;
-      const userLike = post?.likes?.find((like) => like.userId === user?.sub);
-      const userLikeId = userLike?.id;
-      const userLikeCount = userLike?.count ?? 0;
-      const totalLikeCount = post?.likes_aggregate.aggregate?.sum?.count;
+      const userLikeId = 1; // TODO: 消す
+      const totalLikeCount = post?.likes_aggregate.aggregate?.count ?? 0;
+      const userLikeCount = post?.userLikesAggregate?.aggregate?.count ?? 0;
       const stock = post?.stocks?.[0] ?? undefined;
 
       return {
@@ -88,7 +85,6 @@ export const PostDetail: VFC<PostDetailProps> = ({ postId }) => {
   const handleClickLikeIcon = () => {
     if (!isAuthenticated)
       return loginWithRedirect({ appState: { returnTo: router.asPath } });
-    if (userLikeCount >= likeLimit) return;
 
     upsertLike(postId, userLikeId);
   };
@@ -166,12 +162,7 @@ export const PostDetail: VFC<PostDetailProps> = ({ postId }) => {
                     onClick={handleClickLikeIcon}
                     isActive={userLikeCount > 0}
                   >
-                    <LikeIcon>
-                      <FontAwesomeIcon icon={faHeart} fontSize={20} />
-                    </LikeIcon>
-                    <LikedCount>
-                      {userLikeCount}/{likeLimit}
-                    </LikedCount>
+                    <FontAwesomeIcon icon={faHeart} fontSize={20} />
                   </LikeIconButton>
                 </Tooltip>
                 <TotalLikedCount isActive={userLikeCount > 0}>
