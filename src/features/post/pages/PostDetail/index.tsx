@@ -21,7 +21,7 @@ import {
 } from '@/features/post/components/PostTags/generated';
 import { useStockPost } from '@/features/post/graphql/mutations/stockPost';
 import { useUnStockPost } from '@/features/post/graphql/mutations/unStockPost';
-import { useUpsertLike } from '@/features/post/graphql/mutations/upsertLike';
+import { useToggleLike } from '@/features/post/graphql/mutations/toggleLike';
 import { useNotifier } from '@/hooks/useNotifier';
 import { pagesPath } from '@/lib/$path';
 import { formatDate } from '@/services/date';
@@ -57,7 +57,7 @@ export const PostDetail: VFC<PostDetailProps> = ({ postId }) => {
       if (!data.post) router.replace(pagesPath.$404.$url());
     },
   });
-  const [upsertLike] = useUpsertLike();
+  const [toggleLike] = useToggleLike();
   const [stockPost] = useStockPost();
   const [unStockPost] = useUnStockPost();
 
@@ -83,7 +83,7 @@ export const PostDetail: VFC<PostDetailProps> = ({ postId }) => {
     if (!isAuthenticated)
       return loginWithRedirect({ appState: { returnTo: router.asPath } });
 
-    upsertLike(postId, like?.id);
+    toggleLike(postId, like?.id);
   };
 
   const handleClickCopyIcon = () => {
