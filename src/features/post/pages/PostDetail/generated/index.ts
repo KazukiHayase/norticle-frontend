@@ -29,15 +29,8 @@ export type FetchPostQuery = { __typename?: 'query_root' } & {
             >
           >;
         };
-        userLikesAggregate: Types.Maybe<
-          { __typename?: 'like_aggregate' } & {
-            aggregate?: Types.Maybe<
-              { __typename?: 'like_aggregate_fields' } & Pick<
-                Types.LikeAggregateFields,
-                'count'
-              >
-            >;
-          }
+        likes?: Types.Maybe<
+          Array<{ __typename?: 'like' } & Pick<Types.Like, 'id'>>
         >;
         stocks?: Types.Maybe<
           Array<{ __typename?: 'stock' } & Pick<Types.Stock, 'id'>>
@@ -69,11 +62,8 @@ export const FetchPostDocument = gql`
           count
         }
       }
-      userLikesAggregate: likes_aggregate(where: { userId: { _eq: $userId } })
-        @include(if: $isLoggedIn) {
-        aggregate {
-          count
-        }
+      likes(where: { userId: { _eq: $userId } }) @include(if: $isLoggedIn) {
+        id
       }
       stocks @include(if: $isLoggedIn) {
         id

@@ -49,7 +49,7 @@ export const PostDetail: VFC<PostDetailProps> = ({ postId }) => {
   const { isAuthenticated, user, loginWithRedirect } = useAuth0();
   const { notice } = useNotifier();
 
-  // userのいいねしてるかどうかはstateで管理したほうがいい
+  // TODO: userのいいねしてるかどうかはstateで管理したほうがいい
 
   const { data, loading } = useFetchPostQuery({
     variables: { postId, userId: user?.sub ?? '', isLoggedIn: isAuthenticated },
@@ -61,22 +61,19 @@ export const PostDetail: VFC<PostDetailProps> = ({ postId }) => {
   const [stockPost] = useStockPost();
   const [unStockPost] = useUnStockPost();
 
-  const { post, userLikeId, userLikeCount, totalLikeCount, stock } =
-    useMemo(() => {
-      const post = data?.post;
-      const userLikeId = 1; // TODO: 消す
-      const totalLikeCount = post?.likes_aggregate.aggregate?.count ?? 0;
-      const userLikeCount = post?.userLikesAggregate?.aggregate?.count ?? 0;
-      const stock = post?.stocks?.[0] ?? undefined;
+  const { post, like, totalLikeCount, stock } = useMemo(() => {
+    const post = data?.post;
+    const like = post?.likes?.[0] ?? undefined;
+    const totalLikeCount = post?.likes_aggregate.aggregate?.count ?? 0;
+    const stock = post?.stocks?.[0] ?? undefined;
 
-      return {
-        post,
-        userLikeId,
-        userLikeCount,
-        totalLikeCount,
-        stock,
-      };
-    }, [data, user]);
+    return {
+      post,
+      like,
+      totalLikeCount,
+      stock,
+    };
+  }, [data, user]);
 
   useEffect(() => {
     loading ? progress.start() : progress.done();
@@ -86,7 +83,7 @@ export const PostDetail: VFC<PostDetailProps> = ({ postId }) => {
     if (!isAuthenticated)
       return loginWithRedirect({ appState: { returnTo: router.asPath } });
 
-    upsertLike(postId, userLikeId);
+    upsertLike(postId, like?.id);
   };
 
   const handleClickCopyIcon = () => {
@@ -160,12 +157,12 @@ export const PostDetail: VFC<PostDetailProps> = ({ postId }) => {
                 <Tooltip title="いいね" placement="top" arrow>
                   <LikeIconButton
                     onClick={handleClickLikeIcon}
-                    isActive={userLikeCount > 0}
+                    isActive={!!like}
                   >
                     <FontAwesomeIcon icon={faHeart} fontSize={20} />
                   </LikeIconButton>
                 </Tooltip>
-                <TotalLikedCount isActive={userLikeCount > 0}>
+                <TotalLikedCount isActive={!!like}>
                   {totalLikeCount}
                 </TotalLikedCount>
               </Box>
