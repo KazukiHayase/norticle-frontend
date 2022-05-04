@@ -27,7 +27,7 @@ export const FetchTrendPostsDocument = gql`
     posts(
       limit: $limit
       offset: $offset
-      order_by: { likes_aggregate: { sum: { count: desc_nulls_last } } }
+      order_by: { likes_aggregate: { count: desc } }
     ) {
       ...PostCard
     }

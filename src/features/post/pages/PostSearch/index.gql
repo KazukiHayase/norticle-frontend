@@ -3,7 +3,7 @@ query SearchPosts($where: post_bool_exp!, $limit: Int!, $offset: Int!) {
     where: $where
     limit: $limit
     offset: $offset
-    order_by: { likes_aggregate: { sum: { count: desc_nulls_last } } }
+    order_by: { likes_aggregate: { count: desc } }
   ) {
     ...PostCard
   }

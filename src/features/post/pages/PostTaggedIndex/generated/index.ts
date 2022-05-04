@@ -37,7 +37,7 @@ export const FetchTaggedPostsDocument = gql`
       where: { taggings: { tag: { name: { _eq: $tagName } } } }
       limit: $limit
       offset: $offset
-      order_by: { likes_aggregate: { sum: { count: desc_nulls_last } } }
+      order_by: { likes_aggregate: { count: desc } }
     ) {
       ...PostCard
     }

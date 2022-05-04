@@ -65,7 +65,6 @@ export type StringComparisonExp = {
 /** 投稿へのいいね */
 export type Like = {
   __typename?: 'like';
-  count: Scalars['Int'];
   created_at: Scalars['timestamptz'];
   id: Scalars['Int'];
   /** An object relationship */
@@ -131,14 +130,12 @@ export type LikeArrRelInsertInput = {
 /** aggregate avg on columns */
 export type LikeAvgFields = {
   __typename?: 'like_avg_fields';
-  count: Maybe<Scalars['Float']>;
   id: Maybe<Scalars['Float']>;
   postId: Maybe<Scalars['Float']>;
 };
 
 /** order by avg() on columns of table "likes" */
 export type LikeAvgOrderBy = {
-  count?: Maybe<OrderBy>;
   id?: Maybe<OrderBy>;
   postId?: Maybe<OrderBy>;
 };
@@ -148,7 +145,6 @@ export type LikeBoolExp = {
   _and?: Maybe<Array<LikeBoolExp>>;
   _not?: Maybe<LikeBoolExp>;
   _or?: Maybe<Array<LikeBoolExp>>;
-  count?: Maybe<IntComparisonExp>;
   created_at?: Maybe<TimestamptzComparisonExp>;
   id?: Maybe<IntComparisonExp>;
   post?: Maybe<PostBoolExp>;
@@ -169,14 +165,12 @@ export const LikeConstraint = {
 export type LikeConstraint = typeof LikeConstraint[keyof typeof LikeConstraint];
 /** input type for incrementing numeric columns in table "likes" */
 export type LikeIncInput = {
-  count?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
   postId?: Maybe<Scalars['Int']>;
 };
 
 /** input type for inserting data into table "likes" */
 export type LikeInsertInput = {
-  count?: Maybe<Scalars['Int']>;
   created_at?: Maybe<Scalars['timestamptz']>;
   id?: Maybe<Scalars['Int']>;
   post?: Maybe<PostObjRelInsertInput>;
@@ -189,7 +183,6 @@ export type LikeInsertInput = {
 /** aggregate max on columns */
 export type LikeMaxFields = {
   __typename?: 'like_max_fields';
-  count: Maybe<Scalars['Int']>;
   created_at: Maybe<Scalars['timestamptz']>;
   id: Maybe<Scalars['Int']>;
   postId: Maybe<Scalars['Int']>;
@@ -199,7 +192,6 @@ export type LikeMaxFields = {
 
 /** order by max() on columns of table "likes" */
 export type LikeMaxOrderBy = {
-  count?: Maybe<OrderBy>;
   created_at?: Maybe<OrderBy>;
   id?: Maybe<OrderBy>;
   postId?: Maybe<OrderBy>;
@@ -210,7 +202,6 @@ export type LikeMaxOrderBy = {
 /** aggregate min on columns */
 export type LikeMinFields = {
   __typename?: 'like_min_fields';
-  count: Maybe<Scalars['Int']>;
   created_at: Maybe<Scalars['timestamptz']>;
   id: Maybe<Scalars['Int']>;
   postId: Maybe<Scalars['Int']>;
@@ -220,7 +211,6 @@ export type LikeMinFields = {
 
 /** order by min() on columns of table "likes" */
 export type LikeMinOrderBy = {
-  count?: Maybe<OrderBy>;
   created_at?: Maybe<OrderBy>;
   id?: Maybe<OrderBy>;
   postId?: Maybe<OrderBy>;
@@ -246,7 +236,6 @@ export type LikeOnConflict = {
 
 /** Ordering options when selecting data from "likes". */
 export type LikeOrderBy = {
-  count?: Maybe<OrderBy>;
   created_at?: Maybe<OrderBy>;
   id?: Maybe<OrderBy>;
   post?: Maybe<PostOrderBy>;
@@ -264,8 +253,6 @@ export type LikePkColumnsInput = {
 /** select columns of table "likes" */
 export const LikeSelectColumn = {
   /** column name */
-  Count: 'count',
-  /** column name */
   CreatedAt: 'created_at',
   /** column name */
   Id: 'id',
@@ -281,7 +268,6 @@ export type LikeSelectColumn =
   typeof LikeSelectColumn[keyof typeof LikeSelectColumn];
 /** input type for updating data in table "likes" */
 export type LikeSetInput = {
-  count?: Maybe<Scalars['Int']>;
   created_at?: Maybe<Scalars['timestamptz']>;
   id?: Maybe<Scalars['Int']>;
   postId?: Maybe<Scalars['Int']>;
@@ -292,14 +278,12 @@ export type LikeSetInput = {
 /** aggregate stddev on columns */
 export type LikeStddevFields = {
   __typename?: 'like_stddev_fields';
-  count: Maybe<Scalars['Float']>;
   id: Maybe<Scalars['Float']>;
   postId: Maybe<Scalars['Float']>;
 };
 
 /** order by stddev() on columns of table "likes" */
 export type LikeStddevOrderBy = {
-  count?: Maybe<OrderBy>;
   id?: Maybe<OrderBy>;
   postId?: Maybe<OrderBy>;
 };
@@ -307,14 +291,12 @@ export type LikeStddevOrderBy = {
 /** aggregate stddev_pop on columns */
 export type LikeStddevPopFields = {
   __typename?: 'like_stddev_pop_fields';
-  count: Maybe<Scalars['Float']>;
   id: Maybe<Scalars['Float']>;
   postId: Maybe<Scalars['Float']>;
 };
 
 /** order by stddev_pop() on columns of table "likes" */
 export type LikeStddevPopOrderBy = {
-  count?: Maybe<OrderBy>;
   id?: Maybe<OrderBy>;
   postId?: Maybe<OrderBy>;
 };
@@ -322,14 +304,12 @@ export type LikeStddevPopOrderBy = {
 /** aggregate stddev_samp on columns */
 export type LikeStddevSampFields = {
   __typename?: 'like_stddev_samp_fields';
-  count: Maybe<Scalars['Float']>;
   id: Maybe<Scalars['Float']>;
   postId: Maybe<Scalars['Float']>;
 };
 
 /** order by stddev_samp() on columns of table "likes" */
 export type LikeStddevSampOrderBy = {
-  count?: Maybe<OrderBy>;
   id?: Maybe<OrderBy>;
   postId?: Maybe<OrderBy>;
 };
@@ -337,22 +317,18 @@ export type LikeStddevSampOrderBy = {
 /** aggregate sum on columns */
 export type LikeSumFields = {
   __typename?: 'like_sum_fields';
-  count: Maybe<Scalars['Int']>;
   id: Maybe<Scalars['Int']>;
   postId: Maybe<Scalars['Int']>;
 };
 
 /** order by sum() on columns of table "likes" */
 export type LikeSumOrderBy = {
-  count?: Maybe<OrderBy>;
   id?: Maybe<OrderBy>;
   postId?: Maybe<OrderBy>;
 };
 
 /** update columns of table "likes" */
 export const LikeUpdateColumn = {
-  /** column name */
-  Count: 'count',
   /** column name */
   CreatedAt: 'created_at',
   /** column name */
@@ -370,14 +346,12 @@ export type LikeUpdateColumn =
 /** aggregate var_pop on columns */
 export type LikeVarPopFields = {
   __typename?: 'like_var_pop_fields';
-  count: Maybe<Scalars['Float']>;
   id: Maybe<Scalars['Float']>;
   postId: Maybe<Scalars['Float']>;
 };
 
 /** order by var_pop() on columns of table "likes" */
 export type LikeVarPopOrderBy = {
-  count?: Maybe<OrderBy>;
   id?: Maybe<OrderBy>;
   postId?: Maybe<OrderBy>;
 };
@@ -385,14 +359,12 @@ export type LikeVarPopOrderBy = {
 /** aggregate var_samp on columns */
 export type LikeVarSampFields = {
   __typename?: 'like_var_samp_fields';
-  count: Maybe<Scalars['Float']>;
   id: Maybe<Scalars['Float']>;
   postId: Maybe<Scalars['Float']>;
 };
 
 /** order by var_samp() on columns of table "likes" */
 export type LikeVarSampOrderBy = {
-  count?: Maybe<OrderBy>;
   id?: Maybe<OrderBy>;
   postId?: Maybe<OrderBy>;
 };
@@ -400,14 +372,12 @@ export type LikeVarSampOrderBy = {
 /** aggregate variance on columns */
 export type LikeVarianceFields = {
   __typename?: 'like_variance_fields';
-  count: Maybe<Scalars['Float']>;
   id: Maybe<Scalars['Float']>;
   postId: Maybe<Scalars['Float']>;
 };
 
 /** order by variance() on columns of table "likes" */
 export type LikeVarianceOrderBy = {
-  count?: Maybe<OrderBy>;
   id?: Maybe<OrderBy>;
   postId?: Maybe<OrderBy>;
 };

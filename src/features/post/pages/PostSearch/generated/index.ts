@@ -29,7 +29,7 @@ export const SearchPostsDocument = gql`
       where: $where
       limit: $limit
       offset: $offset
-      order_by: { likes_aggregate: { sum: { count: desc_nulls_last } } }
+      order_by: { likes_aggregate: { count: desc } }
     ) {
       ...PostCard
     }
