@@ -5,25 +5,20 @@ import * as Apollo from '@apollo/client';
 const defaultOptions = {};
 export type AddLikeMutationVariables = Types.Exact<{
   postId: Types.Scalars['Int'];
+  userId: Types.Scalars['String'];
 }>;
 
 export type AddLikeMutation = { __typename?: 'mutation_root' } & {
   addLike?: Types.Maybe<
-    { __typename?: 'like' } & Pick<
-      Types.Like,
-      'id' | 'userId' | 'postId' | 'count'
-    > & {
+    { __typename?: 'like' } & Pick<Types.Like, 'id'> & {
         post: { __typename?: 'post' } & Pick<Types.Post, 'id'> & {
+            likes: Array<{ __typename?: 'like' } & Pick<Types.Like, 'id'>>;
             likes_aggregate: { __typename?: 'like_aggregate' } & {
               aggregate?: Types.Maybe<
-                { __typename?: 'like_aggregate_fields' } & {
-                  sum?: Types.Maybe<
-                    { __typename?: 'like_sum_fields' } & Pick<
-                      Types.LikeSumFields,
-                      'count'
-                    >
-                  >;
-                }
+                { __typename?: 'like_aggregate_fields' } & Pick<
+                  Types.LikeAggregateFields,
+                  'count'
+                >
               >;
             };
           };
@@ -31,27 +26,22 @@ export type AddLikeMutation = { __typename?: 'mutation_root' } & {
   >;
 };
 
-export type UpdateLikeMutationVariables = Types.Exact<{
+export type DeleteLikeMutationVariables = Types.Exact<{
   likeId: Types.Scalars['Int'];
+  userId: Types.Scalars['String'];
 }>;
 
-export type UpdateLikeMutation = { __typename?: 'mutation_root' } & {
-  updateLike?: Types.Maybe<
-    { __typename?: 'like' } & Pick<
-      Types.Like,
-      'id' | 'userId' | 'postId' | 'count'
-    > & {
+export type DeleteLikeMutation = { __typename?: 'mutation_root' } & {
+  deleteLike?: Types.Maybe<
+    { __typename?: 'like' } & Pick<Types.Like, 'id'> & {
         post: { __typename?: 'post' } & Pick<Types.Post, 'id'> & {
+            likes: Array<{ __typename?: 'like' } & Pick<Types.Like, 'id'>>;
             likes_aggregate: { __typename?: 'like_aggregate' } & {
               aggregate?: Types.Maybe<
-                { __typename?: 'like_aggregate_fields' } & {
-                  sum?: Types.Maybe<
-                    { __typename?: 'like_sum_fields' } & Pick<
-                      Types.LikeSumFields,
-                      'count'
-                    >
-                  >;
-                }
+                { __typename?: 'like_aggregate_fields' } & Pick<
+                  Types.LikeAggregateFields,
+                  'count'
+                >
               >;
             };
           };
@@ -60,19 +50,17 @@ export type UpdateLikeMutation = { __typename?: 'mutation_root' } & {
 };
 
 export const AddLikeDocument = gql`
-  mutation AddLike($postId: Int!) {
+  mutation AddLike($postId: Int!, $userId: String!) {
     addLike(object: { postId: $postId }) {
       id
-      userId
-      postId
-      count
       post {
         id
+        likes(where: { userId: { _eq: $userId } }) {
+          id
+        }
         likes_aggregate {
           aggregate {
-            sum {
-              count
-            }
+            count
           }
         }
       }
@@ -98,6 +86,7 @@ export type AddLikeMutationFn = Apollo.MutationFunction<
  * const [addLikeMutation, { data, loading, error }] = useAddLikeMutation({
  *   variables: {
  *      postId: // value for 'postId'
+ *      userId: // value for 'userId'
  *   },
  * });
  */
@@ -119,66 +108,65 @@ export type AddLikeMutationOptions = Apollo.BaseMutationOptions<
   AddLikeMutation,
   AddLikeMutationVariables
 >;
-export const UpdateLikeDocument = gql`
-  mutation UpdateLike($likeId: Int!) {
-    updateLike(pk_columns: { id: $likeId }, _inc: { count: 1 }) {
+export const DeleteLikeDocument = gql`
+  mutation DeleteLike($likeId: Int!, $userId: String!) {
+    deleteLike(id: $likeId) {
       id
-      userId
-      postId
-      count
       post {
         id
+        likes(where: { userId: { _eq: $userId } }) {
+          id
+        }
         likes_aggregate {
           aggregate {
-            sum {
-              count
-            }
+            count
           }
         }
       }
     }
   }
 `;
-export type UpdateLikeMutationFn = Apollo.MutationFunction<
-  UpdateLikeMutation,
-  UpdateLikeMutationVariables
+export type DeleteLikeMutationFn = Apollo.MutationFunction<
+  DeleteLikeMutation,
+  DeleteLikeMutationVariables
 >;
 
 /**
- * __useUpdateLikeMutation__
+ * __useDeleteLikeMutation__
  *
- * To run a mutation, you first call `useUpdateLikeMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateLikeMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useDeleteLikeMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteLikeMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [updateLikeMutation, { data, loading, error }] = useUpdateLikeMutation({
+ * const [deleteLikeMutation, { data, loading, error }] = useDeleteLikeMutation({
  *   variables: {
  *      likeId: // value for 'likeId'
+ *      userId: // value for 'userId'
  *   },
  * });
  */
-export function useUpdateLikeMutation(
+export function useDeleteLikeMutation(
   baseOptions?: Apollo.MutationHookOptions<
-    UpdateLikeMutation,
-    UpdateLikeMutationVariables
+    DeleteLikeMutation,
+    DeleteLikeMutationVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<UpdateLikeMutation, UpdateLikeMutationVariables>(
-    UpdateLikeDocument,
+  return Apollo.useMutation<DeleteLikeMutation, DeleteLikeMutationVariables>(
+    DeleteLikeDocument,
     options,
   );
 }
-export type UpdateLikeMutationHookResult = ReturnType<
-  typeof useUpdateLikeMutation
+export type DeleteLikeMutationHookResult = ReturnType<
+  typeof useDeleteLikeMutation
 >;
-export type UpdateLikeMutationResult =
-  Apollo.MutationResult<UpdateLikeMutation>;
-export type UpdateLikeMutationOptions = Apollo.BaseMutationOptions<
-  UpdateLikeMutation,
-  UpdateLikeMutationVariables
+export type DeleteLikeMutationResult =
+  Apollo.MutationResult<DeleteLikeMutation>;
+export type DeleteLikeMutationOptions = Apollo.BaseMutationOptions<
+  DeleteLikeMutation,
+  DeleteLikeMutationVariables
 >;
