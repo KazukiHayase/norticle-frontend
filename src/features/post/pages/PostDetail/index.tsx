@@ -94,7 +94,7 @@ export const PostDetail: VFC<PostDetailProps> = ({ postId }) => {
     if (!isAuthenticated)
       return loginWithRedirect({ appState: { returnTo: router.asPath } });
 
-    stock ? unStockPost(stock.id) : stockPost(postId);
+    stock ? unStockPost(postId, stock.id) : stockPost(postId);
   };
 
   if (loading || !post) return <></>;
