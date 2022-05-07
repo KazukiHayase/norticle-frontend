@@ -2,7 +2,7 @@
   "private": true,
   "scripts": {
     "dev": "run-p dev:*",
-    "dev:next": "next dev -p 3333",
+    "dev:next": "NODE_OPTIONS='--inspect' next dev -p 3333",
     "dev:codegen": "graphql-codegen --config codegen.yml --watch",
     "path": "pathpida",
     "tsc": "tsc",
