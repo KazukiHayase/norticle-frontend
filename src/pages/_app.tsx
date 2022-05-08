@@ -14,6 +14,9 @@ import { AuthorizedApolloProvider } from '@/providers/authorizedApolloProvider';
 import { AuthProvider } from '@/providers/authProvider';
 import { progress } from '@/services/progress';
 import { theme } from '@/styles/theme';
+import { ApolloProvider } from '@apollo/client';
+import { useApollo } from '@/lib/apolloClient';
+import { deserialize } from 'superjson';
 
 Router.events.on('routeChangeStart', progress.start);
 Router.events.on('routeChangeComplete', progress.done);
@@ -29,7 +32,18 @@ type AppPropsWithLayout = AppProps & {
 };
 
 const MyApp = ({ Component, pageProps }: AppPropsWithLayout): JSX.Element => {
+  // console.log('=======pageProps======');
+  // console.dir(pageProps);
+  const sample = deserialize({
+    json: { ...pageProps, _superjson: undefined },
+    meta: pageProps._superjson,
+  });
+  // 成功
+  console.log('=======sample=====');
+  console.dir(sample);
+
   const getLayout = Component.getLayout ?? ((page) => page);
+  const client = useApollo(sample); // 成功
 
   return (
     <>
@@ -52,12 +66,14 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout): JSX.Element => {
           }}
         >
           <AuthProvider>
-            <AuthorizedApolloProvider>
+            <ApolloProvider client={client}>
+              {/* <AuthorizedApolloProvider> */}
               <ThemeProvider theme={theme}>
                 <CssBaseline />
                 {getLayout(<Component {...pageProps} />)}
               </ThemeProvider>
-            </AuthorizedApolloProvider>
+            </ApolloProvider>
+            {/* </AuthorizedApolloProvider> */}
           </AuthProvider>
         </SnackbarProvider>
       </ErrorBoundary>
