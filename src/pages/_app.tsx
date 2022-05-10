@@ -31,19 +31,16 @@ type AppPropsWithLayout = AppProps & {
   Component: NextPageWithLayout;
 };
 
+// この辺のやつを整理&綺麗に実装するところから再開
+// babel-plugin-superjson-nextを読んでどこでデシリアライズされているか確認
+// getDataFromTreeの動作確認もする
 const MyApp = ({ Component, pageProps }: AppPropsWithLayout): JSX.Element => {
-  // console.log('=======pageProps======');
-  // console.dir(pageProps);
-  const sample = deserialize({
-    json: { ...pageProps, _superjson: undefined },
-    meta: pageProps._superjson,
-  });
-  // 成功
-  console.log('=======sample=====');
-  console.dir(sample);
+  const { _superjson, ...json } = pageProps;
+  const props = deserialize({ json: json, meta: _superjson });
+
+  const client = useApollo(props);
 
   const getLayout = Component.getLayout ?? ((page) => page);
-  const client = useApollo(sample); // 成功
 
   return (
     <>
