@@ -1,6 +1,7 @@
 {
   "private": true,
   "scripts": {
+    "prepare": "husky install",
     "dev": "run-p dev:*",
     "dev:next": "NODE_OPTIONS='--inspect' next dev -p 3333",
     "dev:codegen": "graphql-codegen --config codegen.yml --watch",
