@@ -5,8 +5,7 @@ import { FetchPostsDocument } from '@/features/post/pages/PostIndex/generated';
 import { DefaultLayout } from '@/layouts/DefaultLayout';
 import { addApolloState, initializeApolloClient } from '@/lib/apolloClient';
 
-// TODO: ISRにする
-export const getServerSideProps = async () => {
+export const getStaticProps = async () => {
   const apolloClient = initializeApolloClient({});
 
   await apolloClient.query({
@@ -18,6 +17,7 @@ export const getServerSideProps = async () => {
 
   return addApolloState(apolloClient, {
     props: {},
+    revalidate: 60 * 60,
   });
 };
 
