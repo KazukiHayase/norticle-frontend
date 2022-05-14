@@ -17,12 +17,6 @@
     "*.{js,ts,tsx}": "eslint --fix",
     "*.{css,scss,json,js,jsx,ts,tsx,yaml}": "prettier --write"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "yarn fix",
-      "pre-push": "yarn tsc"
-    }
-  },
   "dependencies": {
     "@apollo/client": "^3.5.10",
     "@auth0/auth0-react": "^1.9.0",
