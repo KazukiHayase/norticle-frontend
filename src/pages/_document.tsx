@@ -1,3 +1,4 @@
+import { abortableFetch } from 'abortcontroller-polyfill/dist/cjs-ponyfill';
 import Document, {
   DocumentContext,
   Head,
@@ -5,6 +6,9 @@ import Document, {
   Main,
   NextScript,
 } from 'next/document';
+// See: https://github.com/apollographql/apollo-client/issues/6765#issuecomment-824621283
+import fetch from 'node-fetch';
+global.fetch = abortableFetch(fetch).fetch;
 
 class MyDocument extends Document {
   static async getInitialProps(ctx: DocumentContext) {
