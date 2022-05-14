@@ -1,31 +1,50 @@
-import { useMemo } from 'react';
 import {
   ApolloClient,
   ApolloLink,
-  HttpLink,
+  createHttpLink,
   InMemoryCache,
   NormalizedCacheObject,
 } from '@apollo/client';
+import { onError } from '@apollo/client/link/error';
 import merge from 'deepmerge';
 import isEqual from 'lodash/isEqual';
-import { customScalarLink } from '@/providers/authorizedApolloProvider/links/customScalarLink';
-import { serialize } from 'superjson';
+import { useMemo } from 'react';
 
-export const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__';
+import { customScalarLink } from '@/providers/authorizedApolloProvider/links/customScalarLink';
+
+const isServer = typeof window === 'undefined';
+const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__';
 
 let apolloClient: ApolloClient<NormalizedCacheObject> | undefined;
 
-function createApolloClient() {
+const createApolloClient = (apolloLinks?: ApolloLink[]) => {
+  const httpLink = createHttpLink({ uri: process.env.NEXT_PUBLIC_GRAPHQL_URL });
+  const errorLink = onError(({ graphQLErrors, networkError }) => {
+    if (graphQLErrors) {
+      graphQLErrors.forEach(({ message }) => {
+        if (process.env.NEXT_PUBLIC_ENVIRONMENT !== 'production') {
+          console.log(`[GraphQL error]: Message: ${message}`);
+        }
+      });
+    }
+
+    if (networkError) {
+      if (process.env.NEXT_PUBLIC_ENVIRONMENT !== 'production') {
+        console.log(`[Network error]: ${networkError}`);
+      }
+    }
+  });
+
   return new ApolloClient({
-    ssrMode: typeof window === 'undefined',
+    ssrMode: isServer,
     link: ApolloLink.from([
+      ...(apolloLinks ?? []),
       customScalarLink,
-      new HttpLink({
-        uri: process.env.NEXT_PUBLIC_GRAPHQL_URL, // Server URL (must be absolute)
-      }),
+      errorLink,
+      httpLink,
     ]),
     cache: new InMemoryCache({
-      // typePolicies is not required to use Apollo with Next.js - only for doing pagination.
+      // See: https://www.apollographql.com/docs/react/caching/cache-configuration/#overriding-root-operation-types-uncommon
       typePolicies: {
         query_root: {
           queryType: true,
@@ -36,22 +55,21 @@ function createApolloClient() {
       },
     }),
   });
-}
+};
 
-export function initializeApollo(
-  initialState: NormalizedCacheObject | null = null,
-) {
-  const _apolloClient = apolloClient ?? createApolloClient();
+export const initializeApolloClient = ({
+  initialState,
+  apolloLinks,
+}: {
+  initialState?: NormalizedCacheObject;
+  apolloLinks?: ApolloLink[];
+}) => {
+  const _apolloClient = apolloClient ?? createApolloClient(apolloLinks);
 
-  // If your page has Next.js data fetching methods that use Apollo Client, the initial state
-  // gets hydrated here
   if (initialState) {
-    // Get existing cache, loaded during client side data fetching
     const existingCache = _apolloClient.extract();
 
-    // Merge the existing cache into data passed from getStaticProps/getServerSideProps
     const data = merge(initialState, existingCache, {
-      // combine arrays using object equality (like in sets)
       arrayMerge: (destinationArray, sourceArray) => [
         ...sourceArray,
         ...destinationArray.filter((d) =>
@@ -60,47 +78,30 @@ export function initializeApollo(
       ],
     });
 
-    // console.log('===========initialState==============');
-    // console.dir(initialState);
-    // console.log('===========existingCache==============');
-    // console.dir(existingCache);
-    // console.log('===========data==============');
-    // console.dir(data);
-    // Restore the cache with the merged data
     _apolloClient.cache.restore(data);
-    // console.log('_apolloClient.cache');
-    // console.dir(_apolloClient.cache);
   }
 
-  // For SSG and SSR always create a new Apollo Client
-  if (typeof window === 'undefined') return _apolloClient;
+  if (isServer) return _apolloClient;
 
-  // Create the Apollo Client once in the client
   if (!apolloClient) apolloClient = _apolloClient;
 
   return _apolloClient;
-}
+};
 
-export function addApolloState(
+export const addApolloState = (
   client: ApolloClient<NormalizedCacheObject>,
   pageProps: any,
-) {
+) => {
   if (pageProps?.props) {
     pageProps.props[APOLLO_STATE_PROP_NAME] = client.cache.extract();
   }
-  // MEMO: ここではちゃんとdate型
-  // const serializedProps = serialize(pageProps.props);
-  // console.log('=======serializedProps======');
-  // console.dir(serializedProps);
 
   return pageProps;
-}
+};
 
+// TODO: 型安全にする
 export function useApollo(pageProps: any) {
   const state = pageProps[APOLLO_STATE_PROP_NAME];
-  // ここの時点ですでに文字列になってる
-  // console.log('=======state========');
-  // console.dir(state);
-  const store = useMemo(() => initializeApollo(state), [state]);
+  const store = useMemo(() => initializeApolloClient(state), [state]);
   return store;
 }
