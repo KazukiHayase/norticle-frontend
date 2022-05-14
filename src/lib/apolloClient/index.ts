@@ -5,11 +5,14 @@ import {
   InMemoryCache,
   NormalizedCacheObject,
 } from '@apollo/client';
+import { setContext } from '@apollo/client/link/context';
 import { onError } from '@apollo/client/link/error';
+import { useAuth0 } from '@auth0/auth0-react';
 import merge from 'deepmerge';
 import isEqual from 'lodash/isEqual';
 import { useMemo } from 'react';
 
+import { useNotifier } from '@/hooks/useNotifier';
 import { customScalarLink } from '@/providers/authorizedApolloProvider/links/customScalarLink';
 
 const isServer = typeof window === 'undefined';
@@ -101,7 +104,41 @@ export const addApolloState = (
 
 // TODO: 型安全にする
 export function useApollo(pageProps: any) {
+  console.log(`pageProps`);
+  console.dir(pageProps);
+
+  const { isAuthenticated, getAccessTokenSilently } = useAuth0();
+  const { notice } = useNotifier();
+
+  const authLink = setContext(async (_, { headers, ...context }) => {
+    const token = isAuthenticated ? await getAccessTokenSilently() : '';
+    return {
+      headers: {
+        ...headers,
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      },
+      ...context,
+    };
+  });
+
+  const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
+    const enableNotification = !operation.getContext().disableNotification;
+
+    if (graphQLErrors || networkError) {
+      if (enableNotification) notice('予期せぬエラーが発生しました', 'error');
+    }
+  });
+
   const state = pageProps[APOLLO_STATE_PROP_NAME];
-  const store = useMemo(() => initializeApolloClient(state), [state]);
-  return store;
+
+  const client = useMemo(
+    () =>
+      initializeApolloClient({
+        initialState: state,
+        apolloLinks: [authLink, errorLink],
+      }),
+    [state, authLink, errorLink],
+  );
+
+  return client;
 }

@@ -1,13 +1,13 @@
-import { ReactElement, useMemo } from 'react';
+import { ReactElement } from 'react';
 
 import { PostIndex } from '@/features/post/pages/PostIndex';
-import { DefaultLayout } from '@/layouts/DefaultLayout';
-import { addApolloState, initializeApollo } from '@/lib/apolloClient';
-import { GetServerSidePropsContext } from 'next';
 import { FetchPostsDocument } from '@/features/post/pages/PostIndex/generated';
+import { DefaultLayout } from '@/layouts/DefaultLayout';
+import { addApolloState, initializeApolloClient } from '@/lib/apolloClient';
 
+// TODO: ISRにする
 export const getServerSideProps = async () => {
-  const apolloClient = initializeApollo();
+  const apolloClient = initializeApolloClient({});
 
   await apolloClient.query({
     query: FetchPostsDocument,
@@ -16,15 +16,12 @@ export const getServerSideProps = async () => {
     },
   });
 
-  // ここで返しているcreatedAtとかがdatetime型のままだから怒られている
-  // ここの時点ではすでにapolloLinkは通っている
   return addApolloState(apolloClient, {
     props: {},
   });
 };
 
 const IndexPage = () => {
-  // ここではちゃんとdate型
   return <PostIndex />;
 };
 

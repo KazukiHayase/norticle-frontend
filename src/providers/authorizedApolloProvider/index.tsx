@@ -1,43 +1,15 @@
-import {
-  ApolloClient,
-  ApolloLink,
-  ApolloProvider,
-  createHttpLink,
-  InMemoryCache,
-} from '@apollo/client';
+import { ApolloProvider } from '@apollo/client';
 
-import { customScalarLink } from './links/customScalarLink';
-import { useAuthLink } from './links/useAuthLink';
-import { useErrorLink } from './links/useErrorLink';
+import { useApollo } from '@/lib/apolloClient';
 
 type AuthorizedApolloProviderProps = {
+  pageProps: any;
   children?: React.ReactNode;
 };
 
 export const AuthorizedApolloProvider: React.VFC<AuthorizedApolloProviderProps> =
-  ({ children }) => {
-    const httpLink = createHttpLink({
-      uri: process.env.NEXT_PUBLIC_GRAPHQL_URL,
-    });
-    const authLink = useAuthLink();
-    const errorLink = useErrorLink();
-
-    const cache = new InMemoryCache({
-      // See: https://www.apollographql.com/docs/react/caching/cache-configuration/#overriding-root-operation-types-uncommon
-      typePolicies: {
-        query_root: {
-          queryType: true,
-        },
-        mutation_root: {
-          mutationType: true,
-        },
-      },
-    });
-
-    const client = new ApolloClient({
-      link: ApolloLink.from([customScalarLink, authLink, errorLink, httpLink]),
-      cache,
-    });
+  ({ pageProps, children }) => {
+    const client = useApollo(pageProps);
 
     return <ApolloProvider client={client}>{children}</ApolloProvider>;
   };
