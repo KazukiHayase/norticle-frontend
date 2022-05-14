@@ -104,9 +104,6 @@ export const addApolloState = (
 
 // TODO: 型安全にする
 export function useApollo(pageProps: any) {
-  console.log(`pageProps`);
-  console.dir(pageProps);
-
   const { isAuthenticated, getAccessTokenSilently } = useAuth0();
   const { notice } = useNotifier();
 

@@ -21,7 +21,6 @@ export const AuthProvider: React.VFC<AuthProviderProps> = ({ children }) => {
     if (!isLoading && error) {
       notice('ログインに失敗しました', 'error');
 
-      // 本番以外ではログを出力
       if (process.env.NEXT_PUBLIC_ENVIRONMENT !== 'production') {
         console.log(`[Auth0 error]: Message: ${error.message}`);
       }
