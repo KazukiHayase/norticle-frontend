@@ -10,9 +10,6 @@ export const getStaticProps = async () => {
 
   await apolloClient.query({
     query: FetchPostsDocument,
-    variables: {
-      limit: 6,
-    },
   });
 
   return addApolloState(apolloClient, {

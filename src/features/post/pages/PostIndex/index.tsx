@@ -18,14 +18,8 @@ import { Section } from '@/styles';
 import { FetchPostsQuery, useFetchPostsQuery } from './generated';
 import { ButtonWrapper } from './style';
 
-const limit = 6;
-
 export const PostIndex: VFC = () => {
-  const { data, loading } = useFetchPostsQuery({
-    variables: {
-      limit,
-    },
-  });
+  const { data, loading } = useFetchPostsQuery();
   const { newPosts, trendPosts } = useMemo(() => {
     return {
       newPosts: data?.newPosts ?? [],

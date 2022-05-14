@@ -5,9 +5,7 @@ import { gql } from '@apollo/client';
 import { PostCardFragmentDoc } from '../../../components/PostCard/generated/index';
 import * as Apollo from '@apollo/client';
 const defaultOptions = {};
-export type FetchPostsQueryVariables = Types.Exact<{
-  limit: Types.Scalars['Int'];
-}>;
+export type FetchPostsQueryVariables = Types.Exact<{ [key: string]: never }>;
 
 export type FetchPostsQuery = { __typename?: 'query_root' } & {
   newPosts: Array<{ __typename?: 'post' } & PostCardFragment>;
@@ -15,12 +13,12 @@ export type FetchPostsQuery = { __typename?: 'query_root' } & {
 };
 
 export const FetchPostsDocument = gql`
-  query FetchPosts($limit: Int!) {
-    newPosts: posts(limit: $limit, order_by: { createdAt: desc }) {
+  query FetchPosts {
+    newPosts: posts(limit: 6, order_by: { createdAt: desc }) {
       ...PostCard
     }
     trendPosts: posts(
-      limit: $limit
+      limit: 6
       order_by: { likes_aggregate: { count: desc } }
     ) {
       ...PostCard
@@ -41,12 +39,11 @@ export const FetchPostsDocument = gql`
  * @example
  * const { data, loading, error } = useFetchPostsQuery({
  *   variables: {
- *      limit: // value for 'limit'
  *   },
  * });
  */
 export function useFetchPostsQuery(
-  baseOptions: Apollo.QueryHookOptions<
+  baseOptions?: Apollo.QueryHookOptions<
     FetchPostsQuery,
     FetchPostsQueryVariables
   >,
