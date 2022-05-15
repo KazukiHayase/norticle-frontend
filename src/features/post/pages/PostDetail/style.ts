@@ -15,31 +15,13 @@ export const UserInfo = styled('div')(
   }),
 );
 
-export const ActionArea = styled('div')(({ theme }) =>
-  sx({
-    [theme.breakpoints.down('md')]: {
-      width: 1,
-      pt: 3,
-    },
-    [theme.breakpoints.up('md')]: {
-      height: 1,
-      position: 'absolute',
-      top: 0,
-      left: -70,
-    },
-  }),
-);
-
-export const ActionAreaInner = styled('div')(({ theme }) =>
+export const ActionArea = styled('div')(
   sx({
     display: 'flex',
     justifyContent: 'end',
     gap: 1,
-    [theme.breakpoints.up('md')]: {
-      flexDirection: 'column',
-      position: 'sticky',
-      top: 50,
-    },
+    width: 1,
+    pt: 8,
   }),
 );
 
@@ -56,7 +38,7 @@ export const LikeIconButton = styled(IconButton, {
     flexDirection: 'column',
     width: 50,
     height: 50,
-    bgcolor: isActive ? pink[100] : { xs: grey[200], md: 'white' },
+    bgcolor: isActive ? pink[100] : grey[200],
     position: 'relative',
     ...(isActive
       ? {
@@ -83,14 +65,14 @@ export const TotalLikedCount = styled('span', {
 );
 
 export const CopyIconButton = styled(IconButton)(
-  sx({ bgcolor: { xs: grey[200], md: 'white' }, width: 50, height: 50 }),
+  sx({ bgcolor: grey[200], width: 50, height: 50 }),
 );
 
 export const StockIconButton = styled(IconButton, {
   shouldForwardProp: (prop) => prop !== 'isActive',
 })<{ isActive: boolean }>(({ theme, isActive }) =>
   sx({
-    bgcolor: isActive ? lightBlue[100] : { xs: grey[200], md: 'white' },
+    bgcolor: isActive ? lightBlue[100] : grey[200],
     width: 50,
     height: 50,
     ...(isActive

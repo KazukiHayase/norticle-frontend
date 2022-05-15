@@ -35,7 +35,6 @@ import {
 } from './generated';
 import {
   ActionArea,
-  ActionAreaInner,
   Avatar,
   CopyIconButton,
   LikeIconButton,
@@ -177,34 +176,29 @@ export const PostDetail: VFC<PostDetailProps> = ({ postId }) => {
           )}
           <Typography variant="body1">{post.content}</Typography>
           <ActionArea>
-            <ActionAreaInner>
-              <Box>
-                <Tooltip title="いいね" placement="top" arrow>
-                  <LikeIconButton
-                    onClick={handleClickLikeIcon}
-                    isActive={!!like}
-                  >
-                    <FontAwesomeIcon icon={faHeart} fontSize={20} />
-                  </LikeIconButton>
-                </Tooltip>
-                <TotalLikedCount isActive={!!like}>
-                  {totalLikeCount}
-                </TotalLikedCount>
-              </Box>
-              <Tooltip title="ストック" placement="top" arrow>
-                <StockIconButton
-                  onClick={handleClickStockIcon}
-                  isActive={!!stock}
-                >
-                  <FontAwesomeIcon icon={faBookmark} fontSize={20} />
-                </StockIconButton>
+            <Box>
+              <Tooltip title="いいね" placement="top" arrow>
+                <LikeIconButton onClick={handleClickLikeIcon} isActive={!!like}>
+                  <FontAwesomeIcon icon={faHeart} fontSize={20} />
+                </LikeIconButton>
               </Tooltip>
-              <Tooltip title="テンプレートをコピー" placement="top" arrow>
-                <CopyIconButton onClick={handleClickCopyIcon}>
-                  <FontAwesomeIcon icon={faCopy} fontSize={20} />
-                </CopyIconButton>
-              </Tooltip>
-            </ActionAreaInner>
+              <TotalLikedCount isActive={!!like}>
+                {totalLikeCount}
+              </TotalLikedCount>
+            </Box>
+            <Tooltip title="ストック" placement="top" arrow>
+              <StockIconButton
+                onClick={handleClickStockIcon}
+                isActive={!!stock}
+              >
+                <FontAwesomeIcon icon={faBookmark} fontSize={20} />
+              </StockIconButton>
+            </Tooltip>
+            <Tooltip title="テンプレートをコピー" placement="top" arrow>
+              <CopyIconButton onClick={handleClickCopyIcon}>
+                <FontAwesomeIcon icon={faCopy} fontSize={20} />
+              </CopyIconButton>
+            </Tooltip>
           </ActionArea>
         </Paper>
       </Container>
