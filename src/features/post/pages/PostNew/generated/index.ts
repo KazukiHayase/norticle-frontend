@@ -6,7 +6,6 @@ import { PostCardFragmentDoc } from '../../../components/PostCard/generated/inde
 import * as Apollo from '@apollo/client';
 const defaultOptions = {};
 export type FetchNewPostsQueryVariables = Types.Exact<{
-  limit: Types.Scalars['Int'];
   offset: Types.Scalars['Int'];
 }>;
 
@@ -23,8 +22,8 @@ export type FetchNewPostsQuery = { __typename?: 'query_root' } & {
 };
 
 export const FetchNewPostsDocument = gql`
-  query FetchNewPosts($limit: Int!, $offset: Int!) {
-    posts(limit: $limit, offset: $offset, order_by: { createdAt: desc }) {
+  query FetchNewPosts($offset: Int!) {
+    posts(limit: 10, offset: $offset, order_by: { createdAt: desc }) {
       ...PostCard
     }
     postsAggregate {
@@ -48,7 +47,6 @@ export const FetchNewPostsDocument = gql`
  * @example
  * const { data, loading, error } = useFetchNewPostsQuery({
  *   variables: {
- *      limit: // value for 'limit'
  *      offset: // value for 'offset'
  *   },
  * });

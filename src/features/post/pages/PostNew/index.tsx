@@ -17,15 +17,13 @@ import { FetchNewPostsQuery, useFetchNewPostsQuery } from './generated';
 const limit = 10;
 
 type PostNewProps = {
-  page?: number;
+  page: number;
 };
 
 export const PostNew: VFC<PostNewProps> = ({ page }) => {
-  const currentPage = useMemo(() => page ?? 1, [page]);
   const { data, loading } = useFetchNewPostsQuery({
     variables: {
-      limit,
-      offset: (currentPage - 1) * limit,
+      offset: (page - 1) * limit,
     },
   });
   const { posts, totalPage } = useMemo(() => {
@@ -61,13 +59,13 @@ export const PostNew: VFC<PostNewProps> = ({ page }) => {
             ))}
           </Grid>
           <Pagination
-            page={currentPage}
+            page={page}
             totalPage={totalPage}
             prevPageLink={pagesPath.posts.$url({
-              query: { page: currentPage - 1 },
+              query: { page: page - 1 },
             })}
             nextPageLink={pagesPath.posts.$url({
-              query: { page: currentPage + 1 },
+              query: { page: page + 1 },
             })}
           />
         </Container>
