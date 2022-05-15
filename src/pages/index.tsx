@@ -1,3 +1,4 @@
+import { GetStaticProps } from 'next';
 import { ReactElement } from 'react';
 
 import { PostIndex } from '@/features/post/pages/PostIndex';
@@ -5,7 +6,7 @@ import { FetchPostsDocument } from '@/features/post/pages/PostIndex/generated';
 import { DefaultLayout } from '@/layouts/DefaultLayout';
 import { addApolloState, initializeApolloClient } from '@/lib/apolloClient';
 
-export const getStaticProps = async () => {
+export const getStaticProps: GetStaticProps = async () => {
   const apolloClient = initializeApolloClient();
   await apolloClient.query({
     query: FetchPostsDocument,
