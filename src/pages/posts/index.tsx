@@ -24,7 +24,6 @@ export const getServerSideProps = async ({
   const page = isNaN(pageQuery) ? 1 : pageQuery;
 
   const apolloClient = initializeApolloClient({});
-
   const res = await apolloClient.query<
     FetchNewPostsQuery,
     FetchNewPostsQueryVariables
