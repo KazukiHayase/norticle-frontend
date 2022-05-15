@@ -52,9 +52,7 @@ export const getStaticProps: GetStaticProps<{ postId: number }> = async ({
         revalidate: 60 * 60,
       }
     : {
-        props: {
-          notFound: true,
-        },
+        notFound: true,
       };
 
   return addApolloState(apolloClient, pageProps);
