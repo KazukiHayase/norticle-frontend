@@ -3,6 +3,9 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { useCallback, useState } from 'react';
 
 import {
+  FetchPostAccessoriesDocument,
+  FetchPostAccessoriesQuery,
+  FetchPostAccessoriesQueryVariables,
   FetchPostDocument,
   FetchPostQuery,
   FetchPostQueryVariables,
@@ -35,15 +38,25 @@ export const useToggleLike = (): ToggleLikeHookResult => {
       setLoading(true);
 
       const userId = user?.sub ?? '';
-      const existingData = client.readQuery<
+
+      const existingPostData = client.readQuery<
         FetchPostQuery,
         FetchPostQueryVariables
       >({
         query: FetchPostDocument,
-        variables: { postId, userId, isLoggedIn: isAuthenticated },
+        variables: { postId },
       });
-      const existingPost = existingData?.post;
-      if (!existingPost) {
+      const existingPostAccessoriesData = client.readQuery<
+        FetchPostAccessoriesQuery,
+        FetchPostAccessoriesQueryVariables
+      >({
+        query: FetchPostAccessoriesDocument,
+        variables: { postId, userId },
+      });
+
+      const existingPost = existingPostData?.post;
+      const existingPostAccessories = existingPostAccessoriesData?.post;
+      if (!existingPost || !existingPostAccessories) {
         notice('エラーが発生しました', 'error');
         return;
       }
@@ -62,12 +75,11 @@ export const useToggleLike = (): ToggleLikeHookResult => {
 
       client.writeQuery<FetchPostQuery, FetchPostQueryVariables>({
         query: FetchPostDocument,
-        variables: { postId, userId, isLoggedIn: isAuthenticated },
+        variables: { postId },
         data: {
-          ...existingData,
+          ...existingPostData,
           post: {
             ...existingPost,
-            likes: newLikes,
             likes_aggregate: {
               __typename: 'like_aggregate',
               aggregate: {
@@ -75,6 +87,20 @@ export const useToggleLike = (): ToggleLikeHookResult => {
                 count: newLikesAggregateCount,
               },
             },
+          },
+        },
+      });
+      client.writeQuery<
+        FetchPostAccessoriesQuery,
+        FetchPostAccessoriesQueryVariables
+      >({
+        query: FetchPostAccessoriesDocument,
+        variables: { postId, userId },
+        data: {
+          ...existingPostAccessoriesData,
+          post: {
+            ...existingPostAccessories,
+            likes: newLikes,
           },
         },
       });
@@ -88,9 +114,18 @@ export const useToggleLike = (): ToggleLikeHookResult => {
       } catch {
         client.writeQuery<FetchPostQuery, FetchPostQueryVariables>({
           query: FetchPostDocument,
-          variables: { postId, userId, isLoggedIn: isAuthenticated },
-          data: existingData,
+          variables: { postId },
+          data: existingPostData,
         });
+        client.writeQuery<
+          FetchPostAccessoriesQuery,
+          FetchPostAccessoriesQueryVariables
+        >({
+          query: FetchPostAccessoriesDocument,
+          variables: { postId, userId },
+          data: existingPostAccessoriesData,
+        });
+
         notice('エラーが発生しました', 'error');
       } finally {
         setLoading(false);
