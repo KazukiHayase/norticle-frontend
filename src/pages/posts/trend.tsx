@@ -34,9 +34,6 @@ export const getServerSideProps = async ({
     },
   });
 
-  // 動作確認用
-  throw new Error();
-
   const pageProps = res.data.posts.length
     ? {
         props: {
