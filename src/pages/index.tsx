@@ -12,9 +12,6 @@ export const getStaticProps: GetStaticProps = async () => {
     query: FetchPostsDocument,
   });
 
-  // 動作確認用
-  throw new Error();
-
   return addApolloState(apolloClient, {
     props: {},
     revalidate: 60 * 60,
