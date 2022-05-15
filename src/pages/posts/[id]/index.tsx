@@ -1,22 +1,66 @@
-import { useRouter } from 'next/router';
+import {
+  GetStaticPaths,
+  GetStaticProps,
+  InferGetStaticPropsType,
+} from 'next/types';
 import { ReactElement } from 'react';
 
 import { PostDetail } from '@/features/post/pages/PostDetail';
+import {
+  FetchPostDocument,
+  FetchPostQuery,
+  FetchPostQueryVariables,
+} from '@/features/post/pages/PostDetail/generated';
 import { DefaultLayout } from '@/layouts/DefaultLayout';
-import { pagesPath } from '@/lib/$path';
+import { addApolloState, initializeApolloClient } from '@/lib/apolloClient';
 
-// See: https://github.com/vercel/next.js/discussions/11484#discussioncomment-356055
-const Page = () => {
-  const router = useRouter();
-  const isReady = router.isReady;
-  if (!isReady) return <></>;
+export const getStaticPaths: GetStaticPaths = async () => {
+  return {
+    paths: [],
+    fallback: 'blocking',
+  };
+};
 
-  const postId = parseInt(router.query.id as string, 10);
-  if (isNaN(postId)) {
-    router.replace(pagesPath.$404.$url());
-    return <></>;
+export const getStaticProps: GetStaticProps<{ postId: number }> = async ({
+  params,
+}) => {
+  const postId =
+    params?.id && typeof params.id === 'string'
+      ? parseInt(params.id, 10)
+      : undefined;
+  if (!postId || isNaN(postId)) {
+    return {
+      notFound: true,
+    };
   }
 
+  const apolloClient = initializeApolloClient();
+  const res = await apolloClient.query<FetchPostQuery, FetchPostQueryVariables>(
+    {
+      query: FetchPostDocument,
+      variables: {
+        postId,
+      },
+    },
+  );
+
+  const pageProps = res.data.post
+    ? {
+        props: {
+          postId,
+        },
+        revalidate: 60 * 60,
+      }
+    : {
+        props: {
+          notFound: true,
+        },
+      };
+
+  return addApolloState(apolloClient, pageProps);
+};
+
+const Page = ({ postId }: InferGetStaticPropsType<typeof getStaticProps>) => {
   return <PostDetail postId={postId} />;
 };
 
