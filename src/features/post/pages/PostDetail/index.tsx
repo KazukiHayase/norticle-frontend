@@ -28,7 +28,11 @@ import { formatDate } from '@/services/date';
 import { progress } from '@/services/progress';
 import { Section } from '@/styles';
 
-import { FetchPostQuery, useFetchPostQuery } from './generated';
+import {
+  FetchPostQuery,
+  useFetchPostAccessoriesQuery,
+  useFetchPostQuery,
+} from './generated';
 import {
   ActionArea,
   ActionAreaInner,
@@ -49,29 +53,41 @@ export const PostDetail: VFC<PostDetailProps> = ({ postId }) => {
   const { isAuthenticated, user, loginWithRedirect } = useAuth0();
   const { notice } = useNotifier();
 
-  const { data, loading } = useFetchPostQuery({
-    variables: { postId, userId: user?.sub ?? '', isLoggedIn: isAuthenticated },
-    onCompleted: (data) => {
-      if (!data.post) router.replace(pagesPath.$404.$url());
-    },
+  const { data: postData, loading: postLoading } = useFetchPostQuery({
+    variables: { postId },
   });
+  const { data: postAccessoriesData, loading: postAccessoriesLoading } =
+    useFetchPostAccessoriesQuery({
+      skip: !isAuthenticated,
+      variables: { postId, userId: user?.sub ?? '' },
+    });
+
   const [toggleLike] = useToggleLike();
   const [stockPost] = useStockPost();
   const [unStockPost] = useUnStockPost();
 
-  const { post, like, totalLikeCount, stock } = useMemo(() => {
-    const post = data?.post;
-    const like = post?.likes?.[0] ?? undefined;
+  const loading = useMemo(
+    () => postLoading || postAccessoriesLoading,
+    [postLoading, postAccessoriesLoading],
+  );
+
+  const { post, totalLikeCount } = useMemo(() => {
+    const post = postData?.post;
     const totalLikeCount = post?.likes_aggregate.aggregate?.count ?? 0;
-    const stock = post?.stocks?.[0] ?? undefined;
 
     return {
       post,
-      like,
       totalLikeCount,
-      stock,
     };
-  }, [data]);
+  }, [postData]);
+
+  const { like, stock } = useMemo(() => {
+    const post = postAccessoriesData?.post;
+    const like = post?.likes?.[0] ?? undefined;
+    const stock = post?.stocks?.[0] ?? undefined;
+
+    return { like, stock };
+  }, [postAccessoriesData]);
 
   useEffect(() => {
     loading ? progress.start() : progress.done();

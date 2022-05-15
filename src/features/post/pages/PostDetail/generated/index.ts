@@ -7,8 +7,6 @@ import * as Apollo from '@apollo/client';
 const defaultOptions = {};
 export type FetchPostQueryVariables = Types.Exact<{
   postId: Types.Scalars['Int'];
-  userId: Types.Scalars['String'];
-  isLoggedIn?: Types.Maybe<Types.Scalars['Boolean']>;
 }>;
 
 export type FetchPostQuery = { __typename?: 'query_root' } & {
@@ -21,9 +19,6 @@ export type FetchPostQuery = { __typename?: 'query_root' } & {
           Types.User,
           'id' | 'name' | 'picture'
         >;
-        likes?: Types.Maybe<
-          Array<{ __typename?: 'like' } & Pick<Types.Like, 'id'>>
-        >;
         likes_aggregate: { __typename?: 'like_aggregate' } & {
           aggregate?: Types.Maybe<
             { __typename?: 'like_aggregate_fields' } & Pick<
@@ -32,19 +27,26 @@ export type FetchPostQuery = { __typename?: 'query_root' } & {
             >
           >;
         };
-        stocks?: Types.Maybe<
-          Array<{ __typename?: 'stock' } & Pick<Types.Stock, 'id'>>
-        >;
       } & PostTagsFragment
   >;
 };
 
+export type FetchPostAccessoriesQueryVariables = Types.Exact<{
+  postId: Types.Scalars['Int'];
+  userId: Types.Scalars['String'];
+}>;
+
+export type FetchPostAccessoriesQuery = { __typename?: 'query_root' } & {
+  post?: Types.Maybe<
+    { __typename?: 'post' } & Pick<Types.Post, 'id'> & {
+        likes: Array<{ __typename?: 'like' } & Pick<Types.Like, 'id'>>;
+        stocks: Array<{ __typename?: 'stock' } & Pick<Types.Stock, 'id'>>;
+      }
+  >;
+};
+
 export const FetchPostDocument = gql`
-  query FetchPost(
-    $postId: Int!
-    $userId: String!
-    $isLoggedIn: Boolean = false
-  ) {
+  query FetchPost($postId: Int!) {
     post(id: $postId) {
       id
       title
@@ -57,16 +59,10 @@ export const FetchPostDocument = gql`
         name
         picture
       }
-      likes(where: { userId: { _eq: $userId } }) @include(if: $isLoggedIn) {
-        id
-      }
       likes_aggregate {
         aggregate {
           count
         }
-      }
-      stocks @include(if: $isLoggedIn) {
-        id
       }
       ...PostTags
     }
@@ -87,8 +83,6 @@ export const FetchPostDocument = gql`
  * const { data, loading, error } = useFetchPostQuery({
  *   variables: {
  *      postId: // value for 'postId'
- *      userId: // value for 'userId'
- *      isLoggedIn: // value for 'isLoggedIn'
  *   },
  * });
  */
@@ -123,4 +117,74 @@ export type FetchPostQueryResult = Apollo.QueryResult<
 >;
 export function refetchFetchPostQuery(variables?: FetchPostQueryVariables) {
   return { query: FetchPostDocument, variables: variables };
+}
+export const FetchPostAccessoriesDocument = gql`
+  query FetchPostAccessories($postId: Int!, $userId: String!) {
+    post(id: $postId) {
+      id
+      likes(where: { userId: { _eq: $userId } }) {
+        id
+      }
+      stocks(where: { userId: { _eq: $userId } }) {
+        id
+      }
+    }
+  }
+`;
+
+/**
+ * __useFetchPostAccessoriesQuery__
+ *
+ * To run a query within a React component, call `useFetchPostAccessoriesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFetchPostAccessoriesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFetchPostAccessoriesQuery({
+ *   variables: {
+ *      postId: // value for 'postId'
+ *      userId: // value for 'userId'
+ *   },
+ * });
+ */
+export function useFetchPostAccessoriesQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    FetchPostAccessoriesQuery,
+    FetchPostAccessoriesQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    FetchPostAccessoriesQuery,
+    FetchPostAccessoriesQueryVariables
+  >(FetchPostAccessoriesDocument, options);
+}
+export function useFetchPostAccessoriesLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    FetchPostAccessoriesQuery,
+    FetchPostAccessoriesQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    FetchPostAccessoriesQuery,
+    FetchPostAccessoriesQueryVariables
+  >(FetchPostAccessoriesDocument, options);
+}
+export type FetchPostAccessoriesQueryHookResult = ReturnType<
+  typeof useFetchPostAccessoriesQuery
+>;
+export type FetchPostAccessoriesLazyQueryHookResult = ReturnType<
+  typeof useFetchPostAccessoriesLazyQuery
+>;
+export type FetchPostAccessoriesQueryResult = Apollo.QueryResult<
+  FetchPostAccessoriesQuery,
+  FetchPostAccessoriesQueryVariables
+>;
+export function refetchFetchPostAccessoriesQuery(
+  variables?: FetchPostAccessoriesQueryVariables,
+) {
+  return { query: FetchPostAccessoriesDocument, variables: variables };
 }

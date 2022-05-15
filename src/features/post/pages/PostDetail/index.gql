@@ -1,4 +1,4 @@
-query FetchPost($postId: Int!, $userId: String!, $isLoggedIn: Boolean = false) {
+query FetchPost($postId: Int!) {
   post(id: $postId) {
     id
     title
@@ -11,19 +11,24 @@ query FetchPost($postId: Int!, $userId: String!, $isLoggedIn: Boolean = false) {
       name
       picture
     }
-    # NOTE: 空配列or要素が1つ
-    likes(where: { userId: { _eq: $userId } }) @include(if: $isLoggedIn) {
-      id
-    }
     likes_aggregate {
       aggregate {
         count
       }
     }
-    # NOTE: パーミッションの設定で自分のストックしか取得できないので空配列or要素が1つ
-    stocks @include(if: $isLoggedIn) {
+    ...PostTags
+  }
+}
+
+query FetchPostAccessories($postId: Int!, $userId: String!) {
+  post(id: $postId) {
+    id
+    # NOTE: いいねとストックは空配列or要素が1つ
+    likes(where: { userId: { _eq: $userId } }) {
       id
     }
-    ...PostTags
+    stocks(where: { userId: { _eq: $userId } }) {
+      id
+    }
   }
 }
