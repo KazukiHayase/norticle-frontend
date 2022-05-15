@@ -41,7 +41,6 @@ export const getServerSideProps = async ({
         },
       }
     : {
-        props: { page },
         notFound: true,
       };
 

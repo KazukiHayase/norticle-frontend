@@ -36,7 +36,6 @@ export const getServerSideProps = async ({
 
   if (!res.data.posts.length) {
     return {
-      props: { page },
       notFound: true,
     };
   }
@@ -48,7 +47,6 @@ export const getServerSideProps = async ({
         },
       }
     : {
-        props: { page },
         notFound: true,
       };
 
