@@ -17,15 +17,14 @@ import { FetchTrendPostsQuery, useFetchTrendPostsQuery } from './generated';
 const limit = 10;
 
 type PostTrendProps = {
-  page?: number;
+  page: number;
 };
 
 export const PostTrend: VFC<PostTrendProps> = ({ page }) => {
-  const currentPage = useMemo(() => page ?? 1, [page]);
   const { data, loading } = useFetchTrendPostsQuery({
     variables: {
       limit,
-      offset: (currentPage - 1) * limit,
+      offset: (page - 1) * limit,
     },
   });
   const { posts, totalPage } = useMemo(() => {
@@ -61,13 +60,13 @@ export const PostTrend: VFC<PostTrendProps> = ({ page }) => {
             ))}
           </Grid>
           <Pagination
-            page={currentPage}
+            page={page}
             totalPage={totalPage}
             prevPageLink={pagesPath.posts.trend.$url({
-              query: { page: currentPage - 1 },
+              query: { page: page - 1 },
             })}
             nextPageLink={pagesPath.posts.trend.$url({
-              query: { page: currentPage + 1 },
+              query: { page: page + 1 },
             })}
           />
         </Container>

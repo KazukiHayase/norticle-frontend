@@ -1,22 +1,66 @@
-import { useRouter } from 'next/router';
+import {
+  GetServerSidePropsContext,
+  InferGetServerSidePropsType,
+} from 'next/types';
 import { ReactElement } from 'react';
 
 import { PostTrend } from '@/features/post/pages/PostTrend';
+import {
+  FetchTrendPostsDocument,
+  FetchTrendPostsQuery,
+  FetchTrendPostsQueryVariables,
+} from '@/features/post/pages/PostTrend/generated';
 import { DefaultLayout } from '@/layouts/DefaultLayout';
-import { NextPageWithLayout } from '@/pages/_app';
+import { addApolloState, initializeApolloClient } from '@/lib/apolloClient';
 
 export type OptionalQuery = {
   page?: number;
 };
 
-const Page: NextPageWithLayout = () => {
-  const router = useRouter();
-  const isReady = router.isReady;
-  if (!isReady) return <></>;
+export const getServerSideProps = async ({
+  query,
+}: GetServerSidePropsContext) => {
+  const pageQuery = parseInt(query.page as string, 10);
+  const page = isNaN(pageQuery) ? 1 : pageQuery;
 
-  const page = parseInt(router.query.page as string, 10);
+  const apolloClient = initializeApolloClient({});
 
-  return <PostTrend page={isNaN(page) ? undefined : page} />;
+  const res = await apolloClient.query<
+    FetchTrendPostsQuery,
+    FetchTrendPostsQueryVariables
+  >({
+    query: FetchTrendPostsDocument,
+    variables: {
+      limit: 10,
+      offset: (page - 1) * 10,
+    },
+  });
+
+  if (!res.data.posts.length) {
+    return {
+      props: { page },
+      notFound: true,
+    };
+  }
+
+  const pageProps = res.data.posts.length
+    ? {
+        props: {
+          page,
+        },
+      }
+    : {
+        props: { page },
+        notFound: true,
+      };
+
+  return addApolloState(apolloClient, pageProps);
+};
+
+const Page = ({
+  page,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+  return <PostTrend page={page} />;
 };
 
 Page.getLayout = (page: ReactElement) => <DefaultLayout>{page}</DefaultLayout>;
