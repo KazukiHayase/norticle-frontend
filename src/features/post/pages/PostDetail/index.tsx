@@ -53,7 +53,11 @@ export const PostDetail: VFC<PostDetailProps> = ({ postId }) => {
   const { isAuthenticated, user, loginWithRedirect } = useAuth0();
   const { notice } = useNotifier();
 
-  const { data: postData, loading: postLoading } = useFetchPostQuery({
+  const {
+    data: postData,
+    loading: postLoading,
+    refetch,
+  } = useFetchPostQuery({
     variables: { postId },
   });
   const { data: postAccessoriesData, loading: postAccessoriesLoading } =
@@ -71,15 +75,17 @@ export const PostDetail: VFC<PostDetailProps> = ({ postId }) => {
     [postLoading, postAccessoriesLoading],
   );
 
-  const { post, totalLikeCount } = useMemo(() => {
+  const { post, totalLikeCount, isMine } = useMemo(() => {
     const post = postData?.post;
     const totalLikeCount = post?.likes_aggregate.aggregate?.count ?? 0;
+    const isMine = post && user?.sub && post.user.id === user.sub;
 
     return {
       post,
       totalLikeCount,
+      isMine,
     };
-  }, [postData]);
+  }, [postData, user]);
 
   const { like, stock } = useMemo(() => {
     const post = postAccessoriesData?.post;
@@ -92,6 +98,11 @@ export const PostDetail: VFC<PostDetailProps> = ({ postId }) => {
   useEffect(() => {
     loading ? progress.start() : progress.done();
   }, [loading]);
+
+  // 自分の投稿の場合は最新のテンプレを取得
+  useEffect(() => {
+    if (isMine) refetch();
+  }, [isMine]);
 
   const handleClickLikeIcon = () => {
     if (!isAuthenticated)
