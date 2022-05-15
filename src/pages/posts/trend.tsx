@@ -35,13 +35,6 @@ export const getServerSideProps = async ({
     },
   });
 
-  if (!res.data.posts.length) {
-    return {
-      props: { page },
-      notFound: true,
-    };
-  }
-
   const pageProps = res.data.posts.length
     ? {
         props: {
