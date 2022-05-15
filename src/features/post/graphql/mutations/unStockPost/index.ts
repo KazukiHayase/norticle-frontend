@@ -3,9 +3,9 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { useCallback, useState } from 'react';
 
 import {
-  FetchPostDocument,
-  FetchPostQuery,
-  FetchPostQueryVariables,
+  FetchPostAccessoriesDocument,
+  FetchPostAccessoriesQuery,
+  FetchPostAccessoriesQueryVariables,
 } from '@/features/post/pages/PostDetail/generated';
 import { Post, Stock } from '@/graphql/generated/types';
 import { useNotifier } from '@/hooks/useNotifier';
@@ -34,11 +34,11 @@ export const useUnStockPost = (): UnStockPostHookResult => {
 
       const userId = user?.sub ?? '';
       const existingData = client.readQuery<
-        FetchPostQuery,
-        FetchPostQueryVariables
+        FetchPostAccessoriesQuery,
+        FetchPostAccessoriesQueryVariables
       >({
-        query: FetchPostDocument,
-        variables: { postId, userId, isLoggedIn: isAuthenticated },
+        query: FetchPostAccessoriesDocument,
+        variables: { postId, userId },
       });
       const existingPost = existingData?.post;
       if (!existingPost) {
@@ -46,9 +46,12 @@ export const useUnStockPost = (): UnStockPostHookResult => {
         return;
       }
 
-      client.writeQuery<FetchPostQuery, FetchPostQueryVariables>({
-        query: FetchPostDocument,
-        variables: { postId, userId, isLoggedIn: isAuthenticated },
+      client.writeQuery<
+        FetchPostAccessoriesQuery,
+        FetchPostAccessoriesQueryVariables
+      >({
+        query: FetchPostAccessoriesDocument,
+        variables: { postId, userId },
         data: {
           ...existingData,
           post: {
@@ -61,14 +64,17 @@ export const useUnStockPost = (): UnStockPostHookResult => {
       try {
         await unStockPostMutation({
           variables: { stockId },
-          refetchQueries: [FetchPostDocument],
+          refetchQueries: [FetchPostAccessoriesDocument],
         });
 
         notice('ストック解除しました', 'success');
       } catch {
-        client.writeQuery<FetchPostQuery, FetchPostQueryVariables>({
-          query: FetchPostDocument,
-          variables: { postId, userId, isLoggedIn: isAuthenticated },
+        client.writeQuery<
+          FetchPostAccessoriesQuery,
+          FetchPostAccessoriesQueryVariables
+        >({
+          query: FetchPostAccessoriesDocument,
+          variables: { postId, userId },
           data: existingData,
         });
         notice('ストック解除に失敗しました', 'error');

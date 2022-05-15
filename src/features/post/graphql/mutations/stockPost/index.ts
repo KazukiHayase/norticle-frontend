@@ -3,9 +3,9 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { useCallback, useState } from 'react';
 
 import {
-  FetchPostDocument,
-  FetchPostQuery,
-  FetchPostQueryVariables,
+  FetchPostAccessoriesDocument,
+  FetchPostAccessoriesQuery,
+  FetchPostAccessoriesQueryVariables,
 } from '@/features/post/pages/PostDetail/generated';
 import { Post } from '@/graphql/generated/types';
 import { useNotifier } from '@/hooks/useNotifier';
@@ -30,11 +30,11 @@ export const useStockPost = (): StockPostHookResult => {
 
       const userId = user?.sub ?? '';
       const existingData = client.readQuery<
-        FetchPostQuery,
-        FetchPostQueryVariables
+        FetchPostAccessoriesQuery,
+        FetchPostAccessoriesQueryVariables
       >({
-        query: FetchPostDocument,
-        variables: { postId, userId, isLoggedIn: isAuthenticated },
+        query: FetchPostAccessoriesDocument,
+        variables: { postId, userId },
       });
       const existingPost = existingData?.post;
       if (!existingPost) {
@@ -42,9 +42,12 @@ export const useStockPost = (): StockPostHookResult => {
         return;
       }
 
-      client.writeQuery<FetchPostQuery, FetchPostQueryVariables>({
-        query: FetchPostDocument,
-        variables: { postId, userId, isLoggedIn: isAuthenticated },
+      client.writeQuery<
+        FetchPostAccessoriesQuery,
+        FetchPostAccessoriesQueryVariables
+      >({
+        query: FetchPostAccessoriesDocument,
+        variables: { postId, userId },
         data: {
           ...existingData,
           post: {
@@ -57,14 +60,17 @@ export const useStockPost = (): StockPostHookResult => {
       try {
         await stockPostMutation({
           variables: { postId },
-          refetchQueries: [FetchPostDocument],
+          refetchQueries: [FetchPostAccessoriesDocument],
         });
 
         notice('ストックしました', 'success');
       } catch {
-        client.writeQuery<FetchPostQuery, FetchPostQueryVariables>({
-          query: FetchPostDocument,
-          variables: { postId, userId, isLoggedIn: isAuthenticated },
+        client.writeQuery<
+          FetchPostAccessoriesQuery,
+          FetchPostAccessoriesQueryVariables
+        >({
+          query: FetchPostAccessoriesDocument,
+          variables: { postId, userId },
           data: existingData,
         });
         notice('エラーが発生しました', 'error');
