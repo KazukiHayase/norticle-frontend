@@ -6,7 +6,6 @@ import { PostCardFragmentDoc } from '../../../components/PostCard/generated/inde
 import * as Apollo from '@apollo/client';
 const defaultOptions = {};
 export type FetchTrendPostsQueryVariables = Types.Exact<{
-  limit: Types.Scalars['Int'];
   offset: Types.Scalars['Int'];
 }>;
 
@@ -23,9 +22,9 @@ export type FetchTrendPostsQuery = { __typename?: 'query_root' } & {
 };
 
 export const FetchTrendPostsDocument = gql`
-  query FetchTrendPosts($limit: Int!, $offset: Int!) {
+  query FetchTrendPosts($offset: Int!) {
     posts(
-      limit: $limit
+      limit: 10
       offset: $offset
       order_by: { likes_aggregate: { count: desc } }
     ) {
@@ -52,7 +51,6 @@ export const FetchTrendPostsDocument = gql`
  * @example
  * const { data, loading, error } = useFetchTrendPostsQuery({
  *   variables: {
- *      limit: // value for 'limit'
  *      offset: // value for 'offset'
  *   },
  * });

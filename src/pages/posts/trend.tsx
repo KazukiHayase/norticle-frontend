@@ -31,7 +31,6 @@ export const getServerSideProps = async ({
   >({
     query: FetchTrendPostsDocument,
     variables: {
-      limit: 10,
       offset: (page - 1) * 10,
     },
   });

@@ -1,6 +1,6 @@
-query FetchTrendPosts($limit: Int!, $offset: Int!) {
+query FetchTrendPosts($offset: Int!) {
   posts(
-    limit: $limit
+    limit: 10
     offset: $offset
     order_by: { likes_aggregate: { count: desc } }
   ) {

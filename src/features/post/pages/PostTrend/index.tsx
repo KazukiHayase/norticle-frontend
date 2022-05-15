@@ -23,7 +23,6 @@ type PostTrendProps = {
 export const PostTrend: VFC<PostTrendProps> = ({ page }) => {
   const { data, loading } = useFetchTrendPostsQuery({
     variables: {
-      limit,
       offset: (page - 1) * limit,
     },
   });
