@@ -124,7 +124,7 @@ export const PostDetail: VFC<PostDetailProps> = ({ postId }) => {
     stock ? unStockPost(postId, stock.id) : stockPost(postId);
   };
 
-  if (loading || !post) return <></>;
+  if (!post) return <></>;
   return (
     <Section sx={{ bgcolor: blueGrey[50] }}>
       <Container maxWidth="md">
