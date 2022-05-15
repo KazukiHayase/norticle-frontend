@@ -49,7 +49,7 @@ export const getStaticProps: GetStaticProps<{ postId: number }> = async ({
         props: {
           postId,
         },
-        revalidate: 60 * 60,
+        revalidate: 60,
       }
     : {
         notFound: true,
