@@ -1,7 +1,7 @@
 import {
   ApolloClient,
   ApolloLink,
-  createHttpLink,
+  HttpLink,
   InMemoryCache,
   NormalizedCacheObject,
 } from '@apollo/client';
@@ -20,9 +20,9 @@ const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__';
 
 let apolloClient: ApolloClient<NormalizedCacheObject> | undefined;
 
-const createApolloClient = (apolloLinks?: ApolloLink[]) => {
-  const httpLink = createHttpLink({ uri: process.env.NEXT_PUBLIC_GRAPHQL_URL });
-  const errorLink = onError(({ graphQLErrors, networkError }) => {
+const defaultApolloLink = ApolloLink.from([
+  customScalarLink,
+  onError(({ graphQLErrors, networkError }) => {
     if (graphQLErrors) {
       graphQLErrors.forEach(({ message }) => {
         if (process.env.NEXT_PUBLIC_ENVIRONMENT !== 'production') {
@@ -36,16 +36,14 @@ const createApolloClient = (apolloLinks?: ApolloLink[]) => {
         console.log(`[Network error]: ${networkError}`);
       }
     }
-  });
+  }),
+  new HttpLink({ uri: process.env.NEXT_PUBLIC_GRAPHQL_URL }),
+]);
 
+const createApolloClient = () => {
   return new ApolloClient({
     ssrMode: isServer,
-    link: ApolloLink.from([
-      ...(apolloLinks ?? []),
-      customScalarLink,
-      errorLink,
-      httpLink,
-    ]),
+    link: defaultApolloLink,
     cache: new InMemoryCache({
       // See: https://www.apollographql.com/docs/react/caching/cache-configuration/#overriding-root-operation-types-uncommon
       typePolicies: {
@@ -60,14 +58,10 @@ const createApolloClient = (apolloLinks?: ApolloLink[]) => {
   });
 };
 
-export const initializeApolloClient = ({
-  initialState,
-  apolloLinks,
-}: {
-  initialState?: NormalizedCacheObject;
-  apolloLinks?: ApolloLink[];
-}) => {
-  const _apolloClient = apolloClient ?? createApolloClient(apolloLinks);
+export const initializeApolloClient = (
+  initialState?: NormalizedCacheObject,
+) => {
+  const _apolloClient = apolloClient ?? createApolloClient();
 
   if (initialState) {
     const existingCache = _apolloClient.extract();
@@ -103,20 +97,26 @@ export const addApolloState = (
 };
 
 // TODO: 型安全にする
-export function useApollo(pageProps: any) {
+export const useApollo = (pageProps: any) => {
   const { isAuthenticated, getAccessTokenSilently } = useAuth0();
   const { notice } = useNotifier();
 
-  const authLink = setContext(async (_, { headers, ...context }) => {
-    const token = isAuthenticated ? await getAccessTokenSilently() : '';
-    return {
-      headers: {
-        ...headers,
-        ...(token ? { Authorization: `Bearer ${token}` } : {}),
-      },
-      ...context,
-    };
-  });
+  const state = pageProps[APOLLO_STATE_PROP_NAME];
+
+  const client = initializeApolloClient(state);
+
+  const authLink = isAuthenticated
+    ? setContext(async (_, { headers, ...context }) => {
+        const token = await getAccessTokenSilently();
+        return {
+          headers: {
+            ...headers,
+            ...(token ? { Authorization: `Bearer ${token}` } : {}),
+          },
+          ...context,
+        };
+      })
+    : undefined;
 
   const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
     const enableNotification = !operation.getContext().disableNotification;
@@ -126,16 +126,14 @@ export function useApollo(pageProps: any) {
     }
   });
 
-  const state = pageProps[APOLLO_STATE_PROP_NAME];
-
-  const client = useMemo(
+  const link = useMemo(
     () =>
-      initializeApolloClient({
-        initialState: state,
-        apolloLinks: [authLink, errorLink],
-      }),
-    [state, authLink, errorLink],
+      authLink
+        ? ApolloLink.from([authLink, errorLink, defaultApolloLink])
+        : ApolloLink.from([errorLink, defaultApolloLink]),
+    [authLink, errorLink],
   );
+  client.setLink(link);
 
   return client;
-}
+};

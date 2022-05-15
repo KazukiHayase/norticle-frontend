@@ -6,7 +6,7 @@ import { DefaultLayout } from '@/layouts/DefaultLayout';
 import { addApolloState, initializeApolloClient } from '@/lib/apolloClient';
 
 export const getStaticProps = async () => {
-  const apolloClient = initializeApolloClient({});
+  const apolloClient = initializeApolloClient();
   await apolloClient.query({
     query: FetchPostsDocument,
   });

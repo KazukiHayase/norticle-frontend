@@ -23,7 +23,7 @@ export const getServerSideProps = async ({
   const pageQuery = parseInt(query.page as string, 10);
   const page = isNaN(pageQuery) ? 1 : pageQuery;
 
-  const apolloClient = initializeApolloClient({});
+  const apolloClient = initializeApolloClient();
   const res = await apolloClient.query<
     FetchTrendPostsQuery,
     FetchTrendPostsQueryVariables
