@@ -1,30 +1,63 @@
-import { useRouter } from 'next/router';
+import { GetServerSideProps,InferGetServerSidePropsType } from 'next/types';
 import { ReactElement } from 'react';
 
 import { PostTaggedIndex } from '@/features/post/pages/PostTaggedIndex';
+import {
+  FetchTaggedPostsDocument,
+  FetchTaggedPostsQuery,
+  FetchTaggedPostsQueryVariables,
+} from '@/features/post/pages/PostTaggedIndex/generated';
 import { DefaultLayout } from '@/layouts/DefaultLayout';
-import { pagesPath } from '@/lib/$path';
+import { addApolloState, initializeApolloClient } from '@/lib/apolloClient';
 
 export type OptionalQuery = {
   page?: number;
 };
 
-// See: https://github.com/vercel/next.js/discussions/11484#discussioncomment-356055
-const Page = () => {
-  const router = useRouter();
-  const isReady = router.isReady;
-  if (!isReady) return <></>;
-
-  const tagName = router.query.name;
-  if (typeof tagName !== 'string') {
-    router.replace(pagesPath.$404.$url());
-    return <></>;
+export const getServerSideProps: GetServerSideProps<{
+  tagName: string;
+  page: number;
+}> = async ({ params, query }) => {
+  const pageQuery = parseInt(query.page as string, 10);
+  const page = isNaN(pageQuery) ? 1 : pageQuery;
+  const tagName = params?.name;
+  if (!tagName || typeof tagName !== 'string') {
+    return {
+      notFound: true,
+    };
   }
-  const page = parseInt(router.query.page as string, 10);
 
-  return (
-    <PostTaggedIndex tagName={tagName} page={isNaN(page) ? undefined : page} />
-  );
+  const apolloClient = initializeApolloClient();
+  const res = await apolloClient.query<
+    FetchTaggedPostsQuery,
+    FetchTaggedPostsQueryVariables
+  >({
+    query: FetchTaggedPostsDocument,
+    variables: {
+      tagName,
+      offset: (page - 1) * 10,
+    },
+  });
+
+  const pageProps = res.data.tagsAggregate.aggregate?.count
+    ? {
+        props: {
+          tagName,
+          page,
+        },
+      }
+    : {
+        notFound: true,
+      };
+
+  return addApolloState(apolloClient, pageProps);
+};
+
+const Page = ({
+  tagName,
+  page,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+  return <PostTaggedIndex tagName={tagName} page={page} />;
 };
 
 Page.getLayout = (page: ReactElement) => <DefaultLayout>{page}</DefaultLayout>;

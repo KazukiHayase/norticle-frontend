@@ -7,7 +7,6 @@ import * as Apollo from '@apollo/client';
 const defaultOptions = {};
 export type FetchTaggedPostsQueryVariables = Types.Exact<{
   tagName: Types.Scalars['String'];
-  limit: Types.Scalars['Int'];
   offset: Types.Scalars['Int'];
 }>;
 
@@ -32,10 +31,10 @@ export type FetchTaggedPostsQuery = { __typename?: 'query_root' } & {
 };
 
 export const FetchTaggedPostsDocument = gql`
-  query FetchTaggedPosts($tagName: String!, $limit: Int!, $offset: Int!) {
+  query FetchTaggedPosts($tagName: String!, $offset: Int!) {
     posts(
       where: { taggings: { tag: { name: { _eq: $tagName } } } }
-      limit: $limit
+      limit: 10
       offset: $offset
       order_by: { likes_aggregate: { count: desc } }
     ) {
@@ -68,7 +67,6 @@ export const FetchTaggedPostsDocument = gql`
  * const { data, loading, error } = useFetchTaggedPostsQuery({
  *   variables: {
  *      tagName: // value for 'tagName'
- *      limit: // value for 'limit'
  *      offset: // value for 'offset'
  *   },
  * });

@@ -1,7 +1,7 @@
-query FetchTaggedPosts($tagName: String!, $limit: Int!, $offset: Int!) {
+query FetchTaggedPosts($tagName: String!, $offset: Int!) {
   posts(
     where: { taggings: { tag: { name: { _eq: $tagName } } } }
-    limit: $limit
+    limit: 10
     offset: $offset
     order_by: { likes_aggregate: { count: desc } }
   ) {

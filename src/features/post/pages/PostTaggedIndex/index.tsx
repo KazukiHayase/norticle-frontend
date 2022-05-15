@@ -1,6 +1,5 @@
 import { Container, Grid, Typography } from '@mui/material';
 import { filter } from 'graphql-anywhere';
-import { useRouter } from 'next/router';
 import { useEffect, useMemo, VFC } from 'react';
 
 import { Pagination } from '@/components/uiParts/Pagination';
@@ -20,24 +19,15 @@ const limit = 10;
 
 type PostTaggedIndexProps = {
   tagName: string;
-  page?: number;
+  page: number;
 };
 
 export const PostTaggedIndex: VFC<PostTaggedIndexProps> = ({
   tagName,
   page,
 }) => {
-  const router = useRouter();
-  const currentPage = useMemo(() => page ?? 1, [page]);
-
   const { data, loading } = useFetchTaggedPostsQuery({
-    variables: { tagName, limit, offset: (currentPage - 1) * limit },
-    onCompleted: (data) => {
-      // タグがない場合は404
-      if (!data.tagsAggregate.aggregate?.count) {
-        router.replace(pagesPath.$404.$url());
-      }
-    },
+    variables: { tagName, offset: (page - 1) * limit },
   });
   const { posts, totalCount, totalPage } = useMemo(() => {
     return {
@@ -74,13 +64,13 @@ export const PostTaggedIndex: VFC<PostTaggedIndexProps> = ({
           ))}
         </Grid>
         <Pagination
-          page={currentPage}
+          page={page}
           totalPage={totalPage}
           prevPageLink={pagesPath.tags._name(tagName).$url({
-            query: { page: currentPage - 1 },
+            query: { page: page - 1 },
           })}
           nextPageLink={pagesPath.tags._name(tagName).$url({
-            query: { page: currentPage + 1 },
+            query: { page: page + 1 },
           })}
         />
       </Container>
