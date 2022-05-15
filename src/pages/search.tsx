@@ -8,7 +8,7 @@ import {
   SearchPostsQueryVariables,
 } from '@/features/post/pages/PostSearch/generated';
 import { DefaultLayout } from '@/layouts/DefaultLayout';
-import { addApolloState,initializeApolloClient } from '@/lib/apolloClient';
+import { addApolloState, initializeApolloClient } from '@/lib/apolloClient';
 
 export type OptionalQuery = {
   q?: string;

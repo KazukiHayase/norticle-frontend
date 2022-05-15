@@ -20,7 +20,7 @@ type ToggleLikeHookResult = [
 ];
 
 export const useToggleLike = (): ToggleLikeHookResult => {
-  const { isAuthenticated, user } = useAuth0();
+  const { user } = useAuth0();
   const client = useApolloClient();
 
   const [loading, setLoading] = useState<boolean>(false);
@@ -131,7 +131,7 @@ export const useToggleLike = (): ToggleLikeHookResult => {
         setLoading(false);
       }
     },
-    [isAuthenticated, user, notice, client, addLike, deleteLike, setLoading],
+    [user, notice, client, addLike, deleteLike, setLoading],
   );
 
   return [toggleLike, { loading }];

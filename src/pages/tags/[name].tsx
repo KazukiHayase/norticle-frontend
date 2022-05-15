@@ -1,4 +1,4 @@
-import { GetServerSideProps,InferGetServerSidePropsType } from 'next/types';
+import { GetServerSideProps, InferGetServerSidePropsType } from 'next/types';
 import { ReactElement } from 'react';
 
 import { PostTaggedIndex } from '@/features/post/pages/PostTaggedIndex';

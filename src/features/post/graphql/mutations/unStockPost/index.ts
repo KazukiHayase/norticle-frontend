@@ -19,7 +19,7 @@ type UnStockPostHookResult = [
 
 // TODO: likeみたいにstockとunStockを１つのhookにまとめる
 export const useUnStockPost = (): UnStockPostHookResult => {
-  const { isAuthenticated, user } = useAuth0();
+  const { user } = useAuth0();
   const { notice } = useNotifier();
   const client = useApolloClient();
 
@@ -82,7 +82,7 @@ export const useUnStockPost = (): UnStockPostHookResult => {
         setLoading(false);
       }
     },
-    [isAuthenticated, user, notice, client, unStockPostMutation],
+    [user, notice, client, unStockPostMutation],
   );
 
   return [unStockPost, { loading }];

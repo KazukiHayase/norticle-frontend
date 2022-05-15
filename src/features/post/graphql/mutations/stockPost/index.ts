@@ -15,7 +15,7 @@ import { useStockPostMutation } from './generated';
 type StockPostHookResult = [(postId: Post['id']) => void, { loading: boolean }];
 
 export const useStockPost = (): StockPostHookResult => {
-  const { isAuthenticated, user } = useAuth0();
+  const { user } = useAuth0();
   const { notice } = useNotifier();
   const client = useApolloClient();
 
@@ -78,7 +78,7 @@ export const useStockPost = (): StockPostHookResult => {
         setLoading(false);
       }
     },
-    [isAuthenticated, user, notice, client, stockPostMutation],
+    [user, notice, client, stockPostMutation],
   );
 
   return [stockPost, { loading }];
