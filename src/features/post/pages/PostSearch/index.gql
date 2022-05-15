@@ -1,13 +1,27 @@
-query SearchPosts($where: post_bool_exp!, $limit: Int!, $offset: Int!) {
+query SearchPosts($ilike: String!, $offset: Int!) {
   posts(
-    where: $where
-    limit: $limit
+    where: {
+      _or: [
+        { title: { _ilike: $ilike } }
+        { content: { _ilike: $ilike } }
+        { taggings: { tag: { name: { _ilike: $ilike } } } }
+      ]
+    }
+    limit: 10
     offset: $offset
     order_by: { likes_aggregate: { count: desc } }
   ) {
     ...PostCard
   }
-  postsAggregate(where: $where) {
+  postsAggregate(
+    where: {
+      _or: [
+        { title: { _ilike: $ilike } }
+        { content: { _ilike: $ilike } }
+        { taggings: { tag: { name: { _ilike: $ilike } } } }
+      ]
+    }
+  ) {
     aggregate {
       count
     }

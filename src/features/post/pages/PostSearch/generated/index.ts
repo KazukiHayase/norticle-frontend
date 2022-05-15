@@ -6,8 +6,7 @@ import { PostCardFragmentDoc } from '../../../components/PostCard/generated/inde
 import * as Apollo from '@apollo/client';
 const defaultOptions = {};
 export type SearchPostsQueryVariables = Types.Exact<{
-  where: Types.PostBoolExp;
-  limit: Types.Scalars['Int'];
+  ilike: Types.Scalars['String'];
   offset: Types.Scalars['Int'];
 }>;
 
@@ -24,16 +23,30 @@ export type SearchPostsQuery = { __typename?: 'query_root' } & {
 };
 
 export const SearchPostsDocument = gql`
-  query SearchPosts($where: post_bool_exp!, $limit: Int!, $offset: Int!) {
+  query SearchPosts($ilike: String!, $offset: Int!) {
     posts(
-      where: $where
-      limit: $limit
+      where: {
+        _or: [
+          { title: { _ilike: $ilike } }
+          { content: { _ilike: $ilike } }
+          { taggings: { tag: { name: { _ilike: $ilike } } } }
+        ]
+      }
+      limit: 10
       offset: $offset
       order_by: { likes_aggregate: { count: desc } }
     ) {
       ...PostCard
     }
-    postsAggregate(where: $where) {
+    postsAggregate(
+      where: {
+        _or: [
+          { title: { _ilike: $ilike } }
+          { content: { _ilike: $ilike } }
+          { taggings: { tag: { name: { _ilike: $ilike } } } }
+        ]
+      }
+    ) {
       aggregate {
         count
       }
@@ -54,8 +67,7 @@ export const SearchPostsDocument = gql`
  * @example
  * const { data, loading, error } = useSearchPostsQuery({
  *   variables: {
- *      where: // value for 'where'
- *      limit: // value for 'limit'
+ *      ilike: // value for 'ilike'
  *      offset: // value for 'offset'
  *   },
  * });

@@ -36,12 +36,11 @@ const limit = 10;
 
 type PostSearchProps = {
   keyword?: string;
-  page?: number;
+  page: number;
 };
 
 export const PostSearch: VFC<PostSearchProps> = ({ keyword, page }) => {
   const router = useRouter();
-  const currentPage = useMemo(() => page ?? 1, [page]);
 
   const { register, handleSubmit } = useForm<PostSearchForm>({
     defaultValues: { keyword },
@@ -51,19 +50,8 @@ export const PostSearch: VFC<PostSearchProps> = ({ keyword, page }) => {
   const { data, loading } = useSearchPostsQuery({
     skip: !keyword,
     variables: {
-      where: {
-        _or: [
-          {
-            title: { _ilike: `%${keyword}%` },
-          },
-          {
-            content: { _ilike: `%${keyword}%` },
-          },
-          { taggings: { tag: { name: { _ilike: `%${keyword}%` } } } },
-        ],
-      },
-      limit,
-      offset: (currentPage - 1) * limit,
+      ilike: `%${keyword}%`,
+      offset: (page - 1) * limit,
     },
   });
 
@@ -129,13 +117,13 @@ export const PostSearch: VFC<PostSearchProps> = ({ keyword, page }) => {
               ))}
             </Grid>
             <Pagination
-              page={currentPage}
+              page={page}
               totalPage={totalPage}
               prevPageLink={pagesPath.search.$url({
-                query: { q: keyword, page: currentPage - 1 },
+                query: { q: keyword, page: page - 1 },
               })}
               nextPageLink={pagesPath.search.$url({
-                query: { q: keyword, page: currentPage + 1 },
+                query: { q: keyword, page: page + 1 },
               })}
             />
           </>
