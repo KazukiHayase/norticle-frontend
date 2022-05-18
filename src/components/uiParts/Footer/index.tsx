@@ -5,19 +5,19 @@ import { VFC } from 'react';
 import { Link, NextLinkComposed } from '@/components/uiParts/Link';
 import { pagesPath } from '@/lib/$path';
 
-import { Logo } from './style';
+import { Logo, Nav,Wrapper } from './style';
 
 export const Footer: VFC = () => {
   return (
     <Box sx={{ py: 5 }}>
       <Container maxWidth="lg">
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', pb: 15 }}>
+        <Wrapper>
           <Link href={pagesPath.$url()}>
             <Logo>
               <Image src="/images/logo.png" width={120} height={40} />
             </Logo>
           </Link>
-          <Box sx={{ display: 'flex', gap: 5 }}>
+          <Nav>
             <Stack spacing={1}>
               <Typography sx={{ fontWeight: 'bold' }}>ガイド</Typography>
               <Typography
@@ -61,8 +61,8 @@ export const Footer: VFC = () => {
                 運営者
               </Typography>
             </Stack>
-          </Box>
-        </Box>
+          </Nav>
+        </Wrapper>
         <Divider />
         <Typography color="text.secondary" sx={{ pt: 3 }}>
           © 2022 Norticle
