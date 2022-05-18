@@ -24,7 +24,6 @@ export const theme = responsiveFontSizes(
       },
     },
     typography: {
-      // TODO: レスポンシブ対応
       h1: {
         fontSize: '2.2rem',
         fontWeight: 'bold',
