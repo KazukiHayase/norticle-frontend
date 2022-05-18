@@ -53,8 +53,9 @@ export const Footer: VFC = () => {
               </Typography>
               <Typography
                 component={NextLinkComposed}
-                // TODO: twitterへのリンク
-                to={pagesPath.privacy.$url()}
+                target="_blank"
+                rel="noopener noreferrer"
+                to="https://twitter.com/bbF1wIpYYsTc1yN"
                 sx={{ ':hover': { textDecoration: 'underline' } }}
               >
                 運営者
