@@ -18,6 +18,18 @@ export const pagesPath = {
       hash: url?.hash,
     }),
   },
+  $500: {
+    $url: (url?: { hash?: string }) => ({
+      pathname: '/500' as const,
+      hash: url?.hash,
+    }),
+  },
+  about: {
+    $url: (url?: { hash?: string }) => ({
+      pathname: '/about' as const,
+      hash: url?.hash,
+    }),
+  },
   dashboard: {
     stocks: {
       $url: (url?: { query?: OptionalQuery1; hash?: string }) => ({

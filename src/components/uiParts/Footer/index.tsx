@@ -29,8 +29,7 @@ export const Footer: VFC = () => {
               </Typography>
               <Typography
                 component={NextLinkComposed}
-                // TODO: aboutページ作成
-                to={pagesPath.$url()}
+                to={pagesPath.about.$url()}
                 sx={{ ':hover': { textDecoration: 'underline' } }}
               >
                 Norticleとは
