@@ -1,0 +1,17 @@
+fragment PostCard on post {
+  id
+  title
+  content
+  createdAt
+  user {
+    id
+    name
+    picture
+  }
+  likes_aggregate {
+    aggregate {
+      count
+    }
+  }
+  ...PostTags
+}

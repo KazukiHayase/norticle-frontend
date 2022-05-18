@@ -1,0 +1,20 @@
+query FetchTaggedPosts($tagName: String!, $offset: Int!) {
+  posts(
+    where: { taggings: { tag: { name: { _eq: $tagName } } } }
+    limit: 10
+    offset: $offset
+    order_by: { likes_aggregate: { count: desc } }
+  ) {
+    ...PostCard
+  }
+  postsAggregate(where: { taggings: { tag: { name: { _eq: $tagName } } } }) {
+    aggregate {
+      count
+    }
+  }
+  tagsAggregate(where: { name: { _eq: $tagName } }) {
+    aggregate {
+      count
+    }
+  }
+}

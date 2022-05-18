@@ -1,0 +1,5 @@
+mutation UnStockPost($stockId: Int!) {
+  deleteStock(id: $stockId) {
+    id
+  }
+}

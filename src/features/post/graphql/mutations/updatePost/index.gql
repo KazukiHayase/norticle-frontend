@@ -1,0 +1,23 @@
+mutation UpdatePost(
+  $postId: Int!
+  $post: post_set_input!
+  $taggings: [tagging_insert_input!]!
+) {
+  updatePost(pk_columns: { id: $postId }, _set: $post) {
+    id
+    ...PostForm
+  }
+  # タグ付けの更新はdelete-insertで対応
+  deleteTaggings(where: { post_id: { _eq: $postId } }) {
+    returning {
+      id
+    }
+  }
+  addTaggings(objects: $taggings) {
+    returning {
+      id
+      post_id
+      tag_id
+    }
+  }
+}

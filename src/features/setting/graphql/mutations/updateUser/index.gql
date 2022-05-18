@@ -1,0 +1,6 @@
+mutation UpdateUser($userId: String!, $userInput: user_set_input!) {
+  updateUser(pk_columns: { id: $userId }, _set: $userInput) {
+    id
+    name
+  }
+}

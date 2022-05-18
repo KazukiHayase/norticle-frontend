@@ -1,0 +1,33 @@
+mutation AddLike($postId: Int!, $userId: String!) {
+  addLike(object: { postId: $postId }) {
+    id
+    post {
+      id
+      likes(where: { userId: { _eq: $userId } }) {
+        id
+      }
+      likes_aggregate {
+        aggregate {
+          count
+        }
+      }
+    }
+  }
+}
+
+mutation DeleteLike($likeId: Int!, $userId: String!) {
+  deleteLike(id: $likeId) {
+    id
+    post {
+      id
+      likes(where: { userId: { _eq: $userId } }) {
+        id
+      }
+      likes_aggregate {
+        aggregate {
+          count
+        }
+      }
+    }
+  }
+}

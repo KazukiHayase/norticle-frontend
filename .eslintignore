@@ -1,0 +1,6 @@
+**/node_modules/*
+**/.next/*
+*config.js
+**/generated/*
+graphql.schema.json
+storybook-static

@@ -1,0 +1,17 @@
+fragment PostForm on post {
+  id
+  title
+  description
+  content
+  taggings {
+    id
+    tag {
+      id
+      name
+    }
+  }
+}
+
+query FetchPostFormOptions {
+  ...Tags
+}

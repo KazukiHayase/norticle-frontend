@@ -1,0 +1,5 @@
+mutation StockPost($postId: Int!) {
+  addStock(object: { postId: $postId }) {
+    id
+  }
+}

@@ -1,0 +1,34 @@
+query FetchPost($postId: Int!) {
+  post(id: $postId) {
+    id
+    title
+    description
+    content
+    createdAt
+    updatedAt
+    user {
+      id
+      name
+      picture
+    }
+    likes_aggregate {
+      aggregate {
+        count
+      }
+    }
+    ...PostTags
+  }
+}
+
+query FetchPostAccessories($postId: Int!, $userId: String!) {
+  post(id: $postId) {
+    id
+    # NOTE: いいねとストックは空配列or要素が1つ
+    likes(where: { userId: { _eq: $userId } }) {
+      id
+    }
+    stocks(where: { userId: { _eq: $userId } }) {
+      id
+    }
+  }
+}

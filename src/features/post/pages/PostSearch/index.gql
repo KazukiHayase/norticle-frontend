@@ -1,0 +1,29 @@
+query SearchPosts($ilike: String!, $offset: Int!) {
+  posts(
+    where: {
+      _or: [
+        { title: { _ilike: $ilike } }
+        { content: { _ilike: $ilike } }
+        { taggings: { tag: { name: { _ilike: $ilike } } } }
+      ]
+    }
+    limit: 10
+    offset: $offset
+    order_by: { likes_aggregate: { count: desc } }
+  ) {
+    ...PostCard
+  }
+  postsAggregate(
+    where: {
+      _or: [
+        { title: { _ilike: $ilike } }
+        { content: { _ilike: $ilike } }
+        { taggings: { tag: { name: { _ilike: $ilike } } } }
+      ]
+    }
+  ) {
+    aggregate {
+      count
+    }
+  }
+}

@@ -1,0 +1,9 @@
+fragment PostTags on post {
+  taggings {
+    id
+    tag {
+      id
+      name
+    }
+  }
+}

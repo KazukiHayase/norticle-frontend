@@ -1,0 +1,18 @@
+query FetchPostsForDashboard($userId: String!, $limit: Int!, $offset: Int!) {
+  posts(
+    where: { userId: { _eq: $userId } }
+    limit: $limit
+    offset: $offset
+    order_by: { createdAt: desc }
+  ) {
+    id
+    title
+    createdAt
+    updatedAt
+  }
+  postsAggregate(where: { userId: { _eq: $userId } }) {
+    aggregate {
+      count
+    }
+  }
+}

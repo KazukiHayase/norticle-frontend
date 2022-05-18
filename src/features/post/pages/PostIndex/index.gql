@@ -1,0 +1,8 @@
+query FetchPosts {
+  newPosts: posts(limit: 6, order_by: { createdAt: desc }) {
+    ...PostCard
+  }
+  trendPosts: posts(limit: 6, order_by: { likes_aggregate: { count: desc } }) {
+    ...PostCard
+  }
+}

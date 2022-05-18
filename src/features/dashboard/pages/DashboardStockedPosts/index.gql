@@ -1,0 +1,17 @@
+query FetchStockedPosts($limit: Int!, $offset: Int!) {
+  stocks(limit: $limit, offset: $offset, order_by: { createdAt: desc }) {
+    id
+    post {
+      id
+      title
+      content
+      createdAt
+      updatedAt
+    }
+  }
+  stocksAggregate {
+    aggregate {
+      count
+    }
+  }
+}

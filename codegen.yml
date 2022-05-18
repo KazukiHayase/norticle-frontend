@@ -1,0 +1,58 @@
+overwrite: true
+schema: 'http://localhost:8888/v1/graphql'
+headers:
+  x-hasura-admin-secret: 'secret'
+documents:
+  - 'src/graphql/**/*.gql'
+  - 'src/features/**/*.gql'
+hooks:
+  afterAllFileWrite:
+    - prettier --write
+generates:
+  # types
+  src/graphql/generated/types.ts:
+    plugins:
+      - typescript
+    config:
+      scalars:
+        date: Date
+        numeric: number
+        smallint: number
+        _text: string
+        timestamptz: Date
+        timetz: Date
+        jsonb: Object
+      namingConvention:
+        typeNames: change-case#pascalCase
+        enumValues: change-case#pascalCase
+        transformUnderscore: true
+      avoidOptionals:
+        field: true
+        inputValue: false
+        object: true
+        defaultValue: true
+      enumsAsConst: true
+  # operations, hooks
+  src/:
+    preset: near-operation-file
+    presetConfig:
+      baseTypesPath: graphql/generated/types
+      folder: generated
+      extension: .ts
+    plugins:
+      - typescript-operations
+      - typescript-react-apollo
+    config:
+      namingConvention:
+        typeNames: change-case#pascalCase
+        enumValues: change-case#pascalCase
+        transformUnderscore: true
+      withComponent: false
+      withHooks: true
+      withHOC: false
+      withRefetchFn: true
+  ./graphql.schema.json:
+    plugins:
+      - introspection
+    config:
+      minify: true
