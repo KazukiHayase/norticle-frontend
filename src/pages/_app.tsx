@@ -11,6 +11,7 @@ import { deserialize } from 'superjson';
 
 import { ErrorFallback } from '@/features/common/pages/ErrorFallback';
 import { DefaultLayout } from '@/layouts/DefaultLayout';
+import { GoogleAnalytics, usePageView } from '@/lib/gtag';
 import { AuthorizedApolloProvider } from '@/providers/authorizedApolloProvider';
 import { AuthProvider } from '@/providers/authProvider';
 import { progress } from '@/services/progress';
@@ -30,6 +31,7 @@ type AppPropsWithLayout = AppProps & {
 };
 
 const MyApp = ({ Component, pageProps }: AppPropsWithLayout): JSX.Element => {
+  usePageView();
   const { _superjson, ...json } = pageProps;
   const props = deserialize({ json: json, meta: _superjson });
 
@@ -41,6 +43,7 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout): JSX.Element => {
         <title>norticle</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
+      <GoogleAnalytics />
       <ErrorBoundary
         FallbackComponent={() => (
           <DefaultLayout>

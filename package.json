@@ -64,6 +64,7 @@
     "@storybook/addon-essentials": "^6.4.19",
     "@storybook/addon-links": "^6.4.19",
     "@storybook/react": "^6.4.19",
+    "@types/gtag.js": "^0.0.10",
     "@types/node": "^12.12.21",
     "@types/nprogress": "^0.2.0",
     "@types/react": "^17.0.2",
