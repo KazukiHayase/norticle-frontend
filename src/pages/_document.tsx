@@ -21,6 +21,12 @@ class MyDocument extends Document {
     return (
       <Html lang="ja">
         <Head>
+          <title>Norticle | 断り方のテンプレート共有サイト</title>
+          <meta name="viewport" content="width=device-width, initial-scale=1" />
+          <meta
+            name="description"
+            content="Norticleは断り方のテンプレート共有サイトです。自分がよく使う断り方を共有したり、自分が使いたい断り方を探すことができます。"
+          />
           <link
             rel="apple-touch-icon"
             sizes="120x120"

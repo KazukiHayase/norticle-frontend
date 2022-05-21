@@ -2,7 +2,6 @@ import { CssBaseline } from '@mui/material';
 import { ThemeProvider } from '@mui/system';
 import { NextPage } from 'next';
 import { AppProps } from 'next/app';
-import Head from 'next/head';
 import { Router } from 'next/router';
 import { SnackbarProvider } from 'notistack';
 import { ReactElement, ReactNode } from 'react';
@@ -39,10 +38,6 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout): JSX.Element => {
 
   return (
     <>
-      <Head>
-        <title>norticle</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-      </Head>
       <GoogleAnalytics />
       <ErrorBoundary
         FallbackComponent={() => (
