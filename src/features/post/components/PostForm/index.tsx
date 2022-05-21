@@ -27,7 +27,11 @@ const postFormSchema = yup.object({
     .required('タイトルを入力してください')
     .min(1, '1文字以上で入力してください')
     .max(1000, '1000文字以下で入力してください'),
-  description: yup.string().max(1000, '1000文字以下で入力してください'),
+  description: yup
+    .string()
+    .required('説明を入力してください')
+    .min(1, '1文字以上で入力してください')
+    .max(1000, '1000文字以下で入力してください'),
   content: yup
     .string()
     .required('テンプレートを入力してください')
@@ -78,6 +82,7 @@ export const PostForm: VFC<PostFormProps> = ({
           label="説明"
           error={formState.errors['description']}
           registration={register('description')}
+          required
           minRows={2}
         />
         <Controller
