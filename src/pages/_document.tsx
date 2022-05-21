@@ -21,7 +21,6 @@ class MyDocument extends Document {
     return (
       <Html lang="ja">
         <Head>
-          <title>Norticle | 断り方のテンプレート共有サイト</title>
           <meta name="viewport" content="width=device-width, initial-scale=1" />
           <meta
             name="description"
